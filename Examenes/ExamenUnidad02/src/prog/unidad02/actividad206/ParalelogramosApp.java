@@ -12,19 +12,22 @@ public class ParalelogramosApp {
 
   public static void main(String[] args) {
     
+	//Encabezado estetico
+	System.out.printf("EXAMEN DE Zamira Grippi. PROPIEDADES DE LOS PARALELOGRAMOS%n");  
+	    
     Scanner scan = new Scanner(System.in);
     //Se pide al usuario que ingrese la longitud de los lados horizontales.
-    System.out.print("Introduzca la longitud de los lados horizontales:");
+    System.out.printf("Introduzca la longitud de los lados horizontales:%n");
     double ladoHorizontal = Double.parseDouble(scan.nextLine());
     
     //Se pide al usuario que introduzca el limite minimo
-    System.out.print("Introduzca el límite mínimo de los posibles valores de la longitud del "
-        + "lado vertical:");
+    System.out.printf("Introduzca el límite mínimo de los posibles valores de la longitud del "
+        + "lado vertical:%n");
     double limiteMin = Double.parseDouble(scan.nextLine());
     
     //Se pide al usuario que introduzca el limite maximo
-    System.out.print("Introduzca el límite maximo de los posibles valores de la longitud del "
-        + "lado vertical:");
+    System.out.printf("Introduzca el límite maximo de los posibles valores de la longitud del "
+        + "lado vertical:%n");
     double limiteMax = Double.parseDouble(scan.nextLine());
    
     //Creamos un objeto con la clase Random en java
@@ -44,12 +47,12 @@ public class ParalelogramosApp {
     
    
     //Separo el perimetro del area y lo guardo
-    String cadena2 = (String) areaPerimetro.substring(18);
-    double perimetroParalelogramo = Double.parseDouble(cadena2);
+    String cadena1 = (String) areaPerimetro.substring(18);
+    double perimetroParalelogramo = Double.parseDouble(cadena1);
     
     //Separo el area del perimetro y lo guardo
-    String cadena3 = (String) areaPerimetro.subSequence(0,16);
-    double areaParalelogramo = Double.parseDouble(cadena3);
+    String cadena2 = (String) areaPerimetro.subSequence(0,16);
+    double areaParalelogramo = Double.parseDouble(cadena2);
     
     //Ahora calculamos el area con el constructor de la paquete paralelogramo
     System.out.printf(Locale.US,"El área del paralelogramo vale:  %f%n", areaParalelogramo);
@@ -59,40 +62,32 @@ public class ParalelogramosApp {
     + "(mayor que 1) o reducir (menor que 1) el paralelogramo:");
     double valorReal = Double.parseDouble(scan.nextLine());
     
-    //Pasamos nuestro paralelogramo a double para poder calcular luego
-    //double paralelogramoAmplificar = Double.parseDouble(areaPerimetro);
-    //String valorRealCadena = String.valueOf(valorReal);
-    double paralelogramo2 = valorReal;
+    //Creamos un nuevo paralelogramo
+    Paralelogramo paralelogramo2 = new Paralelogramo(ladoHorizontal, ladoVertical);
     
-    //Hacemos el calculo escalar
-  
+    //Escalamos nuestro paralelogramo
+    paralelogramo2.escala(valorReal);
     
+    //Obtenemos el perimetro y el area.
+    String areaPerimetroEscalado = paralelogramo2.getAreaPerimetro();
     
-    //Convertimos lado vertical a double para poder generar el paralelogramo con los lados double
-    //String cadena = String.valueOf(ladoVertical);
-    //double ladoVerticalDouble = Double.parseDouble(cadena);
-    //Ahora le solicitamos al usuario un valor real de escala.
-    //System.out.print("Introduzca el factor real positivo por el que quiere ampliar"
-        //+ "(mayor que 1) o reducir (menor que 1) el paralelogramo:");
-    //double valorReal = Double.parseDouble(scan.nextLine());
-   
+    //Separo el perimetro del area y lo guardo
+    String cadena3 = (String) areaPerimetroEscalado.substring(18);
+    double perimetroParalelogramoEscalado= Double.parseDouble(cadena3);
     
-    //Pasamos nuestro paralelogramo anterior a double y hacemos el calculo con el escalado.
-    //String cadena2 = String.valueOf(paralelogramo);
-    //double valorParaEscalar = Double.parseDouble(cadena2);
+    //Separo el area del perimetro y lo guardo
+    String cadena4 = (String) areaPerimetroEscalado.subSequence(0,16);
+    double areaParalelogramoEscalado = Double.parseDouble(cadena4);
     
-    //Calculamos el escalado.
+    //Imprimimos los resultados por pantalla
+    System.out.printf(" Depués del escalado, el área del paralelogramo vale ahora %f y "
+    		+ "el perimetro %f%n",perimetroParalelogramoEscalado, areaParalelogramoEscalado);
     
-
+    //Realizamos la suma del area y el perimetro.
+    double suma = perimetroParalelogramo + areaParalelogramo;
     
-    
-    
-    //Paralelogramo paralelogramoEscaldo = new Paralelogra(lado, ladoVerticalDoubn)
-    
-    
-    
-    
-    
-    
+    //Imprimimos
+    System.out.printf("La suma del área y el perímetro es %f", suma);
+       
 }
 }
