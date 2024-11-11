@@ -16,7 +16,7 @@ public class AdivinaNumero {
     int numeroAleatorio = aleatorio.nextInt(1,100);
     
     System.out.printf("He pensado un numero entre 1 y 100. Quieres jugar? Y / N");
-    if ( )
+    //if ( )
     //Tenemos que empezar a descontar numeros
     int intento = 0; 
     //Le decimos que empiece
