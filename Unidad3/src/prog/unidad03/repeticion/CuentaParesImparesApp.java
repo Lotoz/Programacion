@@ -1,23 +1,18 @@
-package prog.unidad3.repeticion;
+package prog.unidad03.repeticion;
 
 import java.util.Scanner;
 
 public class CuentaParesImparesApp {
 
-
-
-public static void main(String[] args) { 
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
     
-    System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=");
-    System.out.println("    Impar o Par           ");
-    System.out.println("        V.1.0            ");
-    System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-="); 
+    // Cabecera
+    System.out.println("CUENTA PARES O IMPARES");
     
-    Scanner scan = new Scanner(System.in);
-    System.out.printf("Cuantos numeros quieres comparar?");
-   
+    // Solicita la cantidad de números a introducir
     System.out.print("¿Cuántos números deseas introducir?: ");
-    int numeros = Integer.parseInt(scan.nextLine());
+    int numeros = Integer.parseInt(sc.nextLine());
     
     // Contadores inicializados a cero
     int contadorPares = 0;
@@ -27,7 +22,7 @@ public static void main(String[] args) {
     for (int i = 1; i <= numeros; i++) {
       // Solicita el número
       System.out.printf("Introduce el número %d: ", i);
-      int numero = Integer.parseInt(scan.nextLine());
+      int numero = Integer.parseInt(sc.nextLine());
       
       // Si es par o impar imprime el mensaje correspondiente
       if (numero % 2 == 0) {
@@ -42,7 +37,6 @@ public static void main(String[] args) {
     // Muestra los resultados
     System.out.printf("Se han introducido %d números pares y %d números impares%n", contadorPares, contadorImpares);
     System.out.println("Fin del programa");
-    
-   
-    }
+  }
+
 }

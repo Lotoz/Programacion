@@ -15,22 +15,30 @@ public static void main(String[] args) {
     System.out.print("Introduce un número entero mayor que 1 para ver si es primo o no:");
     int numero = Integer.parseInt(sc.nextLine());
     
-    if (numero > 0) {
-      int multiplo = 0;
-      
-    for ( int i = multiplo ; i <= numero; i++ ) {
-      if ( numero <= i) {
-        multiplo++; 
-      }else if (numero %i == 0) {
+    if (numero > 1) {
+        // Contador de número de divisores
+        int divisores = 0;
         
-      System.out.printf("El numero %d es primo ", numero);  
-      }else if (numero % i != 0 ) {
-        System.out.printf("El numero %d no es primo ", numero);
+        // Para cada número desde 2 hasta el número objetivo (sin incluirlo porque un número siempre es divisor de si mismo)
+        for (int i = 2; i < numero; i++) {
+          // Si este número divide al objetivo
+          if (numero % i == 0) {
+            // Hemos encontrado otro divisor. Lo contamos
+            divisores++;
+          }
+        }
+        
+        // Si se ha encontrado algún divisor
+        if (divisores > 0) {
+          // El número NO es primo
+          System.out.printf("El número %d no es primo%n", numero);
+        } else {
+          // Si no hay ningún divisor, SI es primo
+          System.out.printf("El número %d es primo%n", numero);
+        }
       } else {
-        System.out.printf("Introduce un valor valido");
+        // Si el número objetivo no era mayor que 1 muestra un mensaje de error
+        System.out.println("ERROR: Debes introducir un número mayor que 1");
       }
-     
     }
-  }
-}
 }

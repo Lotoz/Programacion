@@ -3,12 +3,12 @@ import java.util.Scanner;
 public class MedidorDeRiesgo {
   
   public static void main(String[] args) { 
-    
-    System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=");
-    System.out.println("    Medidor de riesgo    ");
-    System.out.println("    V.3.4                 ");
-    System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=");
-  
+	  
+	    System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=");
+	    System.out.println("    Medidor de riesgo    ");
+	    System.out.println("    V.3.4                 ");
+	    System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=");
+	  
     Scanner scan = new Scanner(System.in);
     
     System.out.printf("Introduce 1 si tu riesgo esta relacionado con IP:%n");

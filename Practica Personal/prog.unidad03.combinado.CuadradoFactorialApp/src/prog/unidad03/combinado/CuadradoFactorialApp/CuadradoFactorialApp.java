@@ -33,7 +33,7 @@ public class CuadradoFactorialApp {
 		System.out.printf("El cuadrado del numero es %d.%n", cuadrado);
 		//Calculamos su factorial
 		//Creamos la variable factorial para luego imprimirla.
-		int factorial = 1;
+		long factorial = 1;
 		for (int i = 1; i <= numero; i++ ) {
 		//Porque esto? porque aqui le estamos diciendo que multiplique la amplificacion de i, y 
 			//hemos puesto que el limite sea numero
@@ -48,3 +48,4 @@ public class CuadradoFactorialApp {
 }
 //unico problema, no es capaz de calcular numeros mayores a tres cifras,Seguro usando long o una variable mas grande podria
 //Lo revisare luego
+//Big 
