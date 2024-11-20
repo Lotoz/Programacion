@@ -1,12 +1,13 @@
+package prog.unidad03.combinado.CalculadoraApp;
 
-<<<<<<< HEAD
+
 import java.util.Scanner;
 
 public class CalculadoraApp {
 
 	public static void main(String[] args) {
 	 
-<<<<<<< HEAD
+
 	  boolean valor = false;
 	        do {
 				Scanner sc;
@@ -97,7 +98,6 @@ public class CalculadoraApp {
 					}
 					case 5: {
 						double numero1;
-=======
 
 							System.out.println("Segundo numero:");
 							numero2 = Double.parseDouble(sc.nextLine());
@@ -280,3 +280,7 @@ public class CalculadoraApp {
 					System.out.println("Vuelve a intentarlo");
 				} 
 			} while (!valor);
+			
+}
+}
+}
