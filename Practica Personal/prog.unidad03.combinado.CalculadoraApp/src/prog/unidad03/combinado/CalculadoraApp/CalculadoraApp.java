@@ -97,8 +97,12 @@ public class CalculadoraApp {
 
 					}
 					case 5: {
+						
+						try {
 						double numero1;
-
+						double numero2;
+							System.out.println("Segundo numero:");
+							numero1 = Double.parseDouble(sc.nextLine());
 							System.out.println("Segundo numero:");
 							numero2 = Double.parseDouble(sc.nextLine());
 							if (numero1 > numero2) {
@@ -281,6 +285,5 @@ public class CalculadoraApp {
 				} 
 			} while (!valor);
 			
-}
 }
 }
