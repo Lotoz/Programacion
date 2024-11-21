@@ -46,7 +46,10 @@ class CuentaTest {
 		
 		//Esto es lo que se espera que salga al realizar las acciones
 		assertEquals (100, saldo);
-	}
+	}/**
+	*El assertEquals se usa para probar los errores en Junit, estos erros 
+	*Se veran mostrados ahi.
+	*/
 
 	/**
 	 * Test method for {@link appCuenta.Cuenta#setSaldo(float)}.
@@ -73,11 +76,23 @@ class CuentaTest {
 	 */
 	@Test
 	void testEstraerDinero() {
-		Cuenta cuenta1 = new Cuenta ("ES21290192091039229822313", 100);
-		cuenta1.estraerDinero (20);
-		assertEquals (80, cuenta1.getSaldo());
+		try {
+			Cuenta cuenta1 = new Cuenta ("ES21290192091039229822313", 100);
+			cuenta1.estraerDinero(120);
+			fail ("Error. Deberia saltar el control de l excepcion. ");
+			/**recurso de Junit para lanzar un error
+			 * 
+			 */
+		} catch (ArithmeticException ae) {
+			//Prueba superada
+			assertEquals ("Saldo negativo", ae.getMessage());
+			
+		}
 	}
-
+			/** assertEquals (Resultado esperado, Resultado Obetenido);
+			 *
+			 */
+		
 	/**
 	 * Test method for {@link appCuenta.Cuenta#mostrarCuenta()}.
 	 */

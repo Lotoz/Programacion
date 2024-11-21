@@ -39,8 +39,11 @@ public class Cuenta {
 	}
 
 	public void estraerDinero(float importe) {
-		saldo = saldo - importe;
-
+		if (saldo -importe < 0) {
+			throw new java.lang.ArithmeticException("Saldo negativo");
+		}else {
+			saldo = saldo - importe;
+		}
 	}
 
 	public void mostrarCuenta() {
