@@ -30,5 +30,6 @@ public class PruebaIntervaloTiempo {
 //Agregar amplificar intervalos y agregar pasar solo a minuto, pasar solo hora.
 //Agregar pasar a dia.
     //Darle espaciado 2/2 en format code style.
+    // se traga lista, p negra y cursiva, 
   }
 }
