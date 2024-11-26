@@ -93,6 +93,5 @@ public class Pizza {
     public String toString(){
       return "The sizes is " + getsize()  + " The type is " + gettype()  + " The state is " + getstate();
     }
-    
   }
 
