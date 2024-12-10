@@ -103,15 +103,8 @@ public class Persona {
       return pesoSuperior;
     }
   }
-  public boolean esMayorDeEdad() {
-    boolean esMayor = false;
-    
-    if (this.edad > 18) {
-      esMayor = true;
-      return esMayor;
-    } else {
-      return esMayor;
-    }
+  public boolean esMayorDeEdad(int edad) {
+    return edad >=18;
   }
   public String Stringto() {
    return "Nombre: " + getNombre() + ", Edad: " + getEdad() + ", Sexo: " + getSexo() + ", Peso: " + getPeso()  + 
