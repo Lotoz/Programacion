@@ -7,7 +7,21 @@ public class Fecha {
   public int dia;
   public int mes;
   public int anyo;
-
+  
+  //Constantes.
+  private static final int DICIEMBRE = 12;
+  private static final int NOVIEMBRE = 11;
+  private static final int OCTUBRE = 10;
+  private static final int SEPTIEMBRE = 9;
+  private static final int AGOSTO = 8;
+  private static final int JULIO = 7;
+  private static final int JUNIO = 6;
+  private static final int MAYO = 5;
+  private static final int ABRIL= 4;
+  private static final int MARZO = 3;
+  private static final int FEBRERO = 2;
+  private static final int ENERO = 1;
+  
   // Agregar comentarios javadoc.
   // Esta clase es el nono de todas.
   // ESTA CLASE HEREDA DE FECHA EXCEPTION< CREAR EXCEPCION PARA CUANDO HAYA ALGO
@@ -62,11 +76,7 @@ public class Fecha {
   // Verifica si mes es valido.
   private int anyoValido() {
     int anyoValido = anyo;
-    if (anyoValido < 1900) {
-      return 0;
-    } else {
-      return anyo;
-    }
+    return anyoValido < 1900 ? 0 : anyo;
   }
 
   // metodo en duda. Revisar si es necesario.
@@ -77,6 +87,32 @@ public class Fecha {
 
   /** Calcula dias transcurridos */
   public long diasTranscurridos() {
+	  /* LocalDate fecha1=LocalDate.of(1990,8,18);
+    LocalDate fecha2=LocalDate.now();
+    System.out.println("fech1: "+fecha1);
+    System.out.println("fech2: "+fecha2);
+
+    int anioACT = fecha2.getYear();
+    int mesACT = fecha2.getMonthValue();
+    int diaACT = fecha2.getDayOfMonth();
+
+    int resAnio = 0;
+
+    int resDia = fecha2.getDayOfMonth() - fecha1.getDayOfMonth() + 1;
+    int resMes = fecha2.getMonthValue() - fecha1.getMonthValue() -1;
+
+    if(fecha2.getYear() > fecha1.getYear()) {
+       if(fecha2.getMonthValue() == fecha1.getMonthValue()) {
+
+
+                if(fecha2.getDayOfMonth() == fecha1.getDayOfMonth()) {
+                    resAnio = fecha2.getYear() - fecha1.getYear();
+                }
+            }else {
+                resAnio = fecha2.getYear() - fecha1.getYear() - 1;
+            }
+        }  
+        y anexar a*/
     return 0;
   }
 
@@ -93,11 +129,13 @@ public class Fecha {
   /** Calculas dias entre */
   public long diasEntre() {
     return 0;
+    //Es una simple resta.
   }
 
   /** Compara */
   public int compara() {
     return 0;
+    //Hacer un if, si es menor, da -1 si es igual 0 y si da mayor 1
   }
 
 }
