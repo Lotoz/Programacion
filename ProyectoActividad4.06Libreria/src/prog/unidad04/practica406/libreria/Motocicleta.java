@@ -1,51 +1,56 @@
 package prog.unidad04.practica406.libreria;
 
-public class Motocicleta {
+public class Motocicleta extends Vehiculo {
 
-	private int cilindrada;
-	private String matricula;
-	private Fecha fechaMatriculacion;
+  private int cilindrada;
+  private String matricula;
+  private Fecha fechaMatriculacion;
 
-	// Hija de vehiculo
-	public Motocicleta(String matricula, Fecha fechaMatriculacion, int cilindrada) {
-		// HACER VEHICULO PRIMERO
-		// super(matricula, fechaMatriculacion);
-		if (cilindrada >= 50) {
-			this.cilindrada = cilindrada;
-		}
+  private Motocicleta(String matricula, Fecha fechaMatriculacion) {
+    super(matricula, fechaMatriculacion);
+  }
 
-	}
+  // Hija de vehiculo
+  public Motocicleta(String matricula, Fecha fechaMatriculacion, int cilindrada) throws Exception {
+    super(matricula, fechaMatriculacion);
+    if (cilindrada >= 50) {
+      this.cilindrada = cilindrada;
+    } else {
+      throw new Exception("Datos incorrectos");
+    }
 
-	public int getCilindrada() {
+  }
 
-		return cilindrada;
+  public int getCilindrada() {
 
-	}
+    return cilindrada;
 
-	public String getDistintivo() {
+  }
 
-		if (cilindrada < 75) {
+  public String getDistintivo() {
 
-			return "o";
+    if (cilindrada < 75) {
 
-		} else if (cilindrada >= 75 && cilindrada <= 125) {
+      return "o";
 
-			return "ECO";
+    } else if (cilindrada >= 75 && cilindrada <= 125) {
 
-		} else if (cilindrada > 125 && cilindrada <= 500) {
+      return "ECO";
 
-			return "A";
+    } else if (cilindrada > 125 && cilindrada <= 500) {
 
-		} else {
+      return "A";
 
-			return "B";
+    } else {
 
-		}
-	}
+      return "B";
 
-	public String toString() {
+    }
+  }
 
-		return "Matricula: " + matricula + "Fecha Matriculacion: " + fechaMatriculacion + "Cilindrada: " + cilindrada;
+  public String toString() {
 
-	}
-}	
+    return "Matricula: " + matricula + "Fecha Matriculacion: " + fechaMatriculacion + "Cilindrada: " + cilindrada;
+
+  }
+}
