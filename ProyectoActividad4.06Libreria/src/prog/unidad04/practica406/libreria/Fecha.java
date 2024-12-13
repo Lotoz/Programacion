@@ -1,6 +1,7 @@
 package prog.unidad04.practica406.libreria;
 
 import java.time.Year;
+import prog.unidad04.practica406.libreria.FechaException;
 
 public class Fecha  {
 
@@ -83,7 +84,8 @@ public class Fecha  {
 		case ABRIL:
 		case JUNIO:
 		case SEPTIEMBRE:
-			NOVIEMBRE: return 30;
+		case NOVIEMBRE: 
+		  return 30;
 		case FEBRERO:
 			return esBisiesto(anyo) ? 29 : 28;
 		}
@@ -113,7 +115,8 @@ public class Fecha  {
 	/** Calcula dias transcurridos */
 	public long diasTranscurridos() {
 		int cantidadBisiestos = 0;
-		int diasPorMes = 0;
+		//Debe arrancar en -1, debido a que no se cuenta enero, ya que es el primer mes y no va a ver cambios. Por ende, inicializamos la variable en negativo.
+		int diasPorMes = -1;
 		// Aca contas los años bisiestos desde el año de inicio hasta el actual
 		for (int anyoTemporal = ANYO_INICIO; anyoTemporal < anyo; anyoTemporal++) {
 			if (esBisiesto(anyoTemporal)) {
@@ -121,7 +124,7 @@ public class Fecha  {
 			}
 		}
 		// Se suma los días de los meses completos hasta el mes anterior
-		for (int mesTemporal = 1; mesTemporal < mes; mesTemporal++) {
+		for (int mesTemporal = 0; mesTemporal < mes; mesTemporal++) {
 			diasPorMes += numeroDeDiasMes(mesTemporal, anyo);
 		}
 		// Sumamos los días del mes actual
