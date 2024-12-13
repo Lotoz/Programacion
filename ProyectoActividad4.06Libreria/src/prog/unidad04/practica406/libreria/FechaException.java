@@ -1,6 +1,9 @@
 package prog.unidad04.practica406.libreria;
 
-public class FechaException {
+public class FechaException extends Exception {
 
-  //crear excepciones para la fecha.
+  protected FechaException(String message) {
+  super(message);
+ }
 }
+
