@@ -1,19 +1,11 @@
-package prog.unidad04.practica406.libreria;
+package clases;
 
-import prog.unidad04.practica406.libreria.FechaException;
+import clases.FechaException;
 
 public class Fecha {
 
   // FALTAN COMENTARIOS Y SOLUCIONAR METODOS ENTREFECHA Y COMPARA
   // SE PUEDE USAR JAVA LOCAL TIME PARA ENTRE FECHA
-  
-  //Errores de metodo a parchear (Vistos en JUnit)
-  //No cubre si un mes es menor a 1.
-  //No cubre si un mes es mayor a 12.
-  //No crea una fecha con mes 12
-  //Se pueden crear anyos menores a 1900
-  //Error de corchetes
-  
 
   public int dia;
   public int mes;
@@ -37,11 +29,13 @@ public class Fecha {
   private static final int NOVIEMBRE = 11;
   private static final int DICIEMBRE = 12;
 
+  private boolean valor = false;
   // Agregar comentarios javadoc.
 
   /** Constructor */
   public Fecha(int dia, int mes, int anyo) throws FechaException {
-    if (anyo >= ANYO_INICIO && mes > LIMITE_INFERIOR_DIA_MES && mes < LIMITE_SUPERIOR_MES) {
+    if (anyo >= ANYO_INICIO && mes > LIMITE_INFERIOR_DIA_MES && mes < LIMITE_SUPERIOR_MES )
+         {
 
       this.anyo = anyo;
       this.mes = mes;
@@ -52,30 +46,10 @@ public class Fecha {
     }
   }
 
-
   /** Obtiene dia */
-  public int getDia(){
+  public int getDia() {
     return dia;
   }
-  
-  //Este metodo es para validar si el dia es valido
-  private boolean diaValido(){
-    switch (mes) {
-    case ENERO, MARZO, MAYO, JULIO, AGOSTO, OCTUBRE, DICIEMBRE -> {
-      return (dia < 0 && dia > 31);  
-    }
-    case ABRIL, JUNIO, SEPTIEMBRE, NOVIEMBRE -> {
-      return (dia < 0 && dia > 30);  
-    }
-    case FEBRERO -> {
-      if ((anyo % 400 == 0) || ((anyo % 4 == 0) && (anyo % 100 != 0))) {
-        return (dia < 0 && dia > 29);
-      } else {
-        return (dia < 0 && dia > 28);
-      }
-     throw new FechaException("No valido");
-  }
-    }
 
 
   // Metodo usado para calcular dias transcurridos
@@ -95,7 +69,7 @@ public class Fecha {
   }
 
   /** Obtiene mes */
-  public int getMes(int mes){
+  public int getMes() {
     return this.mesValido(mes);
   }
 
@@ -138,13 +112,6 @@ public class Fecha {
   }
 
   /** Verifica si es bisiesto */
-  public boolean esBisiesto(boolean valor) {
-    if ((anyo % 400 == 0) || ((anyo % 4 == 0) && (anyo % 100 != 0))) {
-      return true;
-    } else {
-      return false;
-    }
-  }
   private boolean esAnyoBisiesto(int anyo) {
     if ((anyo % 400 == 0) || ((anyo % 4 == 0) && (anyo % 100 != 0))) {
       return true;
@@ -152,6 +119,14 @@ public class Fecha {
       return false;
     }
   }
+  public boolean esBisiesto(boolean valor) {
+    if ((anyo % 400 == 0) || ((anyo % 4 == 0) && (anyo % 100 != 0))) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  
   /**
    * Calculas dias entre
    * 
@@ -182,7 +157,7 @@ public class Fecha {
 
   /** Compara */
   public int compara(Fecha fecha) {
-    //Aqui se debe imprimir -1, si es menor, 0 si son iguales y 1 si es mayor. CORREGIR
+    //Aqui se debe imprimir -1, si es menor, 0 si son iguales y 1 si es mayor.
     if (this.anyo < anyo && this.mes < mes && this.dia < dia) {
       return -1;
     } else if (this.anyo == anyo && this.mes == mes && this.dia ==  dia) {
@@ -197,45 +172,38 @@ public class Fecha {
     return getDia() + " de " + mesToString() + " de " + getAnyo();
   }
 
+  protected String fechaDeMatriculacion(Fecha fecha) {
+
+    return toString();
+
+  }
 
   private String mesToString() {
     switch (mes) {
-    case ENERO -> {
+    case ENERO:
       return "enero";
-    }
-    case FEBRERO -> {
+    case FEBRERO:
       return "febrero";
-    }
-    case MARZO -> {
+    case MARZO:
       return "marzo";
-    }
-    case ABRIL -> {
+    case ABRIL:
       return "abril";
-    }
-    case MAYO -> {
+    case MAYO:
       return "mayo";
-    }
-    case JUNIO -> {
+    case JUNIO:
       return "junio";
-    }
-    case JULIO -> {
+    case JULIO:
       return "julio";
-    }
-    case AGOSTO -> {
+    case AGOSTO:
       return "agosto";
-    }
-    case SEPTIEMBRE -> {
+    case SEPTIEMBRE:
       return "septiembre";
-    }
-    case OCTUBRE -> {
+    case OCTUBRE:
       return "octubre";
-    }
-    case NOVIEMBRE -> {
+    case NOVIEMBRE:
       return "noviembre";
-    }
-    case DICIEMBRE -> {
+    case DICIEMBRE:
       return "diciembre";
-    }
     }
     return null;
   }
