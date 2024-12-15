@@ -6,18 +6,14 @@ public class Motocicleta extends Vehiculo {
   private String matricula;
   private Fecha fechaMatriculacion;
 
-  private Motocicleta(String matricula, Fecha fechaMatriculacion) {
+  private Motocicleta(String matricula, Fecha fechaMatriculacion) throws Exception {
     super(matricula, fechaMatriculacion);
   }
 
   // Hija de vehiculo
   public Motocicleta(String matricula, Fecha fechaMatriculacion, int cilindrada) throws Exception {
     super(matricula, fechaMatriculacion);
-    if (cilindrada >= 50) {
       this.cilindrada = cilindrada;
-    } else {
-      throw new Exception("Datos incorrectos");
-    }
 
   }
 
@@ -31,7 +27,7 @@ public class Motocicleta extends Vehiculo {
 
     if (cilindrada < 75) {
 
-      return "o";
+      return "0";
 
     } else if (cilindrada >= 75 && cilindrada <= 125) {
 
@@ -50,7 +46,7 @@ public class Motocicleta extends Vehiculo {
 
   public String toString() {
 
-    return "Matricula: " + matricula + "Fecha Matriculacion: " + fechaMatriculacion + "Cilindrada: " + cilindrada;
+    return " Matricula: " + getMatricula() + " Fecha Matriculacion: " + getFechaMatriculacion() + " Cilindrada: " + cilindrada;
 
   }
 }

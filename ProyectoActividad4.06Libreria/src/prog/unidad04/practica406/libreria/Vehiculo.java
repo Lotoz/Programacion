@@ -1,58 +1,81 @@
 package prog.unidad04.practica406.libreria;
 
 import java.util.Random;
-
+import prog.unidad04.practica406.libreria.FechaException;
 import prog.unidad04.practica406.libreria.Fecha;
 
 public class Vehiculo {
 
-  // Metodos privados para usos concretos en la construccion del objeto en la
-  // clase
-  private String matricula;
-  private Fecha fechaMatriculacion;
+	// Metodos privados para usos concretos en la construccion del objeto en la
+	// clase
+	private String matricula;
+	private Fecha fechaMatriculacion;
+	private static int contadorVehiculos = 0;
 
-  // Constructor privado de la clase, tiene importado el constructor fecha
-  protected Vehiculo(String matricula, Fecha fechaMatriculacion) {
-    this.matricula = matricula;
-    this.fechaMatriculacion = fechaMatriculacion;
-
-  }
-
-  // Sirve para obtener la matricula del vehiculo
-  public String getMatricula() {
-    // La matricula debe estar conformada por 4 numeros y 3 letras
-    // Usar mi metodo de DNI truco, ya que debe por los 4 primeros numeros definir
-    // las 3 letras que saldran.Por ende contador.
-
-    return matricula;
-  }
-  // Validador de matricula
-
-  private String validadorMatricula(String matricula) {
-    Random generador = new Random();
-    int numerosMatricula = generador.nextInt();
-    char letra = (char) (generador.nextInt(65, 90));
-    return matricula = "" + letra;
-  }
-
-  // Sirve para obtener la fecha del vehiculo desde cuando fue matriculado
-  public Fecha getFechaMatriculacion(Fecha fechaMatriculacion) {
-
-    return fechaMatriculacion;
-
-  }
-
-  // Contador de vehiculos, cuenta cuantos hay creados.
-  public static int getVehiculosMatriculados(int vehiculo) {
-    int contador = 0;
-    for (int i = 0; i <= vehiculo; i++) {
-      contador = contador + i;
-      i++;
+	// Constructor privado de la clase, tiene importado el constructor fecha
+	protected Vehiculo(String matricula, Fecha fechaMatriculacion) throws FechaException {
+	  if (validadorMatricula(matricula)) {
+      this.matricula = matricula;
+    } else {
+      throw new FechaException("No se pudo crear el automóvil. Revise los datos para comprobar que\n"
+          + "todos son correctos.");
     }
-    return contador;
-  }
+		
+		this.fechaMatriculacion = fechaMatriculacion;
+		contadorVehiculos++; // Incrementar el contador al crear un nuevo vehículo
 
-  public String toString() {
-    return getMatricula() + getFechaMatriculacion(fechaMatriculacion);
-  }
+	}
+
+	// Sirve para obtener la matricula del vehiculo
+	public String getMatricula() {
+		if (validadorMatricula(matricula)) {
+			return matricula;
+		} else {
+			return null;
+		}
+	}
+
+	// Validador de matricula
+  private boolean validadorMatricula(String matricula) {
+    // Eliminar espacios en blanco
+    matricula = matricula.trim();
+
+    // Verificar que la longitud sea 7 después de eliminar espacios
+    if (matricula.length() != 7) {
+        return false; // La matrícula no es válida
+    }
+
+    String numeros = matricula.substring(0, 4); // Primeros 4 caracteres
+    String letras = matricula.substring(4, 7); // Últimos 3 caracteres
+
+    // Verificar que los primeros 4 caracteres sean dígitos
+    for (int i = 0; i < 4; i++) {
+        if (!Character.isDigit(numeros.charAt(i))) {
+            return false; // No es un dígito
+        }
+    }
+
+    // Verificar que los últimos 3 caracteres sean letras mayúsculas
+    for (int i = 0; i < 3; i++) {
+        if (!Character.isUpperCase(letras.charAt(i))) {
+            return false; // No es una letra mayúscula
+        }
+    }
+
+    return true; // La matrícula es válida
+}
+
+	// Sirve para obtener la fecha del vehiculo desde cuando fue matriculado
+	public String getFechaMatriculacion() {
+	  return this.fechaMatriculacion.toString();
+	}
+	// Contador de vehiculos, cuenta cuantos hay creados.
+	 public static int getVehiculosMatriculados() {
+     return contadorVehiculos; // Devolver el contador
+ }
+
+	public String toString() {
+		return getMatricula() + getFechaMatriculacion();
+	}
+
 }

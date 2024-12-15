@@ -117,7 +117,7 @@ class FechaTest {
     // Resultado esperado: El objeto se crea correctamente y el mes es el mismo que
     //   se usó en la creación
     Fecha fecha = new Fecha(10, 11, 2023);
-    assertEquals(11, fecha.getMes());
+    assertEquals(11, fecha.getMes(0));
   }
 
   @Test

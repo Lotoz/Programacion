@@ -26,12 +26,13 @@ public class Automovil extends Vehiculo {
   // Agregar interfaz.
   // Puede ser hija de vehiculo
 
-  private Automovil(String matricula, Fecha fechaMatriculacion) {
+  public Automovil(String matricula, Fecha fechaMatriculacion) throws Exception {
     super(matricula, fechaMatriculacion);
   }
 
-  /** Constructor. */
-  public Automovil(String matricula, Fecha fechaMatriculacion, String color, int plazas) {
+  /** Constructor. 
+   * @throws Exception */
+  public Automovil(String matricula, Fecha fechaMatriculacion, String color, int plazas) throws Exception {
     super(matricula, fechaMatriculacion);
     this.color = color;
     this.plazas = plazas;
@@ -41,19 +42,22 @@ public class Automovil extends Vehiculo {
    * Obtiene el color del automovil.
    */
   public String getColor() {
-    String color = "";
-    if (color.equals("blanco")) {
-      this.color = COLOR_BLANCO;
+    String color = this.color;
+    switch (color) {
+    case COLOR_BLANCO ->{
+      this.color = "blanco";
       return color;
-    } else if (color.equals("azul")) {
-      this.color = COLOR_AZUL;
-      return color;
-    } else if (color.equals("negro")) {
-      this.color = COLOR_NEGRO;
-      return color;
-    } else {
-      return "El color introducido no es valido.";
     }
+    case COLOR_AZUL -> {
+      this.color = "azul";
+      return color;
+      }
+    case COLOR_NEGRO -> {
+      this.color = "negro";
+      return color;
+    }
+    }
+    return null;
   }
 
   /**
@@ -87,7 +91,7 @@ public class Automovil extends Vehiculo {
    * matricula, Fecha Matriculación: dd de mmmmm de aaaa, Color: color, Num.
    */
   public String toString() {
-    return matricula.toString() + fechaMatriculacion.toString() + getColor() + getPlazas();
+    return "Matricula: " + getMatricula() + " Fecha de matriculacion: " + getFechaMatriculacion() + " Color: " + getColor() + " Plazas: " +getPlazas();
   }
 
 }
