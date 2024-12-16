@@ -14,7 +14,7 @@ public class Motocicleta extends Vehiculo {
   public Motocicleta(String matricula, Fecha fechaMatriculacion, int cilindrada) throws Exception {
     super(matricula, fechaMatriculacion);
       if (cilindrada == 0) {
-        throw new NullPointerException();
+        throw new NullPointerException("La cilindrada introducida es incorrecta. Revise los valores e intentelo de nuevo.");
       } else {
         this.cilindrada = cilindrada;
       }

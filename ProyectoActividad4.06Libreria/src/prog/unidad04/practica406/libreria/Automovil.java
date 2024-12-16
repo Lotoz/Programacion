@@ -35,9 +35,9 @@ public class Automovil extends Vehiculo {
   public Automovil(String matricula, Fecha fechaMatriculacion, String color, int plazas) throws Exception {
     super(matricula, fechaMatriculacion);
     if (color == null) {
-      throw new NullPointerException();
-    } else if (color == "" || plazas == 0){
-      throw new IllegalArgumentException();
+      throw new NullPointerException("El color introducido es incorrecto. Revise los valores e intentelo de nuevo.");
+    } else if ( plazas == 0){
+      throw new IllegalArgumentException("La plaza introducida es incorrecta. Revise los valores e intentelo de nuevo.");
     } else {
       this.color = color;
       this.plazas = plazas;

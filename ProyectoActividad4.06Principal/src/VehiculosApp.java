@@ -40,7 +40,9 @@ public class VehiculosApp {
         // Pedimos el año de la fecha de matriculacion 
         System.out.printf("Introduzca el año de la fecha de matriculación del automóvil:%n");
         int anyo1 = scan.nextInt();
-
+        
+        fechaAuto = new Fecha(dia1, mes1, anyo1);
+        
         // Pedimos el color 
         System.out.printf("Introduzca el color del automóvil (blanco, negro o azul):%n");
         String color = scan.next();
@@ -49,13 +51,14 @@ public class VehiculosApp {
         System.out.printf("Introduzca el número de plazas del vehículo (1 ó mas):%n");
         int plazas = scan.nextInt();
 
-        fechaAuto = new Fecha(dia1, mes1, anyo1);
+       
         auto = new Automovil(matricula1, fechaAuto, color, plazas);
         salida = true;
-      } catch (NullPointerException e) {
-        System.out.printf("Fecha invalida,introduce una fecha correcta de nuevo.%n");
-      } catch (IllegalArgumentException e) {
-        System.out.printf("Los datos del automovil son incorrectos, intenta de nuevo.%n");
+      }catch (IllegalArgumentException e) {
+        System.out.println(e.getMessage());
+      
+      } catch (Exception e) {
+        System.out.println(e.getMessage());
       } 
     } while (!salida);
     

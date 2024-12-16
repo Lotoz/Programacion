@@ -1,20 +1,10 @@
 package prog.unidad04.practica406.libreria;
 
 
-
 import prog.unidad04.practica406.libreria.FechaException;
 
 public class Fecha {
 
-  // FALTAN COMENTARIOS Y SOLUCIONAR METODOS ENTREFECHA Y COMPARA
-  // SE PUEDE USAR JAVA LOCAL TIME PARA ENTRE FECHA
-
-  // Errores de metodo a parchear (Vistos en JUnit)
-  // No cubre si un mes es menor a 1.
-  // No cubre si un mes es mayor a 12.
-  // No crea una fecha con mes 12
-  // Se pueden crear anyos menores a 1900
-  // Error de corchetes
 
   public int dia;
   public int mes;
@@ -22,8 +12,8 @@ public class Fecha {
 
   // Constantes.
   private static final int DIAS_POR_ANYO = 365;
-  private static final int LIMITE_INFERIOR_DIA_MES = 0;
-  private static final int LIMITE_SUPERIOR_MES = 13;
+  private static final int LIMITE_INFERIOR_DIA_MES = 1;
+  private static final int LIMITE_SUPERIOR_MES = 12;
   private static final int ANYO_INICIO = 1900;
   private static final int ENERO = 1;
   private static final int FEBRERO = 2;
@@ -42,18 +32,17 @@ public class Fecha {
 
   /** Constructor */
   public Fecha(int dia, int mes, int anyo) throws FechaException {
-    if (anyo >= ANYO_INICIO && mes > LIMITE_INFERIOR_DIA_MES && mes < LIMITE_SUPERIOR_MES) {
+if (!(anyo >= ANYO_INICIO && mes >= LIMITE_INFERIOR_DIA_MES && mes <= LIMITE_SUPERIOR_MES && diaValido(dia, mes, anyo))) {
 
-      this.anyo = anyo;
-      this.mes = mes;
-      this.dia = dia;
-
-    } else {
-      throw new IllegalArgumentException("Fecha invalida,introduce una fecha correcta de nuevo");
+  throw new IllegalArgumentException("La fecha introducida no es valida. Revise los valores e intentelo de nuevo");
     }
+    
+this.anyo = anyo;
+this.mes = mes;
+this.dia = dia;
   }
 
-  /** Obtiene dia */
+
   public int getDia() {
     return dia;
   }
@@ -79,32 +68,49 @@ public class Fecha {
   }
 
   // Metodo usado para calcular dias transcurridos
-  private int numeroDeDiasMes(int mes, int anyo) {
-    switch (mes) {
-    case ENERO, MARZO, MAYO, JULIO, AGOSTO, OCTUBRE, DICIEMBRE -> {
-      return 31;
-    }
-    case ABRIL, JUNIO, SEPTIEMBRE, NOVIEMBRE -> {
-      return 30;
-    }
-    case FEBRERO -> {
-      return esAnyoBisiesto(anyo) ? 29 : 28;
-    }
-    }
-    return 0;
+  private int numeroDeDiasMes(int mes) {
+    int diasPorMes = 0;
+    //Debo descontar -1 por enero
+    switch (mes - 1) {
+    
+    case NOVIEMBRE:
+      diasPorMes += 30;
+    case OCTUBRE:
+      diasPorMes += 31;
+    case SEPTIEMBRE:
+      diasPorMes += 30;
+    case AGOSTO:
+      diasPorMes += 31;
+    case JULIO:
+      diasPorMes += 31;
+    case JUNIO:
+      diasPorMes += 30;
+    case MAYO:
+      diasPorMes += 31;
+    case ABRIL:
+      diasPorMes += 30;
+    case MARZO:
+      diasPorMes += 31;
+    case FEBRERO:
+      diasPorMes += 28;
+    case ENERO:
+      diasPorMes += 31;
+  }
+    return diasPorMes;
+  
   }
 
   /** Obtiene mes */
-  public int getMes(int mes) {
+  public int getMes() {
     return this.mesValido(mes);
   }
 
   // Verificar si es el mes es valido.
   private int mesValido(int mes) {
-    if (mes > 0 && mes < 12) {
-      return mes;
-    } else {
+    if (mes < 0 && mes > 12) {
       return 0;
+    } else {
+      return mes;
     }
   }
 
@@ -115,24 +121,23 @@ public class Fecha {
 
   /** Calcula dias transcurridos */
 
-  public long diasTranscurridos() {
+ public long diasTranscurridos() {
+    
     int cantidadBisiestos = 0;
-    int diasPorMes = 0;
-    // Aca contas los años bisiestos desde el año de inicio hasta el actual
-    for (int anyoTemporal = ANYO_INICIO; anyoTemporal < anyo; anyoTemporal++) {
-      if (esAnyoBisiesto(anyoTemporal)) {
+    
+    //Hago un bucle para comprobar la cantidad de años bisiestos que hay entre la fecha inicial hasta la fecha del objeto, lo que suma un dia por cada año bisiesto.
+    for (int anyoTemporal = ANYO_INICIO; anyoTemporal <= anyo; anyoTemporal++) {
+
+      if (esAnyoBisiesto(anyoTemporal) && (mes > 2 || anyoTemporal != anyo)) {
         cantidadBisiestos++;
       }
     }
-    // Se suma los días de los meses completos hasta el mes anterior
-    for (int mesTemporal = 1; mesTemporal < mes; mesTemporal++) {
-      diasPorMes += numeroDeDiasMes(mesTemporal, anyo);
-    }
-    // Sumamos los días del mes actual
-    diasPorMes += dia;
-    // Calculo final
-    return (cantidadBisiestos + (anyo - ANYO_INICIO) * DIAS_POR_ANYO) + diasPorMes;
+    //Uso mi metodo privado
+    int diasPorMes = numeroDeDiasMes(mes);
+    
+    return (cantidadBisiestos + (anyo - ANYO_INICIO) * DIAS_POR_ANYO) + diasPorMes + (dia - 1);
   }
+
 
   /** Verifica si es bisiesto */
   public boolean esBisiesto(boolean valor) {
@@ -259,4 +264,23 @@ public class Fecha {
   public String toString() {
     return getDia() + " de " + mesToString() + " de " + getAnyo();
   }
+  private boolean diaValido(int dia, int mes, int anyo) {
+
+    if (mes == ENERO || mes == MARZO || mes == MAYO || mes == JULIO || mes == AGOSTO || mes == OCTUBRE || mes == DICIEMBRE) {
+
+      return dia >= LIMITE_INFERIOR_DIA_MES && dia <= 31;
+
+    } else if (mes == ABRIL || mes == JUNIO || mes == SEPTIEMBRE || mes == NOVIEMBRE) {
+
+      return dia >= LIMITE_INFERIOR_DIA_MES && dia <= 30;
+
+    } else if ((mes == FEBRERO && dia >= LIMITE_INFERIOR_DIA_MES) && (dia <= 28 || esAnyoBisiesto(anyo)) && (dia <= 29)) {
+
+      return true;
+    }
+
+    return false;
+  }
+
+
 }

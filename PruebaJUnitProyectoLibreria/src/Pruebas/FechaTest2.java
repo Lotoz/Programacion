@@ -7,7 +7,8 @@ import org.junit.jupiter.api.Test;
 import clases.Fecha;
 import clases.FechaException;
 
-class TestFecha {
+class FechaTest2 {
+
 
   @Test
   void testFecha() throws FechaException {
@@ -117,7 +118,7 @@ class TestFecha {
     // Resultado esperado: El objeto se crea correctamente y el mes es el mismo que
     //   se usó en la creación
     Fecha fecha = new Fecha(10, 11, 2023);
-    assertEquals(11, fecha.getMes(0));
+    assertEquals(11, fecha.getMes());
   }
 
   @Test
@@ -319,4 +320,5 @@ class TestFecha {
    Fecha fecha = new Fecha(2, 2, 1904);
     assertEquals("2 de febrero de 1904", fecha.toString());
   }
+
 }

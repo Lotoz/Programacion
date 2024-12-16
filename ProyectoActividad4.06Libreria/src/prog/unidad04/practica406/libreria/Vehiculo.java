@@ -1,7 +1,6 @@
 package prog.unidad04.practica406.libreria;
 
 import java.util.Random;
-import prog.unidad04.practica406.libreria.FechaException;
 import prog.unidad04.practica406.libreria.Fecha;
 
 public class Vehiculo {
@@ -13,16 +12,16 @@ public class Vehiculo {
 	private static int contadorVehiculos = 0;
 
 	// Constructor privado de la clase, tiene importado el constructor fecha
-	protected Vehiculo(String matricula, Fecha fechaMatriculacion) throws FechaException {
+	protected Vehiculo(String matricula, Fecha fechaMatriculacion) throws Exception {
 	  if (validadorMatricula(matricula)) {
       this.matricula = matricula;
     } else {
-      throw new IllegalArgumentException();
+      throw new IllegalArgumentException("La matricula introducida es incorrecta. Revise los valores e intentelo de nuevo.");
     }
       if (fechaMatriculacion  == null) {
         this.fechaMatriculacion = fechaMatriculacion;
       } else {
-        throw new NullPointerException();
+        throw new NullPointerException("La fecha introducida es incorrecta. Revise los valores e intentelo de nuevo.");
       }
     contadorVehiculos++; // Incrementar el contador al crear un nuevo vehículo
 
@@ -68,8 +67,8 @@ public class Vehiculo {
 }
 
 	// Sirve para obtener la fecha del vehiculo desde cuando fue matriculado
-	public String getFechaMatriculacion() {
-	  return this.fechaMatriculacion.toString();
+	public Fecha getFechaMatriculacion() {
+	  return fechaMatriculacion;
 	}
 	// Contador de vehiculos, cuenta cuantos hay creados.
 	 public static int getVehiculosMatriculados() {
@@ -77,7 +76,7 @@ public class Vehiculo {
  }
 
 	public String toString() {
-		return getMatricula() + getFechaMatriculacion();
+		return getMatricula() + getFechaMatriculacion().toString();
 	}
 
 }
