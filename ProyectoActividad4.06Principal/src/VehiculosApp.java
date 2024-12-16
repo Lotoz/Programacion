@@ -18,8 +18,18 @@ public class VehiculosApp {
     System.out.printf("PRÁCTICA DE Zamira Grippi. GESTIÓN VEHÍCULOS.%n");
     System.out.printf("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=%n");
 
-  
-     Fecha fechaAuto = null;
+    // Con la clase LocalDate obtenemos la fecha actual
+    LocalDate fechaActual = LocalDate.now();
+
+    // Extraemos el año, mes y día de la fecha actual
+    int anyoActual = fechaActual.getYear();
+    int mesActual = fechaActual.getMonthValue();
+    int diaActual = fechaActual.getDayOfMonth();
+    
+    //Creamos un nuevo objeto
+    Fecha fechaComparar = new Fecha(diaActual, mesActual, anyoActual);
+    
+    Fecha fechaAuto = null;
     Automovil auto = null;
     boolean salida = false;
     do {
@@ -42,7 +52,6 @@ public class VehiculosApp {
         int anyo1 = scan.nextInt();
         
         fechaAuto = new Fecha(dia1, mes1, anyo1);
-        
         // Pedimos el color 
         System.out.printf("Introduzca el color del automóvil (blanco, negro o azul):%n");
         String color = scan.next();
@@ -51,7 +60,7 @@ public class VehiculosApp {
         System.out.printf("Introduzca el número de plazas del vehículo (1 ó mas):%n");
         int plazas = scan.nextInt();
 
-       
+     
         auto = new Automovil(matricula1, fechaAuto, color, plazas);
         salida = true;
       }catch (IllegalArgumentException e) {
@@ -59,7 +68,7 @@ public class VehiculosApp {
       
       } catch (Exception e) {
         System.out.println(e.getMessage());
-      } 
+      }
     } while (!salida);
     
     Fecha fechaMoto = null;
@@ -88,56 +97,53 @@ public class VehiculosApp {
         fechaMoto = new Fecha(dia2, mes2, anyo2);
         moto = new Motocicleta(matricula2, fechaMoto, cilindrada);
         salida = true;
-      } catch (NullPointerException e) {
-        System.out.printf("Fecha invalida,introduce una fecha correcta de nuevo.");
       } catch (IllegalArgumentException e) {
-        System.out.printf("Los datos de la moto son incorrectos, intenta de nuevo. ");
+        
+        System.out.println(e.getMessage());
+        
+      } catch (Exception e) {
+        
+        System.out.println(e.getMessage());
       } 
     } while (!salida);
   
      //Creamos los objetos
  
-    // Con la clase LocalDate obtenemos la fecha actual
-    LocalDate fechaActual = LocalDate.now();
-
-    // Extraemos el año, mes y día de la fecha actual
-    int anyoActual = fechaActual.getYear();
-    int mesActual = fechaActual.getMonthValue();
-    int diaActual = fechaActual.getDayOfMonth();
-    
-    //Creamos un nuevo objeto
-    Fecha fechaComparar = new Fecha(diaActual, mesActual, anyoActual);
-    
+   
      // Imprimimos los datos del automovil
-     System.out.printf("Los datos del automovil son %s%n", auto.toString());
-     System.out.printf("Su distintivo ambiental es %s%n", auto.getDistintivo());
+     System.out.printf("Los datos del automovil son %s. %n", auto.toString());
+     System.out.printf("Su distintivo ambiental es %s. %n", auto.getDistintivo());
+     
      
 
      // Imprimos los datos de la moto
-     System.out.printf("Los datos de la moto son %s%n", moto.toString());
-     System.out.printf("Su distintivo ambiental es %s%n", moto.getDistintivo());
+     System.out.printf("Los datos de la moto son %s. %n", moto.toString());
+     System.out.printf("Su distintivo ambiental es %s. %n", moto.getDistintivo());
          
    // Imprimimos cuanto llevan matriculados
-   System.out.printf("El automóvil lleva matriculado %d %n", fechaAuto.diasEntre(fechaComparar));
-   System.out.printf("El motocicleta lleva matriculado %d %n", fechaMoto.diasEntre(fechaComparar));
-
+   try {
+   System.out.printf("El automóvil lleva matriculado %d. %n", fechaAuto.diasEntre(fechaComparar));
+   System.out.printf("El motocicleta lleva matriculado %d. %n", fechaMoto.diasEntre(fechaComparar));
+   } catch (FechaException ea) {
+     System.out.println(ea.getMessage());
+   }
    //Comparar fechas
    int resultado = fechaAuto.compara(fechaMoto);
    System.out.printf("%s%n", comparaVehiculos(resultado));
  
    // Imprimimos los vehiculos existentes
-   System.out.printf("Número de vehículos matriculados: %d ", Vehiculo.getVehiculosMatriculados());
+   System.out.printf("Número de vehículos matriculados: %d.", Vehiculo.getVehiculosMatriculados());
     
   }
   
   private static String comparaVehiculos(int resultado) {   
    if (resultado < 0) {
-       return "El automovil se matriculo antes que la motocicleta";
+       return "El automovil se matriculo antes que la motocicleta.";
    } else if (resultado > 0) {
-      return "La motocicleta se matriculo antes que el vehiculo";
+      return "La motocicleta se matriculo antes que el vehiculo.";
    } else {
-       return "Son iguales";
+       return "Son iguales.";
    }
  }
-  
+ 
 }

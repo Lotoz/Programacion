@@ -1,16 +1,17 @@
 package prog.unidad04.practica406.libreria;
 
-
 import prog.unidad04.practica406.libreria.FechaException;
-
+/**
+ * Clase que representa una fecha a partir del 1/1/1900
+ */
 public class Fecha {
 
-
-  public int dia;
-  public int mes;
-  public int anyo;
+ 
 
   // Constantes.
+  private int dia;
+  private int mes;
+  private int anyo;
   private static final int DIAS_POR_ANYO = 365;
   private static final int LIMITE_INFERIOR_DIA_MES = 1;
   private static final int LIMITE_SUPERIOR_MES = 12;
@@ -30,49 +31,43 @@ public class Fecha {
 
   // Agregar comentarios javadoc.
 
-  /** Constructor */
-  public Fecha(int dia, int mes, int anyo) throws FechaException {
-if (!(anyo >= ANYO_INICIO && mes >= LIMITE_INFERIOR_DIA_MES && mes <= LIMITE_SUPERIOR_MES && diaValido(dia, mes, anyo))) {
+  /**
+   * Constructor con dia mes y año.
+   *
+   *@param dia Dia de la fecha. Debe valer entre 1 y la cantidad de días del mes. Tiene en cuenta los años bisiestos.
+   *@param mes Mes de la fecha. Debe valer entre 1 y 12.
+   *@param anyo Año de la fecha. Debe ser mayor o igual a 1900.
+   *@throws IllegalArgumentException Si los parámetros no se corresponden con una fecha válida.
+   */
+  public Fecha(int dia, int mes, int anyo) {
+    if (!(anyo >= ANYO_INICIO && mes >= LIMITE_INFERIOR_DIA_MES && mes <= LIMITE_SUPERIOR_MES
+        && diaValido(dia, mes, anyo))) {
 
-  throw new IllegalArgumentException("La fecha introducida no es valida. Revise los valores e intentelo de nuevo");
+      throw new IllegalArgumentException("La fecha introducida no es valida. Revise los valores e intentelo de nuevo");
     }
-    
-this.anyo = anyo;
-this.mes = mes;
-this.dia = dia;
+
+    this.anyo = anyo;
+    this.mes = mes;
+    this.dia = dia;
   }
-
-
+  /**
+   * Obtiene el día de la fecha
+   * 
+   * @return Dia de la fecha
+   */
   public int getDia() {
     return dia;
   }
-
-  // Este metodo es para validar si el dia es valido
-  private boolean diaValido() throws FechaException {
-    switch (mes) {
-    case ENERO, MARZO, MAYO, JULIO, AGOSTO, OCTUBRE, DICIEMBRE -> {
-      return (dia < 0 && dia > 31);
-    }
-    case ABRIL, JUNIO, SEPTIEMBRE, NOVIEMBRE -> {
-      return (dia < 0 && dia > 30);
-    }
-    case FEBRERO -> {
-      if ((anyo % 400 == 0) || ((anyo % 4 == 0) && (anyo % 100 != 0))) {
-        return (dia < 0 && dia > 29);
-      } else {
-        return (dia < 0 && dia > 28);
-      }
-    }
-    }
-    throw new FechaException("No valido");
-  }
-
-  // Metodo usado para calcular dias transcurridos
+  /**
+   *  Metodo usado para calcular dias transcurridos
+   * 
+   * @return Dia valido por mes
+   */
   private int numeroDeDiasMes(int mes) {
     int diasPorMes = 0;
-    //Debo descontar -1 por enero
+    // Debo descontar -1 por enero
     switch (mes - 1) {
-    
+
     case NOVIEMBRE:
       diasPorMes += 30;
     case OCTUBRE:
@@ -95,17 +90,24 @@ this.dia = dia;
       diasPorMes += 28;
     case ENERO:
       diasPorMes += 31;
-  }
+    }
     return diasPorMes;
-  
+
   }
 
-  /** Obtiene mes */
+  /**
+   * Obtiene el mes de la fecha
+   * 
+   * @return Mes de la fecha
+   */
   public int getMes() {
     return this.mesValido(mes);
   }
-
-  // Verificar si es el mes es valido.
+  /**
+   * Verificar si es el mes es valido.
+   * 
+   * @return Mes de la fecha
+   */
   private int mesValido(int mes) {
     if (mes < 0 && mes > 12) {
       return 0;
@@ -114,32 +116,44 @@ this.dia = dia;
     }
   }
 
-  /** Obtiene anyo */
+  /**
+   * Obtiene el año de la fecha
+   * 
+   * @return Año de la fecha
+   */
   public int getAnyo() {
     return anyo;
   }
 
-  /** Calcula dias transcurridos */
+  /**
+   * Obtiene el número de días transcurridos entre esta fecha y la fecha de inicio del calendario (1/1/1900)
+   * 
+   * @return Número de días transcurridos entre esta fecha y la fecha de inicio del calendario
+   */
+  public long diasTranscurridos() {
 
- public long diasTranscurridos() {
-    
     int cantidadBisiestos = 0;
-    
-    //Hago un bucle para comprobar la cantidad de años bisiestos que hay entre la fecha inicial hasta la fecha del objeto, lo que suma un dia por cada año bisiesto.
+
+    // Hago un bucle para comprobar la cantidad de años bisiestos que hay entre la
+    // fecha inicial hasta la fecha del objeto, lo que suma un dia por cada año
+    // bisiesto.
     for (int anyoTemporal = ANYO_INICIO; anyoTemporal <= anyo; anyoTemporal++) {
 
       if (esAnyoBisiesto(anyoTemporal) && (mes > 2 || anyoTemporal != anyo)) {
         cantidadBisiestos++;
       }
     }
-    //Uso mi metodo privado
+    // Uso mi metodo privado
     int diasPorMes = numeroDeDiasMes(mes);
-    
+
     return (cantidadBisiestos + (anyo - ANYO_INICIO) * DIAS_POR_ANYO) + diasPorMes + (dia - 1);
   }
 
-
-  /** Verifica si es bisiesto */
+  /**
+   * Devuelve si el año es bisiesto o no
+   *  
+   * @return true si el año es bisiesto, false en caso contrario
+   *  */
   public boolean esBisiesto(boolean valor) {
     if ((anyo % 400 == 0) || ((anyo % 4 == 0) && (anyo % 100 != 0))) {
       return true;
@@ -147,7 +161,11 @@ this.dia = dia;
       return false;
     }
   }
-
+  /**
+   * Devuelve si el año es bisiesto o no, pero usa enteros
+   *  
+   * @return true si el año es bisiesto, false en caso contrario
+   *  */
   private boolean esAnyoBisiesto(int anyo) {
     if ((anyo % 400 == 0) || ((anyo % 4 == 0) && (anyo % 100 != 0))) {
       return true;
@@ -157,21 +175,26 @@ this.dia = dia;
   }
 
   /**
-   * Calculas dias entre
-   * 
+   * Obtiene el número de días transcurridos entre esta fecha y otra posterior que se proporciona.
+   * @param fecha - Otra fecha posterior a ésta
+   * @return Número de días transcurridos entre esta fecha y la proporcionada
    * @throws FechaException
    */
   public long diasEntre(Fecha fecha) throws FechaException {
     // Verificamos si la fecha dada es mayor a la anterior
     if (fecha.comparaFechas(this)) {
-      throw new FechaException("La fecha proporcionada es anterior a esta fecha.");
+      throw new FechaException("La fecha proporcionada es superior a la actual.");
     }
     // Calculo la diferencia de fechas
     long diasEntre = fecha.diasTranscurridos() - this.diasTranscurridos();
     return diasEntre;
   }
 
-//Este método compara la fecha actual (this) con otra fecha proporcionada
+  /**
+   * Este método compara fecha con otra fecha proporcionada
+   *  
+   * @return devuelve en boolean segun si es mayor, menor  o igual
+   *  */
   private boolean comparaFechas(Fecha fecha) {
     // Comparar el año de ambas fechas
     if (this.anyo < fecha.anyo) {
@@ -190,7 +213,11 @@ this.dia = dia;
     return false;
   }
 
-  /** Compara */
+  /**
+   * Este método compara fecha con otra fecha proporcionada
+   *  
+   * @return Menor que 0 si esta fecha es anterior a la otra, 0 si las dos fechas son iguales y mayor que cero si esta fecha es posterior a la otra
+   *  */
   public int compara(Fecha fecha) {
     int resultado = 0;
 
@@ -200,25 +227,29 @@ this.dia = dia;
     } else if (this.anyo > fecha.anyo) {
       return 1; // this es mayor que fecha
     } else {
-        // Si los años son iguales, comparar el mes
-        if (this.mes < fecha.mes) {
+      // Si los años son iguales, comparar el mes
+      if (this.mes < fecha.mes) {
+        return -1; // this es menor que fecha
+      } else if (this.mes > fecha.mes) {
+        return 1; // this es mayor que fecha
+      } else {
+        // Si los meses son iguales, comparar el día
+        if (this.dia < fecha.dia) {
           return -1; // this es menor que fecha
-        } else if (this.mes > fecha.mes) {
+        } else if (this.dia > fecha.dia) {
           return 1; // this es mayor que fecha
         } else {
-            // Si los meses son iguales, comparar el día
-            if (this.dia < fecha.dia) {
-                 return -1; // this es menor que fecha
-            } else if (this.dia > fecha.dia) {
-              return 1; // this es mayor que fecha
-            } else {
-                // Si los días son iguales, las fechas son iguales
-                return 0; // this es igual a fecha
-            }
+          // Si los días son iguales, las fechas son iguales
+          return 0; // this es igual a fecha
         }
+      }
     }
-}
- 
+  }
+  /**
+   * Este método convierte mes en cadena
+   *  
+   * @return devuelve segun el mes su nombre correspondiente
+   *  */
   private String mesToString() {
     switch (mes) {
     case ENERO -> {
@@ -260,13 +291,21 @@ this.dia = dia;
     }
     return null;
   }
-
+  /**
+   * Obtiene una representación de la fecha en formato texto El formato es DD de MMMMM de AAAA donde DD es el día del mes (en número), MMMM es el mes (en letra y minúsculas) y AAAA es el año (en número).
+   */
   public String toString() {
     return getDia() + " de " + mesToString() + " de " + getAnyo();
   }
+  /**
+   * Verifica si el dia es valido
+   *  
+   * @return devuelve true si lo es, y devuelve false si no.
+   *  */
   private boolean diaValido(int dia, int mes, int anyo) {
 
-    if (mes == ENERO || mes == MARZO || mes == MAYO || mes == JULIO || mes == AGOSTO || mes == OCTUBRE || mes == DICIEMBRE) {
+    if (mes == ENERO || mes == MARZO || mes == MAYO || mes == JULIO || mes == AGOSTO || mes == OCTUBRE
+        || mes == DICIEMBRE) {
 
       return dia >= LIMITE_INFERIOR_DIA_MES && dia <= 31;
 
@@ -274,13 +313,13 @@ this.dia = dia;
 
       return dia >= LIMITE_INFERIOR_DIA_MES && dia <= 30;
 
-    } else if ((mes == FEBRERO && dia >= LIMITE_INFERIOR_DIA_MES) && (dia <= 28 || esAnyoBisiesto(anyo)) && (dia <= 29)) {
+    } else if ((mes == FEBRERO && dia >= LIMITE_INFERIOR_DIA_MES) && (dia <= 28 || esAnyoBisiesto(anyo))
+        && (dia <= 29)) {
 
       return true;
     }
 
     return false;
   }
-
 
 }

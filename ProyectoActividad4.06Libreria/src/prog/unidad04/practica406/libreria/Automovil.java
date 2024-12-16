@@ -1,6 +1,9 @@
 package prog.unidad04.practica406.libreria;
 
-public class Automovil extends Vehiculo {
+/**
+ * Clase que representa un automovil. Es un vehiculo de cuatro ruedas con un color y un número de plazas.
+ */
+public class Automovil extends Vehiculo implements MaquinaConDistintivoAmbiental{
 
   /**
    * Esto es la constante de color azul.
@@ -20,24 +23,39 @@ public class Automovil extends Vehiculo {
   private String color;
   private Fecha fechaMatriculacion;
 
-  // RETOCAR CUANDO SE FINALICE CLASE FECHA.
-  // Las pruebas de validacion privadas
-  // Analizar si falta mas y empezar a agregar comentarios
-  // Agregar interfaz.
-  // Puede ser hija de vehiculo
-
-  public Automovil(String matricula, Fecha fechaMatriculacion) throws Exception {
+  
+  /**
+   * Constructor
+   * 
+   * @param matricula Matrícula del vehiculo. Debe tener un formato válido NNNN AAA donde NNNN son 4 dígitos y AAA son tres letras MAYÚSCULAS. Entre ellas puede haber cuantos espacios se quiera (incluido ninguno).
+   * @param fechaMatriculacion Fecha de matriculación del vehiculo. No puede ser null.
+   * @param color Color del vehículo. Sólo se permite uno de COLOR_BLANCO, COLOR_NEGRO, COLOR_AZUL.
+   * @param plazas Número de plazas del vehiculo. Debe ser mayor que 0 (por lo menos tiene que tener una para el conductor.
+   * @throws NullPointerException Si fechaMatriculacion o color son null.
+   * @throws IllegalArgumentException Si la matricula, el color o el número de plazas no son válidos.
+   */
+  private Automovil(String matricula, Fecha fechaMatriculacion)  {
     super(matricula, fechaMatriculacion);
   }
 
-  /** Constructor. 
-   * @throws Exception */
-  public Automovil(String matricula, Fecha fechaMatriculacion, String color, int plazas) throws Exception {
+  /**
+   * Constructor
+   * 
+   * @param matricula Matrícula del vehiculo. Debe tener un formato válido NNNN AAA donde NNNN son 4 dígitos y AAA son tres letras MAYÚSCULAS. Entre ellas puede haber cuantos espacios se quiera (incluido ninguno).
+   * @param fechaMatriculacion Fecha de matriculación del vehiculo. No puede ser null.
+   * @param color Color del vehículo. Sólo se permite uno de COLOR_BLANCO, COLOR_NEGRO, COLOR_AZUL.
+   * @param plazas Número de plazas del vehiculo. Debe ser mayor que 0 (por lo menos tiene que tener una para el conductor.
+   * @throws NullPointerException Si fechaMatriculacion o color son null.
+   * @throws IllegalArgumentException Si la matricula, el color o el número de plazas no son válidos.
+   */
+  public Automovil(String matricula, Fecha fechaMatriculacion, String color, int plazas) {
     super(matricula, fechaMatriculacion);
     if (color == null) {
-      throw new NullPointerException("El color introducido es incorrecto. Revise los valores e intentelo de nuevo.");
+      throw new NullPointerException("El color introducido es incorrecto. Revise los valores e intentelo de nuevo.") ;
     } else if ( plazas == 0){
       throw new IllegalArgumentException("La plaza introducida es incorrecta. Revise los valores e intentelo de nuevo.");
+    } else if (!validarColor(false)) {
+      throw new IllegalArgumentException ("El color introducido es incorrecto. Revise los valores e intentelo de nuevo.");
     } else {
       this.color = color;
       this.plazas = plazas;
@@ -46,6 +64,8 @@ public class Automovil extends Vehiculo {
 
   /**
    * Obtiene el color del automovil.
+   * 
+   * @return Color del automovil.
    */
   public String getColor() {
     String color = this.color;
@@ -65,9 +85,21 @@ public class Automovil extends Vehiculo {
     }
     return null;
   }
-
+  /**
+   * Ve si color es valido
+   * 
+   * @return Validacion del color del automovil.
+   */
+private boolean validarColor(boolean b) {
+  if (color == null || color == "") {
+    return true;
+  } else {
+    return false;
+  }
+}
   /**
    * Obtiene el número de plazas del automóvil
+   * @return numero de plazas.
    */
   public int getPlazas() {
     return plazas;
@@ -76,6 +108,7 @@ public class Automovil extends Vehiculo {
   /**
    * Obtiene el distintivo ambiental del automovil. Si tiene 1 plaza es 0, si
    * tiene de 2 a 3, ECO, si tienen de 4 a 5 son A y si tienen más de 5, B
+   * @return Distintivo ambiental de la máquina (0, ECO, A, B).
    */
   public String getDistintivo() {
     int plazas = this.plazas;
@@ -97,7 +130,7 @@ public class Automovil extends Vehiculo {
    * matricula, Fecha Matriculación: dd de mmmmm de aaaa, Color: color, Num.
    */
   public String toString() {
-    return "Matricula: " + getMatricula() + " Fecha de matriculacion: " + getFechaMatriculacion() + " Color: " + getColor() + " Plazas: " +getPlazas();
+    return "Matricula: " + getMatricula() + " Fecha de matriculacion: " + getFechaMatriculacion().toString() + " Color: " + getColor() + " Plazas: " + getPlazas();
   }
 
 }
