@@ -34,8 +34,14 @@ public class Automovil extends Vehiculo {
    * @throws Exception */
   public Automovil(String matricula, Fecha fechaMatriculacion, String color, int plazas) throws Exception {
     super(matricula, fechaMatriculacion);
-    this.color = color;
-    this.plazas = plazas;
+    if (color == null) {
+      throw new NullPointerException();
+    } else if (color == "" || plazas == 0){
+      throw new IllegalArgumentException();
+    } else {
+      this.color = color;
+      this.plazas = plazas;
+    }
   }
 
   /**

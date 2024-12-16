@@ -13,12 +13,14 @@ public class Motocicleta extends Vehiculo {
   // Hija de vehiculo
   public Motocicleta(String matricula, Fecha fechaMatriculacion, int cilindrada) throws Exception {
     super(matricula, fechaMatriculacion);
-      this.cilindrada = cilindrada;
-
+      if (cilindrada == 0) {
+        throw new NullPointerException();
+      } else {
+        this.cilindrada = cilindrada;
+      }
   }
 
   public int getCilindrada() {
-
     return cilindrada;
 
   }
@@ -42,6 +44,7 @@ public class Motocicleta extends Vehiculo {
       return "B";
 
     }
+   
   }
 
   public String toString() {

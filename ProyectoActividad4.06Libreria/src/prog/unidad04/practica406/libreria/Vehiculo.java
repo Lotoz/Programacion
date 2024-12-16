@@ -17,12 +17,14 @@ public class Vehiculo {
 	  if (validadorMatricula(matricula)) {
       this.matricula = matricula;
     } else {
-      throw new FechaException("No se pudo crear el automóvil. Revise los datos para comprobar que\n"
-          + "todos son correctos.");
+      throw new IllegalArgumentException();
     }
-		
-		this.fechaMatriculacion = fechaMatriculacion;
-		contadorVehiculos++; // Incrementar el contador al crear un nuevo vehículo
+      if (fechaMatriculacion  == null) {
+        this.fechaMatriculacion = fechaMatriculacion;
+      } else {
+        throw new NullPointerException();
+      }
+    contadorVehiculos++; // Incrementar el contador al crear un nuevo vehículo
 
 	}
 

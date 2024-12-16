@@ -1,6 +1,6 @@
 package prog.unidad04.practica406.libreria;
 
-import java.time.LocalDate;
+
 
 import prog.unidad04.practica406.libreria.FechaException;
 
@@ -49,7 +49,7 @@ public class Fecha {
       this.dia = dia;
 
     } else {
-      throw new FechaException("La fecha no es correcta.");
+      throw new IllegalArgumentException("Fecha invalida,introduce una fecha correcta de nuevo");
     }
   }
 
@@ -116,44 +116,23 @@ public class Fecha {
   /** Calcula dias transcurridos */
 
   public long diasTranscurridos() {
-    // Con la clase LocalDate obtenemos la fecha actual
-    LocalDate fechaActual = LocalDate.now();
-
-    // Extraemos el año, mes y día de la fecha actual
-    int anyoActual = fechaActual.getYear();
-    int mesActual = fechaActual.getMonthValue();
-    int diaActual = fechaActual.getDayOfMonth();
-
-    // Verificar que el año del objeto sea menor que el año actual
-    if (this.anyo >= anyoActual) {
-        throw new IllegalArgumentException("El año del objeto debe ser menor que el año actual.");
-    }
-
-    // Iniciamos el contador de años bisiestos
     int cantidadBisiestos = 0;
-
-    // Iniciamos el contador de días por mes, comenzando en -1
-    // para no contar enero, ya que es el primer mes
-    int diasPorMes = -1;
-
-    // Contar los años bisiestos desde el año del objeto hasta el año actual
-    for (int anyoTemporal = this.anyo; anyoTemporal < anyoActual; anyoTemporal++) {
-        if (esAnyoBisiesto(anyoTemporal)) {
-            cantidadBisiestos++; // Incrementar el contador si el año es bisiesto
-        }
+    int diasPorMes = 0;
+    // Aca contas los años bisiestos desde el año de inicio hasta el actual
+    for (int anyoTemporal = ANYO_INICIO; anyoTemporal < anyo; anyoTemporal++) {
+      if (esAnyoBisiesto(anyoTemporal)) {
+        cantidadBisiestos++;
+      }
     }
-
-    // Sumar los días de los meses completos hasta el mes anterior
-    for (int mesTemporal = 0; mesTemporal < mesActual - 1; mesTemporal++) {
-        diasPorMes += numeroDeDiasMes(mesTemporal, anyoActual); // Sumar los días de cada mes
+    // Se suma los días de los meses completos hasta el mes anterior
+    for (int mesTemporal = 1; mesTemporal < mes; mesTemporal++) {
+      diasPorMes += numeroDeDiasMes(mesTemporal, anyo);
     }
-
-    // Sumar los días del mes actual
-    diasPorMes += diaActual; // Agregar el día actual al total
-
-    // Calcular el total de días transcurridos
-    return (cantidadBisiestos + (anyoActual - this.anyo) * DIAS_POR_ANYO) + diasPorMes;
-}
+    // Sumamos los días del mes actual
+    diasPorMes += dia;
+    // Calculo final
+    return (cantidadBisiestos + (anyo - ANYO_INICIO) * DIAS_POR_ANYO) + diasPorMes;
+  }
 
   /** Verifica si es bisiesto */
   public boolean esBisiesto(boolean valor) {

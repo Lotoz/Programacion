@@ -4,18 +4,18 @@ import java.time.LocalDate;
 
 import clases.FechaException;
 
+
 public class Fecha {
 
   // FALTAN COMENTARIOS Y SOLUCIONAR METODOS ENTREFECHA Y COMPARA
   // SE PUEDE USAR JAVA LOCAL TIME PARA ENTRE FECHA
-  
-  //Errores de metodo a parchear (Vistos en JUnit)
-  //No cubre si un mes es menor a 1.
-  //No cubre si un mes es mayor a 12.
-  //No crea una fecha con mes 12
-  //Se pueden crear anyos menores a 1900
-  //Error de corchetes
-  
+
+  // Errores de metodo a parchear (Vistos en JUnit)
+  // No cubre si un mes es menor a 1.
+  // No cubre si un mes es mayor a 12.
+  // No crea una fecha con mes 12
+  // Se pueden crear anyos menores a 1900
+  // Error de corchetes
 
   public int dia;
   public int mes;
@@ -50,24 +50,23 @@ public class Fecha {
       this.dia = dia;
 
     } else {
-      throw new FechaException("La fecha no es correcta.");
+      throw new IllegalArgumentException("Fecha invalida,introduce una fecha correcta de nuevo");
     }
   }
-
 
   /** Obtiene dia */
-  public int getDia(){
+  public int getDia() {
     return dia;
   }
-  
-  //Este metodo es para validar si el dia es valido
-  private boolean diaValido() throws FechaException{
+
+  // Este metodo es para validar si el dia es valido
+  private boolean diaValido() throws FechaException {
     switch (mes) {
     case ENERO, MARZO, MAYO, JULIO, AGOSTO, OCTUBRE, DICIEMBRE -> {
-      return (dia < 0 && dia > 31);  
+      return (dia < 0 && dia > 31);
     }
     case ABRIL, JUNIO, SEPTIEMBRE, NOVIEMBRE -> {
-      return (dia < 0 && dia > 30);  
+      return (dia < 0 && dia > 30);
     }
     case FEBRERO -> {
       if ((anyo % 400 == 0) || ((anyo % 4 == 0) && (anyo % 100 != 0))) {
@@ -77,10 +76,8 @@ public class Fecha {
       }
     }
     }
-     throw new FechaException("No valido");
+    throw new FechaException("No valido");
   }
-    
-
 
   // Metodo usado para calcular dias transcurridos
   private int numeroDeDiasMes(int mes, int anyo) {
@@ -99,7 +96,7 @@ public class Fecha {
   }
 
   /** Obtiene mes */
-  public int getMes(int mes){
+  public int getMes(int mes) {
     return this.mesValido(mes);
   }
 
@@ -119,45 +116,40 @@ public class Fecha {
 
   /** Calcula dias transcurridos */
 
-public long diasTranscurridos() {
-    //Con la clase LocalDate obtenemos la fecha actual
-    LocalDate fechaActual = LocalDate.now();
-    
-    //Extraemos el year, mes y dia de la fecha actual
-    int anyo = fechaActual.getYear();
-    int mes = fechaActual.getMonthValue();
-    int dia = fechaActual.getDayOfMonth();
+  public long diasTranscurridos() {
+    // Si la fecha es anterior al año de inicio, no se cuentan días
+    if (anyo < ANYO_INICIO) {
+        return 0;
+    }
 
-    //Iniciamos el contador de años bisiestos
     int cantidadBisiestos = 0;
-    
-    //Iniciamos el contador de días por mes, comenzando en -1
-    //para no contar enero, ya que es el primer mes
-    int diasPorMes = -1;
+    int diasPorMes = 0;
 
-    //Contar los años bisiestos desde el año de inicio hasta el año actual
+    // Contamos los años bisiestos desde el año de inicio hasta el año anterior al actual
     for (int anyoTemporal = ANYO_INICIO; anyoTemporal < anyo; anyoTemporal++) {
         if (esAnyoBisiesto(anyoTemporal)) {
-            cantidadBisiestos++; // Incrementar el contador si el año es bisiesto
+            cantidadBisiestos++;
         }
     }
 
-    // Sumar los días de los meses completos hasta el mes anterior
-    for (int mesTemporal = 0; mesTemporal < mes - 1; mesTemporal++) {
-        diasPorMes += numeroDeDiasMes(mesTemporal, anyo); // Sumar los días de cada mes
+    // Sumamos los días de los meses completos hasta el mes anterior del año actual
+    for (int mesTemporal = 1; mesTemporal < mes; mesTemporal++) {
+        diasPorMes += numeroDeDiasMes(mesTemporal, anyo);
     }
 
-    // Sumar los días del mes actual
-    diasPorMes += dia; // Agregar el día actual al total
+    // Sumamos los días del mes actual
+    diasPorMes += dia;
 
-    // Calcular el total de días transcurridos
-    // Se suma:
-    // - La cantidad de años bisiestos
-    // - El número de años multiplicado por el número de días en un año
-    // - Los días acumulados de los meses y el día actual
-    return (cantidadBisiestos + (anyo - ANYO_INICIO) * DIAS_POR_ANYO) + diasPorMes;
+    // Cálculo total de días
+    long diasTotales = (cantidadBisiestos * 366) + ((anyo - ANYO_INICIO - cantidadBisiestos) * 365) + diasPorMes;
+
+    // Ajuste: Restamos un día si estamos contando hasta el día actual
+    if (mes == 1 && dia == 1) {
+        diasTotales--; // Restamos un día porque no contamos el 1 de enero
+    }
+
+    return diasTotales;
 }
-
   /** Verifica si es bisiesto */
   public boolean esBisiesto(boolean valor) {
     if ((anyo % 400 == 0) || ((anyo % 4 == 0) && (anyo % 100 != 0))) {
@@ -166,6 +158,7 @@ public long diasTranscurridos() {
       return false;
     }
   }
+
   private boolean esAnyoBisiesto(int anyo) {
     if ((anyo % 400 == 0) || ((anyo % 4 == 0) && (anyo % 100 != 0))) {
       return true;
@@ -173,6 +166,7 @@ public long diasTranscurridos() {
       return false;
     }
   }
+
   /**
    * Calculas dias entre
    * 
@@ -187,43 +181,47 @@ public long diasTranscurridos() {
     long diasEntre = fecha.diasTranscurridos() - this.diasTranscurridos();
     return diasEntre;
   }
-//Este método compara la fecha actual (this) con otra fecha proporcionada
-private boolean comparaFechas(Fecha fecha) {
-   // Comparar el año de ambas fechas
-   if (this.anyo < fecha.anyo) {
-       return true; // this es anterior a fecha
-   } else if (this.anyo == fecha.anyo) {
-       // Si los años son iguales, comparar el mes
-       if (this.mes < fecha.mes) {
-           return true; // this es anterior a fecha
-       } else if (this.mes == fecha.mes) {
-           // Si los meses son iguales, comparar el día
-           return this.dia < fecha.dia; // Retorna true si this es anterior
-       }
-   }
-   // Si no se cumple ninguna de las condiciones anteriores, this no es anterior a fecha
-   return false;
-}
 
-  /** Compara */
-public int compara(Fecha fecha) {
+//Este método compara la fecha actual (this) con otra fecha proporcionada
+  private boolean comparaFechas(Fecha fecha) {
     // Comparar el año de ambas fechas
     if (this.anyo < fecha.anyo) {
-        return -1; // this es menor que fecha
+      return true; // this es anterior a fecha
+    } else if (this.anyo == fecha.anyo) {
+      // Si los años son iguales, comparar el mes
+      if (this.mes < fecha.mes) {
+        return true; // this es anterior a fecha
+      } else if (this.mes == fecha.mes) {
+        // Si los meses son iguales, comparar el día
+        return this.dia < fecha.dia; // Retorna true si this es anterior
+      }
+    }
+    // Si no se cumple ninguna de las condiciones anteriores, this no es anterior a
+    // fecha
+    return false;
+  }
+
+  /** Compara */
+  public int compara(Fecha fecha) {
+    int resultado = 0;
+
+    // Comparar el año de ambas fechas
+    if (this.anyo < fecha.anyo) {
+      return -1; // this es menor que fecha
     } else if (this.anyo > fecha.anyo) {
-        return 1; // this es mayor que fecha
+      return 1; // this es mayor que fecha
     } else {
         // Si los años son iguales, comparar el mes
         if (this.mes < fecha.mes) {
-            return -1; // this es menor que fecha
+          return -1; // this es menor que fecha
         } else if (this.mes > fecha.mes) {
-            return 1; // this es mayor que fecha
+          return 1; // this es mayor que fecha
         } else {
             // Si los meses son iguales, comparar el día
             if (this.dia < fecha.dia) {
-                return -1; // this es menor que fecha
+                 return -1; // this es menor que fecha
             } else if (this.dia > fecha.dia) {
-                return 1; // this es mayor que fecha
+              return 1; // this es mayor que fecha
             } else {
                 // Si los días son iguales, las fechas son iguales
                 return 0; // this es igual a fecha
@@ -231,8 +229,7 @@ public int compara(Fecha fecha) {
         }
     }
 }
-
-
+ 
   private String mesToString() {
     switch (mes) {
     case ENERO -> {
@@ -275,4 +272,8 @@ public int compara(Fecha fecha) {
     return null;
   }
 
+  public String toString() {
+    return getDia() + " de " + mesToString() + " de " + getAnyo();
+  }
 }
+
