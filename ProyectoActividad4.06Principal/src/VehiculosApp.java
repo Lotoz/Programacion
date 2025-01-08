@@ -3,13 +3,12 @@ import java.util.Scanner;
 
 import prog.unidad04.practica406.libreria.*;
 
-
 public class VehiculosApp {
 
   public static void main(String[] args) throws Exception {
     // Esta clase sirve para trabajar con la biblioteca .jar
     // y probar, cuando se finalice probar aca.
-    //Completar todo
+    // Completar todo
 
     // Creamos un scan para tomar los datos del usuario.
     Scanner scan = new Scanner(System.in);
@@ -25,34 +24,34 @@ public class VehiculosApp {
     int anyoActual = fechaActual.getYear();
     int mesActual = fechaActual.getMonthValue();
     int diaActual = fechaActual.getDayOfMonth();
-    
-    //Creamos un nuevo objeto
+
+    // Creamos un nuevo objeto
     Fecha fechaComparar = new Fecha(diaActual, mesActual, anyoActual);
-    
+
     Fecha fechaAuto = null;
     Automovil auto = null;
     boolean salida = false;
     do {
       try {
-        // Le pedimos al usario que introduzca la matricula del automovil 
+        // Le pedimos al usario que introduzca la matricula del automovil
         System.out.printf(
             "Introduce la matrícula del automóvil (4 números, 0 ó más espacios\n" + "y tres letras mayúsculas):%n");
         String matricula1 = scan.next();
 
-        // Pedimos el dia de la fecha de matriculacion 
+        // Pedimos el dia de la fecha de matriculacion
         System.out.printf("Introduzca el día de la fecha de matriculación del automóvil:%n");
         int dia1 = scan.nextInt();
 
-        // Pedimos el mes de la fecha de matr1iculacion 
+        // Pedimos el mes de la fecha de matr1iculacion
         System.out.printf("Introduzca el mes de la fecha de matriculación del automóvil:%n");
         int mes1 = scan.nextInt();
 
-        // Pedimos el año de la fecha de matriculacion 
+        // Pedimos el año de la fecha de matriculacion
         System.out.printf("Introduzca el año de la fecha de matriculación del automóvil:%n");
         int anyo1 = scan.nextInt();
-        
+
         fechaAuto = new Fecha(dia1, mes1, anyo1);
-        // Pedimos el color 
+        // Pedimos el color
         System.out.printf("Introduzca el color del automóvil (blanco, negro o azul):%n");
         String color = scan.next();
 
@@ -60,22 +59,21 @@ public class VehiculosApp {
         System.out.printf("Introduzca el número de plazas del vehículo (1 ó mas):%n");
         int plazas = scan.nextInt();
 
-     
         auto = new Automovil(matricula1, fechaAuto, color, plazas);
         salida = true;
-      }catch (IllegalArgumentException e) {
+      } catch (IllegalArgumentException e) {
         System.out.println(e.getMessage());
-      
+
       } catch (Exception e) {
         System.out.println(e.getMessage());
       }
     } while (!salida);
-    
+
     Fecha fechaMoto = null;
     Motocicleta moto = null;
     do {
       try {
-        // Pedimos la matricula de la moto 
+        // Pedimos la matricula de la moto
         System.out.printf(
             "Introduce la matrícula del motocicleta (4 números, 0 ó más espacios " + "y tres letras mayúsculas):%n");
         String matricula2 = scan.next();
@@ -98,52 +96,49 @@ public class VehiculosApp {
         moto = new Motocicleta(matricula2, fechaMoto, cilindrada);
         salida = true;
       } catch (IllegalArgumentException e) {
-        
-        System.out.println(e.getMessage());
-        
-      } catch (Exception e) {
-        
-        System.out.println(e.getMessage());
-      } 
-    } while (!salida);
-  
-     //Creamos los objetos
- 
-   
-     // Imprimimos los datos del automovil
-     System.out.printf("Los datos del automovil son %s. %n", auto.toString());
-     System.out.printf("Su distintivo ambiental es %s. %n", auto.getDistintivo());
-     
-     
 
-     // Imprimos los datos de la moto
-     System.out.printf("Los datos de la moto son %s. %n", moto.toString());
-     System.out.printf("Su distintivo ambiental es %s. %n", moto.getDistintivo());
-         
-   // Imprimimos cuanto llevan matriculados
-   try {
-   System.out.printf("El automóvil lleva matriculado %d. %n", fechaAuto.diasEntre(fechaComparar));
-   System.out.printf("El motocicleta lleva matriculado %d. %n", fechaMoto.diasEntre(fechaComparar));
-   } catch (FechaException ea) {
-     System.out.println(ea.getMessage());
-   }
-   //Comparar fechas
-   int resultado = fechaAuto.compara(fechaMoto);
-   System.out.printf("%s%n", comparaVehiculos(resultado));
- 
-   // Imprimimos los vehiculos existentes
-   System.out.printf("Número de vehículos matriculados: %d.", Vehiculo.getVehiculosMatriculados());
-    
+        System.out.println(e.getMessage());
+
+      } catch (Exception e) {
+
+        System.out.println(e.getMessage());
+      }
+    } while (!salida);
+
+    // Creamos los objetos
+
+    // Imprimimos los datos del automovil
+    System.out.printf("Los datos del automovil son %s. %n", auto.toString());
+    System.out.printf("Su distintivo ambiental es %s. %n", auto.getDistintivo());
+
+    // Imprimos los datos de la moto
+    System.out.printf("Los datos de la moto son %s. %n", moto.toString());
+    System.out.printf("Su distintivo ambiental es %s. %n", moto.getDistintivo());
+
+    // Imprimimos cuanto llevan matriculados
+    try {
+      System.out.printf("El automóvil lleva matriculado %d. %n", fechaAuto.diasEntre(fechaComparar));
+      System.out.printf("El motocicleta lleva matriculado %d. %n", fechaMoto.diasEntre(fechaComparar));
+    } catch (FechaException ea) {
+      System.out.println(ea.getMessage());
+    }
+    // Comparar fechas
+    int resultado = fechaAuto.compara(fechaMoto);
+    System.out.printf("%s%n", comparaVehiculos(resultado));
+
+    // Imprimimos los vehiculos existentes
+    System.out.printf("Número de vehículos matriculados: %d.", Vehiculo.getVehiculosMatriculados());
+
   }
-  
-  private static String comparaVehiculos(int resultado) {   
-   if (resultado < 0) {
-       return "El automovil se matriculo antes que la motocicleta.";
-   } else if (resultado > 0) {
+
+  private static String comparaVehiculos(int resultado) {
+    if (resultado < 0) {
+      return "El automovil se matriculo antes que la motocicleta.";
+    } else if (resultado > 0) {
       return "La motocicleta se matriculo antes que el vehiculo.";
-   } else {
-       return "Son iguales.";
-   }
- }
- 
+    } else {
+      return "Son iguales.";
+    }
+  }
+
 }

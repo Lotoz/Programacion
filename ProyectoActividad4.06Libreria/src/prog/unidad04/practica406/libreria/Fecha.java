@@ -131,7 +131,7 @@ public class Fecha {
    * @return Número de días transcurridos entre esta fecha y la fecha de inicio del calendario
    */
   public long diasTranscurridos() {
-
+    
     int cantidadBisiestos = 0;
 
     // Hago un bucle para comprobar la cantidad de años bisiestos que hay entre la
