@@ -3,6 +3,7 @@ package ejercicio9;
 import java.util.Random;
 
 public class DividirPorLaMedia {
+    private String numero;
   public static void main (String[] args) {
     
   int[] notas = new int[50];
