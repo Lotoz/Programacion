@@ -2,17 +2,20 @@ package prog.unidad05.arraysobjetos;
 
 import java.lang.reflect.Constructor;
 
+/**
+ * La clase libro representa un libro.
+ */
 public class Libro {
 
   private String titulo;
   private String autor;
-  private int anyoPublicacion;
+  private int anyo;
 
-  public Libro(String titulo, String autor, int anyoPublicacion) {
+  public Libro(String titulo, String autor, int anyo) {
 
     this.titulo = titulo;
     this.autor = autor;
-    this.anyoPublicacion = anyoPublicacion;
+    this.anyo = anyo;
 
   }
 
@@ -28,7 +31,7 @@ public class Libro {
 
   public int getAnyoPublicacion() {
 
-    return anyoPublicacion;
+    return anyo;
   }
 
   public String toString() {
