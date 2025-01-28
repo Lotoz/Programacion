@@ -38,7 +38,7 @@ public class ListaEnterosUtils {
     } else { 
       throw new IllegalArgumentException("Es incorrecto.");
     }
-    return "";
+    return lista;  
   }
 
   /**
