@@ -1,0 +1,20 @@
+[
+     {
+        "titulo" : "Tarea Sostenibilidad",
+        "description" : "Tarea sobre el medio ambiente",
+        "fecha" : "30_01_2025",
+        "completada" : false
+    },
+    {
+        "titulo" : "Tarea Programacion",
+        "description" : "Tarea EE",
+        "fecha" : "30_01_2025",
+        "completada" : false
+    },
+    {
+        "titulo" : "Tarea LLMM",
+        "description" : "Tarea AA",
+        "fecha" : "30_01_2025",
+        "completada" : false
+    }
+]
