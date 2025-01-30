@@ -6,7 +6,6 @@ public class Task {
    */
   private String titulo;
   private String descripcion;
-  private Fecha fecha;
   private boolean estado = false;
   
   /**
@@ -16,8 +15,8 @@ public class Task {
    * @param fecha
    * @param estado
    */
-  public Task(String titulo, String descripcion, Fecha fecha, boolean estado) {
-    if (verificaString(titulo) && verificaString(descripcion) && verificaFecha(fecha) && verificaBoolean(estado)) {
+  public Task(String titulo, String descripcion, boolean estado) {
+    if (verificaString(titulo) && verificaString(descripcion) && verificaBoolean(estado)) {
       
     }else {
       throw new TaskException("Error al crear el objeto Task, algun parametro es invalido.");
@@ -27,10 +26,6 @@ public class Task {
     //Debe verificar si es valido.
     boolean salida = false;
     
-    return salida;
-  }
-  private boolean verificaFecha(Fecha fecha) {
-    boolean salida = false;
     return salida;
   }
   private boolean verificaBoolean(Boolean estado) {

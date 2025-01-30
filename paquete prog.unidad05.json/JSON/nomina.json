@@ -1,0 +1,23 @@
+[
+    {"nombre": "Juan", "apellido": "Pérez", "salario": 3500.50, "dni": "12345678A"},
+    {"nombre": "María", "apellido": "Gómez", "salario": 4200.75, "dni": "23456789B"},
+    {"nombre": "Luis", "apellido": "Martínez", "salario": 2800.00, "dni": "34567890C"},
+    {"nombre": "Ana", "apellido": "Fernández", "salario": 3100.25, "dni": "45678901D"},
+    {"nombre": "Carlos", "apellido": "Hernández", "salario": 3900.80, "dni": "56789012E"},
+    {"nombre": "Laura", "apellido": "López", "salario": 4700.60, "dni": "67890123F"},
+    {"nombre": "Jorge", "apellido": "Díaz", "salario": 3300.90, "dni": "78901234G"},
+    {"nombre": "Sofía", "apellido": "Ramírez", "salario": 5000.40, "dni": "89012345H"},
+    {"nombre": "Diego", "apellido": "Torres", "salario": 2600.30, "dni": "90123456I"},
+    {"nombre": "Claudia", "apellido": "Morales", "salario": 4100.20, "dni": "01234567J"},
+    {"nombre": "Fernando", "apellido": "Jiménez", "salario": 3600.50, "dni": "12345678K"},
+    {"nombre": "Valeria", "apellido": "Rojas", "salario": 3800.00, "dni": "23456789L"},
+    {"nombre": "Andrés", "apellido": "Castro", "salario": 2900.75, "dni": "34567890M"},
+    {"nombre": "Carmen", "apellido": "Vásquez", "salario": 4300.10, "dni": "45678901N"},
+    {"nombre": "Pedro", "apellido": "González", "salario": 4500.00, "dni": "56789012O"},
+    {"nombre": "Natalia", "apellido": "Méndez", "salario": 3700.85, "dni": "67890123P"},
+    {"nombre": "Rafael", "apellido": "Salas", "salario": 2200.40, "dni": "78901234Q"},
+    {"nombre": "Gloria", "apellido": "Pacheco", "salario": 5000.00, "dni": "89012345R"},
+    {"nombre": "Hugo", "apellido": "Córdoba", "salario": 2400.50, "dni": "90123456S"},
+    {"nombre": "Lucía", "apellido": "Serrano", "salario": 5200.90, "dni": "01234567T"},
+    {"nombre": "Emilio", "apellido": "Benítez", "salario": 3000.00, "dni": "12345678U"}
+]
