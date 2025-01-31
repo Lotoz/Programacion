@@ -17,7 +17,7 @@ public class Iterator <E> {
   public boolean hasNext() {
     return false;
   }
-  E next();
+  //E next();
     
   }
-}
+
