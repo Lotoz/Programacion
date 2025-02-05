@@ -35,10 +35,12 @@ public class Cliente implements Comparable<Cliente> {
    */
   public Cliente(String nombre, String apellidos, String dni, int edad) {
     // Constructor de cliente.
+    if (validaCadena(nombre) && validaCadena(apellidos) && verificaDni(dni) && verificaEdad(edad)) {
     this.nombre = nombre;
     this.apellidos = apellidos;
     this.dni = dni;
     this.edad = edad;
+    }
   }
 
   /**
@@ -59,9 +61,7 @@ public class Cliente implements Comparable<Cliente> {
    * @return Apellidos del cliente
    */
   public String getApellidos() {
-    // Obtiene apellidos si es valido
-    validaCadena(apellidos);
-    return null;
+    return apellidos;
 
   }
 
@@ -71,9 +71,7 @@ public class Cliente implements Comparable<Cliente> {
    * @return DNI del cliente
    */
   public String getDni() {
-    verificaDni(dni);
-    return null;
-
+    return dni;
   }
 
   /**
@@ -82,7 +80,6 @@ public class Cliente implements Comparable<Cliente> {
    * @return Edad del cliente
    */
   public int getEdad() {
-    verificaEdad(edad);
     return edad;
 
   }
@@ -105,16 +102,15 @@ public class Cliente implements Comparable<Cliente> {
    * @throws IllegalArgumentException Si nombre tiene espacios en blanco o esta
    *                                  vacio
    */
-  private String validaCadena(String cadena) {
-    // Debe validar nombre
+  private boolean validaCadena(String cadena) {
     // Revisar si los metodos isBlank y isEmpty se podian usar
-    if (cadena != null && !cadena.isBlank() && !cadena.isEmpty()) {
-      return cadena;
-    } else if (cadena == null) { // Si es null devuelve esta excepcion
+    if (cadena == null) {
       throw new NullPointerException("La cadena es invalida. NULL");
-    } else { // Si es otra de las dos devuelve esta
+    }else if (cadena.isBlank() || cadena.isEmpty()) { 
+      // Si es otra de las dos devuelve esta
       throw new IllegalArgumentException("La cadena es invalida. ESPACIO BLANCO//ESTA VACIA");
-    }
+    } 
+    return true;
   }
 
   /**
@@ -124,16 +120,57 @@ public class Cliente implements Comparable<Cliente> {
    * @return devuelve un dni valido
    * @throws IllegalArgumentException Si es invalido
    */
-  private String verificaDni(String dni) {
-    // Evalua con expresiones regulares si dni es valido
-    Pattern verificador = Pattern.compile("[0-9]{7,8}[A-Z]");
+  private boolean verificaDni(String dni) {
+    // Aquí se valida el formato del DNI
+    Pattern verificador = Pattern.compile("[0-9]{8}[A-Z]");
     Matcher verificado = verificador.matcher(dni);
-    // Revisar si se podia usar y si era de MatchResult
-    if (verificado.hasMatch()) {
-      return dni;
+    
+    if (verificado.matches()) {
+        String numeroDni = dni.substring(0, 8);
+        char letraDni = dni.charAt(8);
+        
+        if (letraDni != verificaLetraDni(numeroDni)) {
+            throw new IllegalArgumentException("DNI inválido.");
+        }else {
+          return true;
+        }
     } else {
-      throw new IllegalArgumentException("dni invalido.");
+        throw new IllegalArgumentException("DNI inválido.");
     }
+}
+
+
+  private char verificaLetraDni(String dni) {
+    int dniEnNumero = Integer.parseInt(dni);
+    // Para calcular la letra
+    int porcentaje = dniEnNumero % 23;
+    // Obtiene el numero que debe verficar con su respectiva letra
+    switch(porcentaje) {
+      case 0: return 'T';
+      case 1: return 'R';
+      case 2: return 'W';
+      case 3: return 'A';
+      case 4: return 'G';
+      case 5: return 'M';
+      case 6: return 'Y';
+      case 7: return 'F';
+      case 8: return 'P';
+      case 9: return 'D';
+      case 10: return 'X';
+      case 11: return 'B';
+      case 12: return 'N';
+      case 13: return 'J';
+      case 14: return 'Z';
+      case 15: return 'S';
+      case 16: return 'Q';
+      case 17: return 'V';
+      case 18: return 'H';
+      case 19: return 'L';
+      case 20: return 'C';
+      case 21: return 'K';
+      case 22: return 'E';
+      default: return 'A';
+    }  
   }
 
   /**
@@ -142,12 +179,12 @@ public class Cliente implements Comparable<Cliente> {
    * @param edad
    * @return IllegalArgumentException Si es invalido
    */
-  private int verificaEdad(int edad) {
-    // Ver si habia alguna especificacion de limite edad
-    if (edad < 0 && edad > 99) {
-      return edad;
-    } else {
+  private boolean verificaEdad(int edad) {
+    // Verifica la edad
+    if (edad < 0) {
       throw new IllegalArgumentException("edad invalida");
+    } else {
+      return true;
     }
   }
 }

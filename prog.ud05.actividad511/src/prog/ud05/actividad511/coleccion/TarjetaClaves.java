@@ -3,6 +3,13 @@ package prog.ud05.actividad511.coleccion;
 public class TarjetaClaves {
 
   /**
+   * Atributos de Tarjeta Claves
+   */
+  private static int filas;
+  private static int columnas;
+  private static int clave = 000;
+  private int [][] tarjeta;
+  /**
    * Crea una tarjeta de claves con las filas y columnas indicadas Inicialmente
    * las claves son todas 000
    * 
@@ -16,17 +23,22 @@ public class TarjetaClaves {
    *                                  que cero
    * @author Zamira
    */
-  public TarjetaClaves() {
-
+  public TarjetaClaves(int filas, int columnas) {
+    if(verificaNumero(filas) || verificaNumero(columnas)) {
+      
+    }
+    
+    
   }
 
+ 
   /**
    * Obtiene el número de filas que tiene la tabla de claves de la tarjeta
    * 
    * @return Número de filas de la tabla de claves
    */
   public int getFilas() {
-    return 0;
+    return filas;
   }
 
   /**
@@ -35,7 +47,7 @@ public class TarjetaClaves {
    * @return Número de columnas de la tabla de claves
    */
   public int getColumnas() {
-    return 0;
+    return columnas;
   }
 
   /**
@@ -50,7 +62,7 @@ public class TarjetaClaves {
    * @throws IllegalArgumentException - Si fila, columna o clave son incorrectos
    */
   public void setClave(int fila, int columna, int clave) {
-
+    
   }
 
   /**
@@ -68,4 +80,21 @@ public class TarjetaClaves {
 
     return false;
   }
+  
+  /**
+   * Metodos privados
+   */
+  /**
+   * Verifica si no es menor de 0
+   * @param numero
+   * @return True si esta todo bien
+   */
+  private boolean verificaNumero(int numero) {
+    if(numero < 0) {
+      return false;
+    }else {
+      return true;
+    }
+  }
+
 }
