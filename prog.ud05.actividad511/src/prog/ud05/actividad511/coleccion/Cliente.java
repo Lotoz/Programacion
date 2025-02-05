@@ -4,11 +4,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Cliente implements Comparable<Cliente> {
-  // Pendiente de revisar
-  // DNI METODO VALIDAR
-  // COMPARE
-  // EDAD
-  //NO PRUEBAS.
 
   /**
    * Atributos de la clase
@@ -52,7 +47,6 @@ public class Cliente implements Comparable<Cliente> {
     // Obtiene nombre y verifica si es valido
     validaCadena(nombre);
     return nombre;
-
   }
 
   /**
