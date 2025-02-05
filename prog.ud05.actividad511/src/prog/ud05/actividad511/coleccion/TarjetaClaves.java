@@ -5,10 +5,11 @@ public class TarjetaClaves {
   /**
    * Atributos de Tarjeta Claves
    */
-  private static int filas;
-  private static int columnas;
-  private static int clave = 000;
-  private int [][] tarjeta;
+  private int filas;
+  private int columnas;
+  private int clave;
+  private int[][] tarjeta;
+
   /**
    * Crea una tarjeta de claves con las filas y columnas indicadas Inicialmente
    * las claves son todas 000
@@ -17,21 +18,25 @@ public class TarjetaClaves {
    *                                 mayor que cero
    * @param columnas                 - Número de columnas de la tarjeta. Debe ser
    *                                 mayor que cero
-   * @param IllegalArgumentException - Si filas o columnas o ambos no son mayores
-   *                                 que cero
    * @throws IllegalArgumentException - Si filas o columnas o ambos no son mayores
    *                                  que cero
    * @author Zamira
    */
   public TarjetaClaves(int filas, int columnas) {
-    if(verificaNumero(filas) || verificaNumero(columnas)) {
-      
+    if (numeroMenorCero(filas) || numeroMenorCero(columnas)) {
+      throw new IllegalArgumentException("No se ha creado correctamente el objeto");
+      }
+      //Ya verificado, agrego los valores a la cadena
+      this.tarjeta = new int[filas][columnas];
+      for (int i = 0; i < tarjeta.length; i++) {
+        for (int j = 0; j < tarjeta.length; j++) {
+          this.tarjeta[i][j] = this.clave;
+          this.filas = filas;
+          this.columnas = columnas;
+        }
     }
-    
-    
   }
 
- 
   /**
    * Obtiene el número de filas que tiene la tabla de claves de la tarjeta
    * 
@@ -62,7 +67,18 @@ public class TarjetaClaves {
    * @throws IllegalArgumentException - Si fila, columna o clave son incorrectos
    */
   public void setClave(int fila, int columna, int clave) {
-    
+    //Restamos uno para contar desde 0 debido a que en programacion se cuenta desde cero
+    fila = fila -1;
+    columna = columna - 1;
+    if (verificaFila(fila) && verificaColumna(columna) ) {
+      if (verificaClave(clave)){
+      //Agrega la fila al array
+      tarjeta[fila][columna] = clave;
+      }
+    } else {
+      throw new IllegalArgumentException("Fila o columna incorrecta.");
+    }
+
   }
 
   /**
@@ -77,23 +93,57 @@ public class TarjetaClaves {
    * @throws IllegalArgumentException - Si fila o columna no son válidos
    */
   public boolean validarClave(int fila, int columna, int clave) {
-
-    return false;
+  //Restamos uno para contar desde 0 debido a que en programacion se cuenta desde cero
+    fila = fila -1;
+    columna = columna - 1;
+    if (verificaFila(fila) && verificaColumna(columna)) {
+      //Corrobora si clave esta en esa posicion del array
+      if (clave == tarjeta[fila][columna]) {
+        return true;
+      } else {
+      return false;
+      }
+    }
+    throw new IllegalArgumentException("La fila/columna no es valido.");
   }
   
+
   /**
    * Metodos privados
    */
+
   /**
    * Verifica si no es menor de 0
+   * 
    * @param numero
    * @return True si esta todo bien
    */
-  private boolean verificaNumero(int numero) {
-    if(numero < 0) {
-      return false;
-    }else {
+  private boolean verificaFila(int fila) {
+    if (numeroMenorCero(fila) && fila < filas) {
       return true;
+    } else {
+      return false;
+    }
+  }
+  private boolean verificaColumna(int columna) {
+    if (numeroMenorCero(columna) && columna < columnas) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  private boolean verificaClave(int clave) {
+   if(clave >= 0 && clave <= 999) {
+     return true;
+   }else{
+     return false;
+   }
+  }
+  private boolean numeroMenorCero(int numero) {
+    if( numero >= 0) {
+      return true;
+    }else {
+      return false;
     }
   }
 

@@ -16,7 +16,7 @@ public class Cliente implements Comparable<Cliente> {
   private String nombre;
   private String apellidos;
   private String dni;
-  private static int edad;
+  private int edad;
 
   /**
    * Constructor
