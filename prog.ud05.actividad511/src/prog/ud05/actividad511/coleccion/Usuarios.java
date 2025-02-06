@@ -1,11 +1,25 @@
 package prog.ud05.actividad511.coleccion;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import prog.ud05.actividad511.coleccion.diccionario.Diccionario;
+
 public class Usuarios {
 
+  //Corregir, falta diccionario
+  /**
+   * Atributos de la clase
+   */
+  private Usuario usuario;
+  private String nombreUsuario;
+  private Map<Usuario, TarjetaClaves> usuarios;
+  private TarjetaClaves tarjeta;
   /**
    * Constructor. Inicializa el contenedor
    */
   public Usuarios() {
+    usuarios = new HashMap<>();
   }
 
   /**
@@ -16,6 +30,8 @@ public class Usuarios {
    * @throws UsuariosException - Si ya existe un usuario en el contenedor con el mismo nombre de usuario que el que se está intentando añadir 
    */
   public void addUsuario(Usuario usuario) {
+    //Debe agregar el usuario
+
     
   }
   /**
@@ -24,6 +40,13 @@ public class Usuarios {
    * @return usuario si se encontró. null si no se encontró
    */
   public Usuario getUsuarioPorNombreUsuario(String nombreUsuario) {
-    return null;
+    //Debe devolver el usuario
+    //Debe recorrer el mapa de usuario y ver si esta ese usuario
+    if(usuarios.containsKey(nombreUsuario)) {
+    return usuario;
+    } else {
+      return null;
+    }
+    
   }
 }

@@ -1,0 +1,90 @@
+[
+  {
+    "id": "paco",
+    "nombre": "Pako Makako",
+    "tarjetaClaves": [
+	  [345, 571, 705, 898, 932],
+      [196, 372, 507, 784, 968],
+      [161, 180, 308, 874, 989]
+	],
+	"clientes": [
+	  {
+	    "nombre": "Juan Carlos",
+		"apellidos": "Contreras Gomez",
+		"dni": "11294752G",
+		"edad": 36
+	  },
+	  {
+		"apellidos": "Herrera Iglesias",
+	    "nombre": "Maria del Carmen",
+		"edad": 65,
+		"dni": "48129735G"
+	  },
+	  {
+		"edad": 21,
+		"dni": "76211879E",
+		"apellidos": "Jimenez Lopez",
+	    "nombre": "Diego"
+	  }
+	]
+  },
+  {
+    "id": "paqui",
+    "nombre": "Paqui Makaki",
+    "tarjetaClaves": [
+	  [369, 596, 656, 973, 982],
+      [003, 016, 354, 844, 940],
+      [247, 432, 536, 855, 867]
+	],
+	"clientes": [
+	  {
+	    "nombre": "Jimena",
+		"apellidos": "Marquez Navarro",
+		"dni": "11294752G",
+		"edad": 45
+	  },
+	  {
+		"edad": 39,
+		"dni": "86368431G",
+		"apellidos": "Ortiz Pacheco",
+	    "nombre": "Honorato"
+	  }
+	]
+  },
+  {
+    "id": "lukas",
+    "nombre": "Lukas Grijander",
+    "tarjetaClaves": [
+	  [186, 516, 525, 530, 567, 928],
+      [122, 137, 195, 564, 649, 785],
+      [009, 186, 213, 300, 429, 629],
+      [208, 321, 475, 505, 770, 831]
+	],
+	"clientes": [
+	  {
+	    "nombre": "Amanda Eva",
+		"apellidos": "Quiron Ramirez",
+		"dni": "60500100A",
+		"edad": 27
+	  },
+	  {
+		"edad": 48,
+		"dni": "53282236E",
+		"apellidos": "Sanchez Teruel",
+	    "nombre": "Patricio"
+	  },
+	  {
+	    "nombre": "Gabriela Desiree",
+		"apellidos": "Urkullu Vazquez",
+		"dni": "93454147H",
+		"edad": 75
+	  },
+	  {
+		"edad": 52,
+		"dni": "86403183A",
+		"apellidos": "Zamora Azar",
+	    "nombre": "Joaquin"
+	  }
+	]
+  }
+]

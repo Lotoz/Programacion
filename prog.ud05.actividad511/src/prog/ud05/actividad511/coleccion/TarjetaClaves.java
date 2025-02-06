@@ -1,13 +1,13 @@
 package prog.ud05.actividad511.coleccion;
 
 public class TarjetaClaves {
-
+  //Revisar luego
   /**
    * Atributos de Tarjeta Claves
    */
   private int filas;
   private int columnas;
-  private int clave;
+  private int clave = 000;
   private int[][] tarjeta;
 
   /**
@@ -67,16 +67,16 @@ public class TarjetaClaves {
    * @throws IllegalArgumentException - Si fila, columna o clave son incorrectos
    */
   public void setClave(int fila, int columna, int clave) {
-    //Restamos uno para contar desde 0 debido a que en programacion se cuenta desde cero
-    fila = fila -1;
+    //Restamos uno debido a que la posicion del array es -1 a su largo
+    fila = fila - 1;
     columna = columna - 1;
-    if (verificaFila(fila) && verificaColumna(columna) ) {
+    if (verificaFila(fila) && verificaColumna(columna)  ) {
       if (verificaClave(clave)){
       //Agrega la fila al array
       tarjeta[fila][columna] = clave;
       }
     } else {
-      throw new IllegalArgumentException("Fila o columna incorrecta.");
+      throw new IllegalArgumentException("Fila o columna o clave incorrecta.");
     }
 
   }
@@ -93,7 +93,7 @@ public class TarjetaClaves {
    * @throws IllegalArgumentException - Si fila o columna no son válidos
    */
   public boolean validarClave(int fila, int columna, int clave) {
-  //Restamos uno para contar desde 0 debido a que en programacion se cuenta desde cero
+  //Restamos uno debido a que la posicion del array es -1 a su largo
     fila = fila -1;
     columna = columna - 1;
     if (verificaFila(fila) && verificaColumna(columna)) {
