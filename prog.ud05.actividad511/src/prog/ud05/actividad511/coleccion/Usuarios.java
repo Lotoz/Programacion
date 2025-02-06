@@ -11,15 +11,12 @@ public class Usuarios {
   /**
    * Atributos de la clase
    */
-  private Usuario usuario;
-  private String nombreUsuario;
-  private Map<Usuario, TarjetaClaves> usuarios;
-  private TarjetaClaves tarjeta;
+  private Diccionario<Usuario> usuarios;
   /**
    * Constructor. Inicializa el contenedor
    */
   public Usuarios() {
-    usuarios = new HashMap<>();
+    usuarios = new Diccionario<>();
   }
 
   /**
@@ -31,7 +28,15 @@ public class Usuarios {
    */
   public void addUsuario(Usuario usuario) {
     //Debe agregar el usuario
-
+ if (usuarios == null) {
+      
+      throw new IllegalArgumentException("El usuario es null");
+      
+    }else if (usuarios.contieneNombre(usuario.getNombreUsuario())) {
+      
+      throw new UsuariosException("Ya existe un usuario en el contenedor con el mismo nombre de usuario que el que se está intentando añadir", null);
+    }
+    usuarios.add(usuario.getNombreUsuario(), usuario);
     
   }
   /**
@@ -42,11 +47,7 @@ public class Usuarios {
   public Usuario getUsuarioPorNombreUsuario(String nombreUsuario) {
     //Debe devolver el usuario
     //Debe recorrer el mapa de usuario y ver si esta ese usuario
-    if(usuarios.containsKey(nombreUsuario)) {
-    return usuario;
-    } else {
-      return null;
-    }
+    return usuarios.getEntrada(nombreUsuario);
     
   }
 }

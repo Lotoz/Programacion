@@ -81,7 +81,7 @@ public class Cliente implements Comparable<Cliente> {
   @Override
   // Sirve para ordenar. Segun el apellido Devuelve un entero.
   public int compareTo(Cliente o) {
-    return 0;
+    return this.apellidos.compareTo(getApellidos());
   }
 
   /**
