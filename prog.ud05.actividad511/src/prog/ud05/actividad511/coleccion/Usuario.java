@@ -4,14 +4,13 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Clase que representa a un Usuario Un Usuario tiene un identificador único, un
+ * nombre completo, una tarjeta de claves y una lista de clientes
+ */
 public class Usuario {
 
-  // PENDIENTE DE REVISAR LA CLASE
-  // NO PRUEBAS.
-
-  /**
-   * Atributos de la clase
-   */
+  // Atributos de la clase
   private String nombreUsuario;
   private String nombreCompleto;
   private TarjetaClaves tarjeta;
@@ -32,11 +31,13 @@ public class Usuario {
    * @author Zamira
    */
   public Usuario(String nombreUsuario, String nombreCompleto, TarjetaClaves tarjeta, List<Cliente> clientes) {
-    if(validaNombreCompleto(nombreCompleto) && validaNombreUsuario(nombreUsuario) && verificaTarjetaClave(tarjeta) && verificaListaCliente(clientes)) {
-    this.nombreUsuario = nombreUsuario;
-    this.nombreCompleto = nombreCompleto;
-    this.tarjeta = tarjeta;
-    this.clientes = clientes;
+    // Valida si usuario puede generarse
+    if (validaNombreCompleto(nombreCompleto) && validaNombreUsuario(nombreUsuario) && verificaTarjetaClave(tarjeta)
+        && verificaListaCliente(clientes)) {
+      this.nombreUsuario = nombreUsuario;
+      this.nombreCompleto = nombreCompleto;
+      this.tarjeta = tarjeta;
+      this.clientes = clientes;
     }
   }
 
@@ -77,27 +78,24 @@ public class Usuario {
   }
 
   /**
-   * METODOS PRIVADOS
-   */
-
-  /**
    * Valida nombre de usuario
+   * 
    * @param nombreUsuario
    * @return true
-   * @throws NullPointerException si es null
+   * @throws NullPointerException     si es null
    * @throws IllegalArgumentException si es invalido
    */
   private boolean validaNombreUsuario(String nombreUsuario) {
-    //Valida el nombre de usuario usando expresiones regulares
-    //Generamos la expresion regular
-    Pattern validador = Pattern.compile("[a-zA-Z][a-zA-Z0-9]{1,7}"); 
+    // Valida el nombre de usuario usando expresiones regulares
+    // Generamos la expresion regular
+    Pattern validador = Pattern.compile("[a-zA-Z][a-zA-Z0-9]{1,7}");
     Matcher comprueba = validador.matcher(nombreUsuario);
-    if (nombreUsuario == null) { //Validamos si es diferente de null si no, salta excepcion
+    if (nombreUsuario == null) { // Validamos si es diferente de null si no, salta excepcion
       throw new NullPointerException("Nombre de usuario invalido. NULL");
     } else {
-      if (comprueba.matches()) { //Validamos si cumple la expresion regular
-        return true; //Si la cumple devuelve true
-      } else { 
+      if (comprueba.matches()) { // Validamos si cumple la expresion regular
+        return true; // Si la cumple devuelve true
+      } else {
         throw new IllegalArgumentException("Nombre de usuario invalido.VALIDACION NO CUMPLIDA");
       }
     }
@@ -105,20 +103,22 @@ public class Usuario {
 
   /**
    * Valida si nombre es valido
+   * 
    * @param nombreCompleto
    * @return true
-   * @throws NullPointerException si es null
+   * @throws NullPointerException     si es null
    * @throws IllegalArgumentException si es invalido
    */
   private boolean validaNombreCompleto(String nombreCompleto) {
-    //Valida si el nombre completo es invalido
+    // Valida si el nombre completo es invalido
     if (nombreCompleto == null) {
       throw new NullPointerException("El nombre es invalido. NULL");
     } else if (nombreCompleto.isEmpty()) {
       throw new IllegalArgumentException("El nombre es invalido.ESTA VACIA");
-    } 
-      return true;
+    }
+    return true;
   }
+
   /**
    * 
    * @param cliente
@@ -126,25 +126,27 @@ public class Usuario {
    * @throws NullPointerException si la lista es null
    */
   private boolean verificaListaCliente(List<Cliente> cliente) {
-    //Debe validar si lista clientes no es null
+    // Debe validar si lista clientes no es null
     if (cliente == null) {
-      throw new NullPointerException("Lista invalida. NULL"); 
-    } 
+      throw new NullPointerException("Lista invalida. NULL");
+    }
     return true;
   }
+
   /**
    * Verifica si TarjetaClaves es valida
+   * 
    * @param tarjeta
    * @return true
    * @throws NullPointerException si es null
    */
   private boolean verificaTarjetaClave(TarjetaClaves tarjeta) {
-    //Debe verificar si tarjeta no es null
-    if ( tarjeta != null) {
+    // Debe verificar si tarjeta no es null
+    if (tarjeta != null) {
       return true;
     } else {
       throw new NullPointerException("Lista invalida. NULL");
     }
   }
-  
+
 }

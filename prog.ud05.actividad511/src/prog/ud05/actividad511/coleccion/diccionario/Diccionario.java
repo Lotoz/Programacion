@@ -6,12 +6,15 @@ import java.util.Map;
 import prog.ud05.actividad511.coleccion.TarjetaClaves;
 import prog.ud05.actividad511.coleccion.Usuario;
 
+/**
+ * Clase que implementa un diccionario Un diccionario guarda cosas de un tipo
+ * determinado (Tipo Genérico V) con un nombre (String)
+ * 
+ * @param <V>
+ */
 public class Diccionario<V> {
-  // Revisar clase
 
-  /**
-   * Atributos
-   */
+  // Atributos
   private Map<String, V> diccionario;
 
   /**
@@ -29,6 +32,7 @@ public class Diccionario<V> {
    *         proporcionado. false si no existe
    */
   public boolean contieneNombre(String nombre) {
+    // Comprueba si el nombre es distinto de null
     if (nombre != null) {
       return diccionario.containsKey(nombre);
     } else {
@@ -48,12 +52,12 @@ public class Diccionario<V> {
    */
   public void add(String nombre, V valor) {
     if (validarNombre(nombre)) {
-      if(valor == null) {
+      if (valor == null) {
         throw new NullPointerException("El nombre es null");
       } else {
         diccionario.put(nombre, valor);
       }
-    } 
+    }
   }
 
   /**
@@ -65,14 +69,18 @@ public class Diccionario<V> {
    *         existe una entrada con dicho nombre devuelve null
    */
   public V getEntrada(String nombre) {
+    // ingresa el nombre en el diccionario
     return diccionario.get(nombre);
   }
 
   /**
-   * Metodos privados
+   * Valida un nombre
+   * 
+   * @param nombre
+   * @return nombre
    */
   private boolean validarNombre(String nombre) {
-    //valida nombre
+    // valida nombre
     if (nombre != null) {
       if (contieneNombre(nombre)) {
         throw new DiccionarioException(

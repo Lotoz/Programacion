@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import prog.ud05.actividad511.coleccion.Cliente;
 import prog.ud05.actividad511.coleccion.ProveedorUsuariosException;
@@ -34,6 +36,8 @@ public class ColeccionApp {
   // Opciones minima y maxima (para comprobar los rangos)
   private static final int OPCION_MINIMA = OPCION_SALIR;
   private static final int OPCION_MAXIMA = OPCION_BUSCAR_EDAD;
+  // Constantes agregadas por mi
+  private static int MAYOR_VACIO = 0;
 
   // Atributos
   // Contenedor de usuarios
@@ -212,9 +216,11 @@ public class ColeccionApp {
    * Lista los clientes del usuario
    */
   private void comandoListarClientes() {
+    // Extraemos la lista de usuarios
     List<Cliente> clientes = usuario.getClientes();
 
     // Ordenar la lista de clientes por apellidos
+    // Utilizando el compareTo de clientes
     Collections.sort(clientes);
 
     // Imprimir la lista ordenada
@@ -228,123 +234,143 @@ public class ColeccionApp {
    * determinado
    */
   private void comandoBuscarNombre() {
+    // Este metodo busca nombres en el archivo JSON
+    // Extraemos la lista de usuarios
+    List<Cliente> clientes = usuario.getClientes();
+
+    // Y la ordenamos
+    Collections.sort(clientes);
+
+    // Imprimimos la cabecera
     imprimirCabecera("buscar cliente por nombre de pila");
     System.out.print("¿Buscar por nombre completo o parte del nombre? (c=nombre completo, p=parte del nombre): ");
     char letra = sc.nextLine().charAt(0);
+
+    // Hacemos un switch con las opciones
     switch (letra) {
     case 'c': {
+      // Pedimos los datos
       System.out.print("Introcuzca el texto a buscar en el nombre del cliente: ");
-      String nombre = sc.nextLine();
-      if (compruebaString(nombre)){
+      String nombrePedido = sc.nextLine();
+      if (validaCadena(nombrePedido)) {// Verificamos que el valor sea valido
         System.out.println("El valor introducido es erroneo");
       }
-      List<Cliente> clientes = usuario.getClientes();
-      boolean noEncontrado = true;
+      // Creo un boolean para controlar que si no los encuentra imprima un mensaje de
+      // que no los encontro
+      boolean encontrado = false;
       for (Cliente cliente : clientes) {
-        if (nombre.equals(cliente.getNombre())) {
-          //System.out.print("Los clientes del usuario que contienen " " + nombre + " " en el nombre de pila son: ");
-          System.out.println();
+        if (nombrePedido.equals(cliente.getNombre())) {
+          // Imprimimos a los clientes
+          System.out.println("Los clientes del usuario que contienen " + nombrePedido + " en el nombre de pila son: ");
           imprimirCliente(cliente);
-          noEncontrado = false;
+          encontrado = true;
         }
-      } 
-      if (noEncontrado) {
+      }
+      if (!encontrado) { // Si no lo encuentra lanza excepcion
         System.out.println("No se encontro cliente");
       }
       break;
     }
     case 'p': {
+      // Pedimos los datos
       System.out.print("Introduzca el texto a buscar en el nombre del cliente: ");
-      String nombre = sc.nextLine();
-      if (compruebaString(nombre)){
+      String nombrePedido = sc.nextLine();
+      if (validaCadena(nombrePedido)) { // Verificamos que el valor sea valido
         System.out.println("El valor introducido es erroneo");
       }
-      List<Cliente> clientes = usuario.getClientes();
-      boolean noEncontrado = true;
-      for (Cliente cliente: clientes) {
-        if (cliente.getNombre().contains(nombre)) {
-          //Cambiar print
-          System.out.print("Los clientes del usuario que contienen" + "nombre" );
-          System.out.println();
+      // Creo un boolean para controlar que si no los encuentra imprima un mensaje de
+      // que no los encontro
+      boolean encontrado = false;
+      for (Cliente cliente : clientes) {
+        if (cliente.getNombre().contains(nombrePedido)) {
+          // Imprimimos los clientes encontrados
+          System.out.println("Los clientes del usuario que contienen " + nombrePedido);
           imprimirCliente(cliente);
-        } 
+          encontrado = true;
+        }
       }
-      if (noEncontrado) {
+      if (!encontrado) { // Si no lo encuentra lanza excepcion
         System.out.println("No se encontro cliente");
       }
       break;
     }
-    default:
-      System.out.println("La opción elegida no es válida. Debe ser una de c, p");
+    default: // Si el caracter introducido es invalido devuelve
+      System.out.println("La opción elegida no es válida. Debe ser c o p.");
     }
-
   }
 
   /**
    * Busca los clientes del usuario cuyos apellidos contienen un texto determinado
    */
   private void comandoBuscarApellidos() {
-List<Cliente> clientes = usuario.getClientes();
-    
-    imprimirCabecera("BUSCAR CLIENTE POR APELLIDOS");
+    // Extraemos la lista de usuarios
+    List<Cliente> clientes = usuario.getClientes();
+    // Y la ordenamos
+    Collections.sort(clientes);
+    // Uso el metodo para imprimir la cabecera
+    imprimirCabecera("buscar cliente por apellidos");
+
+    // Pedimos los datos
     System.out.println("¿Buscar por apellidos o parte del apellido? (c=apellidos completos, p=parte de los apellidos)");
     char letra = sc.nextLine().charAt(0);
-    
+
+    // Genero un switch para manejar cada opcion
     switch (letra) {
     case 'c': {
-      
+      // Pido los datos
       System.out.println("Introcuzca el texto a buscar en los apellidos de los clientes del usuario: ");
-      String apellidos = sc.nextLine();
-      if (!apellidos.isBlank() && !apellidos.isEmpty()) {
-        
-        System.out.printf("Los clientes del usuario que contienen \"%s\" en los apellidos son:%n", apellidos);
-        boolean hayCoincidencia = false;
-        for (Cliente cliente : clientes) {
-
-          if (apellidos.equals(cliente.getApellidos())) {
-
-            imprimirCliente(cliente);
-            hayCoincidencia = true;
-          }
-        } 
-        if (!hayCoincidencia) {
-          
-          System.out.println("Ningun usuario coincide con el texto introducido");
-        }
-      } else {
-        
+      String apellidoPedido = sc.nextLine();
+      if (validaCadena(apellidoPedido)) {// Verificamos que el valor sea valido
         System.out.println("El texto introducido no puede estar en blanco o solo tener espacios");
+      }
+      // Creo un boolean para controlar que si no los encuentra imprima un mensaje de
+      // que no los encontro
+      boolean encontrado = false;
+      for (Cliente cliente : clientes) {
+
+        // Comparamos apellidos
+        if (apellidoPedido.equals(cliente.getApellidos())) {
+          // Si se encuentra se imprime cliente
+          System.out.println("Los clientes del usuario que contienen " + apellidoPedido);
+          imprimirCliente(cliente);
+          encontrado = true;
+        }
+      }
+      if (!encontrado) { // Si no se encuentra
+
+        System.out.println("Ningun usuario coincide con el texto introducido");
       }
       break;
     }
+
     case 'p': {
-     
+      // Pedimos los datos
       System.out.print("Introcuzca el texto a buscar en los apellidos de los clientes del usuario: ");
-      String apellidos = sc.nextLine();
-      if (!apellidos.isBlank() && !apellidos.isEmpty()) {
-        
-        System.out.printf("Los clientes del usuario que contienen \"%s\" en los apellidos son:%n", apellidos);
-        boolean hayCoincidencia = false;
-        for (Cliente cliente : clientes) {
-
-          if (cliente.getApellidos().contains(apellidos)) {
-
-            imprimirCliente(cliente);
-            hayCoincidencia = true;
-          }
-        } 
-        if (!hayCoincidencia) {
-          
-          System.out.println("Ningun usuario coincide con el texto introducido");
-        }
-      } else {
-        
+      String apellidoPedido = sc.nextLine();
+      if (validaCadena(apellidoPedido)) {// Verificamos que el valor sea valido
         System.out.println("El texto introducido no puede estar en blanco o solo tener espacios");
+      }
+      // Creo un boolean para controlar que si no los encuentra imprima un mensaje de
+      // que no los encontro
+      boolean encontrado = false;
+      for (Cliente cliente : clientes) {
+        // Valido si la cadena otorgada tiene algo en comun con el apellido de algun
+        // cliente
+        if (cliente.getApellidos().contains(apellidoPedido)) {
+          // Imprimo al cliente o los clientes si es asi
+          System.out.println("Los clientes del usuario que contienen " + apellidoPedido);
+          imprimirCliente(cliente);
+          encontrado = true;
+        }
+      }
+      if (!encontrado) { // Si no se encuentra
+
+        System.out.println("Ningun usuario coincide con el texto introducido");
       }
       break;
     }
-    default:
-      
+    default: // Si el caracter introducido es invalido devuelve
+
       System.out.println("La opción elegida no es válida. Debe ser una de c, p");
     }
   }
@@ -353,76 +379,125 @@ List<Cliente> clientes = usuario.getClientes();
    * Busca los clientes del usuario cuyos DNI es el proporcionado
    */
   private void comandoBuscarDni() {
+    // Extraemos la lista de usuarios
+    List<Cliente> clientes = usuario.getClientes();
+    // Y la ordenamos
+    Collections.sort(clientes);
+    // Imprimimos cabecera
     imprimirCabecera("Buscar por DNI");
+    // Pido el dni a buscar
     System.out.println("Introduzca el dni a buscar (Introducir completo):");
     String buscado = sc.nextLine();
-    List<Cliente> clientes = usuario.getClientes();
+    // Creo un boolean para controlar que si no lo encuentra imprima un mensaje de
+    // que no lo encontro
     boolean encontrado = false;
     for (Cliente cliente : clientes) {
-      if (buscado.equals(cliente.getDni())) {
-        if(!encontrado) {
-        System.out.println("El cliente con el dni" + "" + cliente.getDni());
-        imprimirCliente(cliente);
+      if (buscado.equals(cliente.getDni())) { // Compara el dni valido con los dni clientes
+        if (!encontrado) { // Si lo encontro imprime cliente
+          System.out.println("El cliente con el dni " + "" + cliente.getDni());
+          imprimirCliente(cliente);
           encontrado = true;
         }
-      } 
+      }
     }
-    if (!encontrado) {
+    if (!encontrado) { // Si no lo encuentra imprime el siguiente mensaje
       System.out.println("No existe un cliente con el DNI proporcionado.");
-  }
+    }
   }
 
   /**
    * Busca los clientes del usuario por su edad
    */
   private void comandoBuscarEdad() {
-    imprimirCabecera("Buscar por ANO");
-    System.out.println("¿Buscar clientes cuya edad será mayor o igual a? (vacío para cualquiera):");
-    String numero1 = sc.nextLine(); // Cambiado a nextLine para permitir entrada vacía
-    System.out.println("¿Buscar clientes cuya edad será menor o igual a? (vacío para cualquiera):");
-    String numero2 = sc.nextLine(); // Cambiado a nextLine para permitir entrada vacía
+    // Si el usuario ingresa letras en vez de numero, termina el metodo y especifica
+    // su error
+    try {
+      // Extraemos la lista de usuarios
+      List<Cliente> clientes = usuario.getClientes();
+      // Y la ordenamos
+      Collections.sort(clientes);
+      // Imprimimos cabecera
+      imprimirCabecera("Buscar por año");
+      System.out.println("¿Buscar clientes cuya edad será mayor o igual a? (vacío para cualquiera):");
+      String numero1 = sc.nextLine(); // Es nextLine para permitir una entrada vacia
+      System.out.println("¿Buscar clientes cuya edad será menor o igual a? (vacío para cualquiera):");
+      String numero2 = sc.nextLine(); // Es nextLine para permitir una entrada vacia
+      // Constantes
+      // Considero que edad no puede ser menor que cero
 
-    int mayorVacio = 0;
-    int menorVacio = 100;
-    // Convertir a enteros, manejando entradas vacías
-    int mayor = numero1.isEmpty() ? mayorVacio : Integer.parseInt(numero1);
-    int menor = numero2.isEmpty() ? menorVacio: Integer.parseInt(numero2);
-    
-    List<Cliente> clientes = usuario.getClientes();
-    boolean encontrado = false; // Variable para controlar si se encontró algún cliente
+      // Los dos ternarios analizan si la entrada es vacia, si es, toman las
+      // constantes
+      // Si no es vacia, transforma la cadena a un numero entero
+      int mayor = numero1.isEmpty() ? MAYOR_VACIO : Integer.parseInt(numero1);
 
-    for (Cliente cliente : clientes) {
-        if (cliente.getEdad() >= mayor && cliente.getEdad() <= menor) {
-            if (!encontrado) {
-                System.out.println("Los clientes encontrados son:");
-                encontrado = true; // Se encontró al menos un cliente
-            }
-            imprimirCliente(cliente); // Imprimir cada cliente que cumple con las condiciones
+      if (numero2.isEmpty()) {
+        System.out.println("Los clientes encontrados son:");
+        for (Cliente cliente : clientes) {
+          imprimirCliente(cliente); // Imprimir cada cliente que cumple con las condiciones
         }
-    }
+      } else if (!numero2.isEmpty()) {
+        int menor = Integer.parseInt(numero2);
+        boolean encontrado = false; // Variable para controlar si se encontró algún cliente
 
-    if (!encontrado) {
-        System.out.println("No se encontraron clientes que cumplan con las condiciones.");
+        for (Cliente cliente : clientes) {
+
+          if (cliente.getEdad() >= mayor && cliente.getEdad() <= menor) {
+
+            if (!encontrado) {
+
+              System.out.println("Los clientes encontrados son:");
+              encontrado = true; // Se encontró al menos un cliente
+              // Imprimir cada cliente que cumple con las condiciones
+              imprimirCliente(cliente);
+            }
+          }
+        }
+        // Si no se encuentran ninguno se imprime los siguientes
+        if (!encontrado) {
+          System.out.println("No se encontraron clientes que cumplan con las condiciones.");
+        }
+      }
+    } catch (NumberFormatException e) {
+      System.out.println("Debes introducir numeros enteros.");
     }
   }
 
-  private void imprimirCabecera(String msg) {
+  // Metodos privados a agregados por mi
+  /**
+   * Sirve para imprimir una cadena en mayuscula
+   * 
+   * @param msg
+   */
+  private void imprimirCabecera(String cadena) {
     System.out.println();
-    System.out.println(msg.toUpperCase());
-    for (int i = 0; i < msg.length(); i++) {
+    System.out.println(cadena.toUpperCase());
+    for (int i = 0; i < cadena.length(); i++) {
       System.out.print("-");
     }
     System.out.println();
   }
 
+  /**
+   * Sirve para imprimir un cliente
+   * 
+   * @param cliente
+   */
   private void imprimirCliente(Cliente cliente) {
-    System.out.println(cliente.getApellidos() + ", " + cliente.getNombre() + ". DNI: " + cliente.getDni() + ". Edad: "
-        + cliente.getEdad());
+    System.out.println(cliente.getApellidos() + ", " + cliente.getNombre() + "." + " DNI: " + cliente.getDni() + "."
+        + " Edad: " + cliente.getEdad() + ".");
   }
-  private boolean compruebaString(String nombre) {
-    if (nombre.isEmpty() || nombre.isBlank()) {
+
+  /**
+   * Comprueba si la cadena esta vacia o es blanca
+   * 
+   * @param nombre
+   * @return
+   */
+  private boolean validaCadena(String cadena) {
+    if (cadena.isEmpty() || cadena.isBlank()) {
       return true;
     }
     return false;
   }
+
 }
