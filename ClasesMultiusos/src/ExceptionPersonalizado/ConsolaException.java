@@ -5,28 +5,33 @@ package ExceptionPersonalizado;
  * terminal. Pillado por un try catch
  */
 //ANALIZAR SI AGREGAR MAS METODOS A FUTURO
+//Sigle town, debe pedir los datos por terminal y escanearlos. Esta clase puede ser complento
 public class ConsolaException {
   /**
    * Imprime un error con un mensaje personalizado.
    * 
-   * @param Mensaje
+   * @param e
    */
   public static void mostrarError(Exception e) {
-      System.err.println("Error inesperado: " + e.getMessage());
+    System.err.println("Error inesperado");
   }
-  
+
   /**
    * Lanza una excepcion personalizada cuando un numero no es un entero
-   * @param numero
+   * 
+   * @param e
    */
   public static void mostrarError(NumberFormatException e) {
     System.err.println("Error: Entrada no válida. Debe ser un número entero.");
   }
+
   /**
-   *Lanza una excepcion personalizada cuando un numero no es decimal
-   * @param numero
+   * Lanza una excepcion personalizada cuando un numero no es decimal
+   * 
+   * @param e
    */
   public static void mostrarError(IllegalArgumentException e) {
     System.err.println("Error: Entrada no válida.");
   }
+
 }

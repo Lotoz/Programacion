@@ -8,7 +8,7 @@ public class Pruebas {
 
   public static void main(String[] args) {
     boolean salida = false;
-    
+
     do {
       try {
         System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=");
@@ -40,7 +40,7 @@ public class Pruebas {
         salida = true;
       } catch (NumberFormatException e) {
         ConsolaException.mostrarError(e);
-      } 
+      }
     } while (!salida);
   }
 }
