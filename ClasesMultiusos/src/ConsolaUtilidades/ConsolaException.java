@@ -1,11 +1,10 @@
-package ExceptionPersonalizado;
+package ConsolaUtilidades;
 
 /**
  * Clase que lanza excepciones personalizadas segun el error de entrada del
  * terminal. Pillado por un try catch
  */
 //ANALIZAR SI AGREGAR MAS METODOS A FUTURO
-//Sigle town, debe pedir los datos por terminal y escanearlos. Esta clase puede ser complento
 public class ConsolaException {
   /**
    * Imprime un error con un mensaje personalizado.
@@ -34,4 +33,13 @@ public class ConsolaException {
     System.err.println("Error: Entrada no válida.");
   }
 
+  /**
+   * Método para mostrar un mensaje de error cuando se intenta clonar una instancia.
+   * Este método imprime un mensaje de error en la salida de error estándar.
+   *
+   * @param e La excepción CloneNotSupportedException que se ha lanzado al intentar clonar.
+   */
+  public static void mostrarError(CloneNotSupportedException e) {
+    System.err.println("Error: No puedes clonar la instancia generada.");
+  }
 }

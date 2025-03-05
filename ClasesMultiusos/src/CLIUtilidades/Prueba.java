@@ -1,19 +1,23 @@
-package ConsolaUtilidades;
+package CLIUtilidades;
 
-public class Pruebas {
+import ConsolaUtilidades.ConsolaException;
+import ConsolaUtilidades.ConsolaScan;
+
+public class Prueba {
+  private static ImprimirCLI impresor = ImprimirCLI.getInstance();
+  private static ConsolaScan consola = ConsolaScan.getInstance();
+  
 
   public static void main(String[] args) {
     boolean salida = false;
 
     do {
-      try {
-        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=");
-        System.out.println("    Cuenta Pares         ");
-        System.out.println("        V.1.0            ");
-        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=");
 
-        ConsolaScan consola = ConsolaScan.getInstance();
-        System.out.print("¿Cuántos pares deseas introducir?: ");
+      try {
+
+        impresor.imprimirUpper("Cuenta Pares");
+       impresor.printOffJump("¿Cuántos pares deseas introducir?: ");
+     
         int pares = consola.leerInt();
         if (pares > 0) {
           int contadorPar = 0;
@@ -39,4 +43,5 @@ public class Pruebas {
       }
     } while (!salida);
   }
+
 }
