@@ -32,7 +32,7 @@ public class ImprimirCLI {
      try {
       impresor.clone();
     } catch (CloneNotSupportedException e) {
-      System.out.println("No se pueden crear dos instancias");
+      System.err.println("No se pueden crear dos instancias.");
     }
     }
     return impresor;
@@ -101,7 +101,7 @@ public class ImprimirCLI {
     for (int i = 0; i < cadena.length(); i++) {
       System.out.print("=-");
     }
-    System.out.println();
+    System.out.println("");
   }
 
   /**
@@ -116,7 +116,7 @@ public class ImprimirCLI {
     for (int i = 0; i < cadena.length(); i++) {
       System.out.print("=-");
     }
-    System.out.println();
+    System.out.println("");
   }
 
 }

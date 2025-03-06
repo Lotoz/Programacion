@@ -8,6 +8,15 @@ import java.util.Scanner;
  * Esta clase implementa el patrón Singleton,lo que significa que solo se puede
  * crear una instancia de esta clase.
  */
+
+/*
+ * COSAS PARA AGREGAR
+ * 1.Mensaje para poner al pedir
+ * 2.Control de genericos
+ * 3.Control de largo de la linea
+ * 4.Control de rango 
+ * 5.Pensar
+ */
 public class ConsolaScan {
   // Atributos
   /** Instancia única de ConsolaScan. */
@@ -39,7 +48,7 @@ public class ConsolaScan {
       try {
         scanUnico.clone();
       } catch (CloneNotSupportedException e) {
-        System.out.println("No se pueden crear dos instancias");
+        System.err.println("No se pueden crear dos instancias.");
       }
     }
     return scanUnico;
@@ -61,6 +70,7 @@ public class ConsolaScan {
    * @return La línea de texto introducida por el usuario.
    */
   public String leerString() {
+    System.out.printf("Ingrese la linea de texto:");
     return scan.nextLine();
   }
 
@@ -71,6 +81,7 @@ public class ConsolaScan {
    * @throws NumberFormatException Si la entrada no es un número entero válido.
    */
   public int leerInt() {
+    System.out.printf("Introduzca un numero:");
     return Integer.parseInt(scan.nextLine());
   }
 
@@ -82,6 +93,7 @@ public class ConsolaScan {
    *                               válido.
    */
   public double leerDouble() {
+    System.out.printf("Introduzca un numero:");
     return Double.parseDouble(scan.nextLine());
   }
 
@@ -93,6 +105,7 @@ public class ConsolaScan {
    *                               válido.
    */
   public float leerFloat() {
+    System.out.printf("Introduzca un numero:");
     return Float.parseFloat(scan.nextLine());
   }
 }

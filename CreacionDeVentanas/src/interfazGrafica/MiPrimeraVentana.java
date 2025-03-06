@@ -71,7 +71,7 @@ public class MiPrimeraVentana {
        // hay dos opciones
        //Opcion mala poner todo el metodo aqui
         //Opcion buena,  meter un metodo privado para estar de chill
-        saluda();
+      
       }
     });
     
@@ -107,8 +107,5 @@ public class MiPrimeraVentana {
     frmMiprimerainterfazgrafica.getContentPane().setLayout(groupLayout);
   }
 
-  protected void saluda() {
-    salida.setText("Hola" + lblNewLabel.getText );
-    
-  }
+  
 }

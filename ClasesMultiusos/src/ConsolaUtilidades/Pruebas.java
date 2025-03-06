@@ -1,24 +1,26 @@
 package ConsolaUtilidades;
 
-public class Pruebas {
+import CLIUtilidades.ImprimirCLI;
 
+public class Pruebas {
+  
+  //Declaracion de los constructores unicos que solo se pueden crear una vez
+  private static ImprimirCLI impresor = ImprimirCLI.getInstance();
+  private static ConsolaScan consola = ConsolaScan.getInstance();
+  
   public static void main(String[] args) {
     boolean salida = false;
 
     do {
       try {
-        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=");
-        System.out.println("    Cuenta Pares         ");
-        System.out.println("        V.1.0            ");
-        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=");
-
-        ConsolaScan consola = ConsolaScan.getInstance();
-        System.out.print("¿Cuántos pares deseas introducir?: ");
+        
+        impresor.imprimirCabecera("Cuenta Pares.");
+        
+        System.out.println("¿Cuántos pares deseas introducir?");
         int pares = consola.leerInt();
         if (pares > 0) {
           int contadorPar = 0;
           do {
-            System.out.print("Introduce un numero entero: ");
             int numero = consola.leerInt();
 
             if (numero % 2 == 0) {
