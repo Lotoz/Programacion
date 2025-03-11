@@ -1,4 +1,4 @@
-package prog.unidad06.ficheros.ejercicio01;
+package prog.unidad06.ficheros.ejercicio01Profe;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

@@ -1,4 +1,4 @@
-package prog.unidad06.ficheros.ejercicio02;
+package prog.unidad06.ficheros.ejercicio02Profe;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
