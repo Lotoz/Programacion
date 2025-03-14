@@ -25,7 +25,7 @@ import javax.swing.ListSelectionModel;
 
 public class Agenda {
 
-	private JFrame frmAgendaapp;
+	JFrame frmAgendaapp;
 	private JTextField textTelefono;
 	private JTextField textNombre;
 	private JRadioButton rdbtnMujer;
