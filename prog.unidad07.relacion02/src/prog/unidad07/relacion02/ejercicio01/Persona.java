@@ -13,13 +13,14 @@ public abstract class Persona {
    * @param dni
    * @param estadoCivil
    */
-  public Persona(String nombre, String dni, String estadoCivil) {
-    if(!validarNombre(nombre) && !validarDni(dni) && !validarEstadoCivil(estadoCivil)) {
-      
+  protected Persona(String nombre, String dni, String estadoCivil) {
+    //Hacer validadores validos luego
+    if(nombre != null && dni != null && estadoCivil != null) {
+      this.nombre = nombre;
+      this.dni = dni;
+      this.estadoCivil = estadoCivil;
     }
   }
-
-  
 
   public String getNombre() {
     return nombre;
@@ -33,22 +34,5 @@ public abstract class Persona {
     return estadoCivil;
   }
   
-  //Crear un metodo validar dni
-  protected void validarDni(String dni) {
-    
-  }
 
-  //Crear un metodo validar nombre
-  /**
-   * @throws
-   * @param nombre
-   */
-  protected void validarNombre(String nombre) {
-   
-  }
-
-  //Crear un metodo validar estado civil
-  protected void validarEstadoCivil(String estado) {
-  
-  }
 }
