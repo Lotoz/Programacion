@@ -1,4 +1,4 @@
-package ConsolaUtilidades.copy;
+
 
 /**
  * Clase que proporciona un objeto para imprimir mensajes en la consola. Esta

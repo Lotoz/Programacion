@@ -1,4 +1,3 @@
-package ConsolaUtilidades.copy;
 
 /**
  * Clase que lanza excepciones personalizadas segun el error de entrada del
