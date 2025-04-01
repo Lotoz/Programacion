@@ -16,7 +16,7 @@ public class Main {
     figuras.add(new Circulo(new Punto(0, 0), 25.2));
     figuras.add(new Rectangulo(new Punto(0, 0), new Punto(10, 10)));
     figuras.add(new Rectangulo(new Punto(10, 10), new Punto(20, 15)));
-    figuras.add(new Triangulo(new Punto(0, 0), new Punto(10, 10), new Punto(10, 0)));
+    figuras.add(new Triangulo(new Punto(0, 1), new Punto(2, 3), new Punto(4, 2)));
     
     // Para cada figura
     int i = 1;
