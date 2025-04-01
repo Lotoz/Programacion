@@ -3,11 +3,10 @@
  */
 public abstract class Personaje {
 
-  //Atributos
+  // Atributos
   protected int vida;
   protected String nombre;
-  
-  
+
   protected Personaje(String nombre, int vida) {
     this.nombre = nombre;
     this.vida = vida;
@@ -22,15 +21,23 @@ public abstract class Personaje {
   }
 
   public void esValidaLetalidad(int letalidad) {
-    if(letalidad < 0) {
+    if (letalidad < 0) {
       throw new IllegalArgumentException("Letalidad invalida.");
     }
   }
-  
+
   public void aplicaLetalidad(Personaje personaje, int letalidad) {
     int vida = personaje.getVida();
     esValidaLetalidad(letalidad);
-    int painAplicado = vida - letalidad;
+    vida = vida - letalidad;
+    personaje.setVida(vida);
   }
+
+  public void setVida(int vida) {
+    this.vida = vida;
+  }
+  //Manejo de las pociones de vida
+  public abstract void curarVida(PocionVida pocion);
+
 
 }
