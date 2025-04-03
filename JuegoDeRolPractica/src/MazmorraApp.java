@@ -16,7 +16,7 @@ public class MazmorraApp {
   
   private void run() {
 
-    Caballero lord = new Caballero("Overlord",120,20,60,"Mazo");
+    Caballero lord = new Caballero("Overlord",120,60,0);
     lord.verificarArmadura();
     System.out.printf("Estado de vida: %b %n Estado Armadura: %b",lord.estadoVivo , lord.estadoArmadura);
     

@@ -5,8 +5,8 @@ public abstract class ConArmadura extends Personaje {
   protected int armadura;
   protected boolean estadoArmadura;
 
-  protected ConArmadura(String nombre, int vida,int poder, int armadura) {
-    super(nombre, vida, poder);
+  protected ConArmadura(String nombre, int vida, int armadura) {
+    super(nombre, vida);
     this.armadura = armadura;
     estadoArmadura = false;
   }

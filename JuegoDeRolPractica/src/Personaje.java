@@ -6,18 +6,26 @@ public abstract class Personaje {
   // Atributos
   protected int vida;
   protected String nombre;
-  protected int poder;
   protected boolean estadoVivo;
   protected int vidaInicial;
+  protected int letalidad;
 
-  protected Personaje(String nombre, int vida, int poder) {
-    if (verificarNombre() && verificarVida() && verificarPoder()) {
+  protected Personaje(String nombre, int vida) {
+    if (verificarNombre() && verificarVida()) {
       this.nombre = nombre;
       this.vida = vida;
-      this.poder = poder;
       estadoVivo = true;
       this.vidaInicial = vida;
+      this.letalidad = 0;
     }
+  }
+
+  public int getLetalidad() {
+    return letalidad;
+  }
+
+  public void setLetalidad(int letalidad) {
+    this.letalidad = letalidad;
   }
 
   public String getNombre() {
@@ -36,13 +44,6 @@ public abstract class Personaje {
     this.estadoVivo = estadoVivo;
   }
 
-  public int getPoder() {
-    return poder;
-  }
-
-  public void setPoder(int poder) {
-    this.poder = poder;
-  }
 
   public void setVida(int vida) {
     this.vida = vida;
@@ -55,10 +56,7 @@ public abstract class Personaje {
     return nombre.isBlank();
   }
 
-  protected boolean verificarPoder() {
-    return poder > 0;
-  }
-
+  
   protected void estado() {
     if (!verificarVida()) {
       setEstadoVivo(false);
