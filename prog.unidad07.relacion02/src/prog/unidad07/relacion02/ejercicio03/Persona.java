@@ -1,4 +1,4 @@
-package prog.unidad07.relacion02.ejercicio01;
+package prog.unidad07.relacion02.ejercicio03;
 
 /**
  * Persona asociada al centro
@@ -31,6 +31,14 @@ public abstract class Persona {
    */
   public void setEstadoCivil(String nuevoEstadoCivil) {
     estadoCivil = nuevoEstadoCivil;
+  }
+  
+  /**
+   * Obtiene el DNI de la persona
+   * @return DNI de la persona
+   */
+  public String getDni() {
+    return dni;
   }
 
   @Override

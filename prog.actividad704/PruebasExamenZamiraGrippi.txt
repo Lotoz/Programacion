@@ -1,0 +1,77 @@
+Documento de pruebas. Zamira Grippi
+
+PRUEBAS DE PROFESOR TITULAR.
+
+Prueba numero 1.
+Se consiguió?: Si, prueba pasada con éxito.
+
+Prueba 2.
+Se consiguio?: Si, prueba pasada con éxito.
+
+Prueba numero 3.
+Se consiguió? : Si, prueba pasada con éxito.
+
+Prueba numero 4.
+Se consiguió? : Si, prueba pasada con éxito.
+
+Prueba numero 5.
+Se consiguió? : Si, prueba pasada con éxito.
+
+Prueba numero 6:
+Se consiguio?: Si, prueba pasada con éxito.
+
+Prueba numero 7:
+Se consiguio?:Si, prueba pasada con éxito.
+
+PRUEBAS DE PROFESOR ASOCIADO.
+
+Prueba numero 18.
+Se consiguio?: Si, prueba pasa con exito.
+
+Prueba numero 19.
+Se consiguio?: Si, prueba pasa con exito.
+
+Prueba numero 23.
+Se consiguio?: Si, prueba pasa con exito.
+
+Prueba numero 26.
+Se consiguio?: Si, prueba pasa con exito
+
+PRUEBAS DE ESTUDIANTE PREGRADO.
+
+Prueba 33.
+Se consiguio?: Si, prueba pasa con exito
+
+Prueba 34.
+Se consiguio?: Si, prueba pasa con exito
+
+Prueba 38.
+Se consiguio?: Si, prueba pasa con exito
+
+Prueba 41.
+Se consiguio?: Si, prueba pasa con exito
+
+Prueba 43.
+Se consiguio: Si, prueba pasa con exito
+
+PRUEBAS DE ESTUDIANTE POSGRADO
+
+Prueba 50.
+Se consiguio: Si, prueba pasa con exito
+
+Prueba 52.
+Se consiguio: Si, prueba pasa con exito
+
+Prueba 57.
+Se consiguio: Si, prueba pasa con exito
+
+Prueba 60.
+Se consiguio: Si, prueba pasa con exito
+
+Prueba 65.
+Se consiguio: Si, prueba pasa con exito
+
+Prueba 66
+Se consiguio: Si, prueba pasa con exito
+
+

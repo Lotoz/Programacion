@@ -1,4 +1,4 @@
-package prog.unidad07.relacion02.ejercicio01;
+package prog.unidad07.relacion02.ejercicio03;
 
 /**
  * Estudiante del centro
@@ -31,7 +31,7 @@ public class Estudiante extends Persona {
 
   @Override
   public String toString() {
-    return super.toString() + String.format(", Curso: \"%s\"", curso);
+    return "(Estudiante): " + super.toString() + String.format(", Curso: \"%s\"", curso);
   }
   
   

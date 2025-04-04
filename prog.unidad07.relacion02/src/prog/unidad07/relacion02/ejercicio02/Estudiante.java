@@ -1,4 +1,4 @@
-package prog.unidad07.relacion02.ejercicio01;
+package prog.unidad07.relacion02.ejercicio02;
 
 /**
  * Estudiante del centro

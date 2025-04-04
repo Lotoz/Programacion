@@ -1,4 +1,4 @@
-package prog.unidad07.relacion02.ejercicio01;
+package prog.unidad07.relacion02.ejercicio05;
 
 /**
  * Empleado del centro
@@ -40,5 +40,9 @@ public abstract class Empleado extends Persona {
       , anyoIncorporacion, despacho);
   }
   
-  
+  /**
+   * Obtiene el salario mensual del empleado
+   * @return Salario mensual del empleado
+   */
+  public abstract double getSalario();
 }
