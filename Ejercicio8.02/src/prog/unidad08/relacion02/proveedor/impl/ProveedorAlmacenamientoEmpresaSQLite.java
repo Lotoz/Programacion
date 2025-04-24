@@ -18,15 +18,24 @@ public class ProveedorAlmacenamientoEmpresaSQLite implements ProveedorAlmacenami
   // URL Base para conectar con SQLite
   private static final String URL_BASE = "jdbc:sqlite:";
 
+//Sentencias SQL
+//Se deben usar cuando deseas hacer una sentencia preparada
+  // El ? es donde pondres el dato a usar
+  private static final String SQL_GET_CENTRO_BY_CODIGO = "SELECT * FROM centro WHERE numce = ?";
+  private static final String SQL_GET_ALL_CENTRO = "SELECT * FROM centro";
+  private static final String SQL_GET_ALL_CENTRO_ORDENADO = "SELECT * FROM centro ORDER BY nomce ASC";
+  private static final String SQL_ADD_CENTRO = "INSERT INTO centro(nomce) VALUES (?)";
+  private static final String SQL_UPDATE_CENTRO = "UPDATE centro SET nomce = ? WHERE numce = ?";
+  private static final String SQL_DELETE_CENTRO = "DELETE FROM centro WHERE numce = ?";
 
-  //Atributos
+  // Atributos
   // Ruta a la base de datos SQLite
   private String rutaDB;
-  
+
   // Campos de tabla centro
   private static final String C_CENTRO_CODIGO = "numce";
   private static final String C_CENTRO_NOMBRE = "nomce";
-  
+
   /**
    * Constructor
    * 
@@ -73,15 +82,17 @@ public class ProveedorAlmacenamientoEmpresaSQLite implements ProveedorAlmacenami
    * @throws SQLException Si ocurre cualquier error accediendo a la base de datos
    */
   private Connection getConexion() throws SQLException {
-    //Crea la conexion con la base de datos uniendo las cadenas
+    // Crea la conexion con la base de datos uniendo las cadenas
     return DriverManager.getConnection(URL_BASE + rutaDB);
   }
+
   /**
    * Obtiene un centro de resultSet
+   * 
    * @param ResultSet
-   * @throws SQLException 
+   * @throws SQLException
    */
-  private Centro obtenerCentroResult(ResultSet respuesta) throws SQLException{
+  private Centro obtenerCentroResult(ResultSet respuesta) throws SQLException {
     return new Centro(respuesta.getInt(C_CENTRO_CODIGO), respuesta.getString(C_CENTRO_NOMBRE));
   }
 
