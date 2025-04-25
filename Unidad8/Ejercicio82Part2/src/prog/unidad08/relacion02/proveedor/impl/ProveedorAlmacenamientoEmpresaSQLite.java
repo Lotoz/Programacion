@@ -420,9 +420,10 @@ public class ProveedorAlmacenamientoEmpresaSQLite implements ProveedorAlmacenami
    * @throws SQLException
    */
   private Departamento obtenerDepartamentoResult(ResultSet respuesta) throws SQLException {
-    int depdeInt = respuesta.getInt(D_DEPARTAMENTO_DEPENDIENTE);
+    //Pilla el nulo y lo guarda,
+    respuesta.getInt(D_DEPARTAMENTO_DEPENDIENTE);
     //PORQUE SE PERMITEN VALORES NULOS
-    Integer depde = respuesta.wasNull() ? null : depdeInt;
+    Integer depde = respuesta.wasNull() ? null : respuesta.getInt(D_DEPARTAMENTO_DEPENDIENTE);
 
     return new Departamento(
       respuesta.getInt(D_DEPARTAMENTO_CODIGO),

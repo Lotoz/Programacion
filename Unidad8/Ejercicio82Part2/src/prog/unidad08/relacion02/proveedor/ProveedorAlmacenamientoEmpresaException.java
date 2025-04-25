@@ -13,7 +13,7 @@ public class ProveedorAlmacenamientoEmpresaException extends RuntimeException {
     // TODO Auto-generated constructor stub
   }
 
-  //Modificacion del serial funciones no relevantes
+  //Modificacion del serial funciones?
   private static final long serialVersionUID = 1L;
 
 }
