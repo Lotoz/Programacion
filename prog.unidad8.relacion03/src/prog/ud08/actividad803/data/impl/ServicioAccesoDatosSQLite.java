@@ -22,7 +22,7 @@ import prog.ud08.actividad803.modelo.Venta;
  * Clase que implementa los metodos de la interfaz ServicioAccesoDatos para
  * poder leer, modificar, eliminar y agregar a la base de datos sqlite
  */
-public class ServicioAccesoDatosSQLite implements ServicioAccesoDatos, VisitadorVentas {
+public class ServicioAccesoDatosSQLite implements ServicioAccesoDatos {
 
   // Constantes
   // URL Base para conectar con SQLite
@@ -125,37 +125,19 @@ public class ServicioAccesoDatosSQLite implements ServicioAccesoDatos, Visitador
     try (Connection conexion = getConexion(); PreparedStatement sentencia = conexion.prepareStatement(SQL_ALL_VENTAS)) {
       // Ejecuta la consulta
       ResultSet rs = sentencia.executeQuery();
-      // Inicializamos una lista
-      List<String> resultado = new ArrayList<>();
-      //El visitador ira pillando analizando si hay ventas dispobibles, y segun el resultado devuelve
-      while (visitador.visitaFila(rs)) {
-        // Obtiene la venta
-        Venta venta = obtenerVentaResult(rs);
-        // Lo obtiene y lo almacena en la lista
-        resultado.add(obtenerVentaResultString(venta));
+      //Si se encontró el ventas
+      while (rs.next()) {
+        //Lo obtiene 
+        visitador.visitaFila(rs);
       }
-      // Cierra el resultset
+      //Cierra el ResultSet
       rs.close();
     } catch (SQLException e) {
       throw new ServicioAccesoDatosException("Error JDBC en getAllCentro: " + e.getMessage());
     }
   }
 
-  @Override
-  public boolean visitaFila(ResultSet resultado) {
-    // Obtenemos conexión y consulta
-    try (Connection conexion = getConexion(); PreparedStatement sentencia = conexion.prepareStatement(SQL_ALL_VENTAS)) {
-      // Ejecuta la consulta
-      ResultSet rs = sentencia.executeQuery();
-      // Recorremos la consulta
-      while (rs.next()) { 
-      }
-      //Cuando acabe el ciclo detiene el otro
-      return false;     
-    } catch (SQLException e) {
-      throw new ServicioAccesoDatosException("Error JDBC en getAllCentro: " + e.getMessage());
-    }
-  }
+  
 
   @Override
   public Cliente getClienteByNif(String nif) {

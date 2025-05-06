@@ -1,6 +1,9 @@
 package prog.ud08.actividad803.acciones;
 
 import java.io.PrintStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -9,6 +12,8 @@ import prog.common.app.consola.AplicacionConsola;
 import prog.common.app.consola.Consola;
 import prog.ud08.actividad803.data.ServicioAccesoDatosException;
 import prog.ud08.actividad803.data.VisitadorVentas;
+import prog.ud08.actividad803.modelo.Cliente;
+import prog.ud08.actividad803.modelo.Motocicleta;
 import prog.ud08.actividad803.modelo.Venta;
 
 /**
@@ -49,7 +54,13 @@ public class AccionListadoVentas extends AccionBase {
             // TODO: AÑADE LAS LÍNEAS DE CÓDIGO QUE NECESITES PARA AÑADIR A LA LISTA lineas UNA
             // CADENA CON LA LÍNEA DEL LISTADO CORRESPONDIENTE A LA FILA EN EL RESULTSET
             // Ejecuta la consulta
-           
+            Venta venta = new Venta(resultado.getInt("codigo"), resultado.getString("nif_cliente"), 
+                resultado.getString("referencia_motocicleta"), resultado.getString("fecha"));
+            Cliente cliente = getCliente(resultado.getString("nif_cliente"));
+            Motocicleta motocicleta = getMotocicleta(resultado.getString("referencia_motocicleta"));
+            String linea = String.format("%9s %30s %15s %20s %5d %10.2f %10s", venta.getNifCliente(), cliente.getApellidos()+cliente.getNombre(), 
+                venta.getReferenciaMotocicleta(), motocicleta.getFabricante(), motocicleta.getCilindrada(), motocicleta.getPrecio(), venta.getFecha());
+            lineas.add(linea);
             // Seguimos procesando
             return true;
           } catch (SQLException e) {
@@ -76,6 +87,38 @@ public class AccionListadoVentas extends AccionBase {
       consola.escribeLinea("No hay ventas");
     }
     
+  }
+  
+  private Motocicleta getMotocicleta(String referencia) {
+    //Obtenemos conexion y sentencia
+    try (Connection conexion = DriverManager.getConnection("jdbc:sqlite:db/tienda.db");
+        PreparedStatement sentenciaPreparada = conexion.prepareStatement("SELECT * FROM motocicleta WHERE referencia = ?")){
+      //Ejecuta la consulta
+      sentenciaPreparada.setString(1, referencia);
+      ResultSet resultado = sentenciaPreparada.executeQuery();
+      //Si se encontró el motocicleta
+      return new Motocicleta(resultado.getString("referencia"), resultado.getInt("cilindrada"), resultado.getString("tipo"), 
+          resultado.getDouble("precio"), resultado.getString("fabricante"));
+      
+    } catch (SQLException e) {
+      throw new ServicioAccesoDatosException("Error JDBC en getAllVentas: " + e.getMessage());
+    }
+  }
+
+  private Cliente getCliente(String nif) {
+    //Obtenemos conexion y sentencia
+    try (Connection conexion = DriverManager.getConnection("jdbc:sqlite:db/tienda.db");
+        PreparedStatement sentenciaPreparada = conexion.prepareStatement("SELECT * FROM cliente WHERE nif = ?")){
+      //Ejecuta la consulta
+      sentenciaPreparada.setString(1, nif);
+      ResultSet resultado = sentenciaPreparada.executeQuery();
+      //Si se encontró el motocicleta
+      return new Cliente(resultado.getString("nif"), resultado.getString("nombre"), 
+          resultado.getString("apellidos"), resultado.getString("direccion"), resultado.getString("nif_recomendado"));
+      
+    } catch (SQLException e) {
+      throw new ServicioAccesoDatosException("Error JDBC en getAllVentas: " + e.getMessage());
+    }
   }
 
 }
