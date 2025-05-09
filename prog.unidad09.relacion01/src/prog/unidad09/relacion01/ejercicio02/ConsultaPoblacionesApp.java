@@ -84,7 +84,7 @@ public class ConsultaPoblacionesApp {
     ObjectSet<Poblacion> poblaciones = db.query(new Predicate<Poblacion>() {
       @Override
       public boolean match(Poblacion candidato) {
-        return buscaPorNombre(candidato, db) && candidato.getPoblacionTotal() >= pobMin && candidato.getPoblacionTotal() <= pobMax;
+        return candidato.getNombre().contains(nombre) && candidato.getPoblacionTotal() >= pobMin && candidato.getPoblacionTotal() <= pobMax;
       }
     });
     imprimePoblaciones(poblaciones);
@@ -92,10 +92,7 @@ public class ConsultaPoblacionesApp {
     }
   }
 
-  private static void buscaPorNombre(String nombre, ObjectContainer db) {
-    
-    
-  }
+
 
   /**
    * Busca por el rango de poblacion
