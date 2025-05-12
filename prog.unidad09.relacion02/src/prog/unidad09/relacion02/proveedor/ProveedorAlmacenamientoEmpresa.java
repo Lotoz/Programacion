@@ -150,4 +150,8 @@ public interface ProveedorAlmacenamientoEmpresa {
 	 *                                                 accediendo al almacenamiento
 	 */
 	public Empleado getEmpleadoByCodigo(int codigo);
+
+  public void cerrar();
+
+  public List<Departamento> getAllDepartamento(boolean b);
 }
