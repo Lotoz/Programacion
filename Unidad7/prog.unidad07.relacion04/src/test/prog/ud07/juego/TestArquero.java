@@ -1,7 +1,9 @@
-package prog.ud07.juego;
+package test.prog.ud07.juego;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
+
+import prog.ud07.juego.Arquero;
 
 class TestArquero {
 

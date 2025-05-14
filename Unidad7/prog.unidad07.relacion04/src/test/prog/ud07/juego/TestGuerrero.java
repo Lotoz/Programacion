@@ -1,10 +1,12 @@
-package prog.ud07.juego;
+package test.prog.ud07.juego;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
+
+import prog.ud07.juego.Guerrero;
 
 class TestGuerrero {
 
