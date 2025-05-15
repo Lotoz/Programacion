@@ -15,7 +15,7 @@ public class ProcesadorListadosVentasExamen implements ProcesadorListadoVentas {
   @Override
   public void imprimeCabecera(Consola consola) {
       // Creamos la cabecera con StringFormat
-      String cabecera = String.format("%-9s %-31s %-16s %-20s %9s %9s %12s%n", "NIF", "Apellidos, Nombre", "Referencia",
+      String cabecera = String.format("%-9s %-31s %-16s %-20s %10s %9s %10s%n", "NIF", "Apellidos,Nombre", "Referencia",
           "Fabricante", "Cilind.", "Precio", "Fecha Venta");
       //Con la clase consola imprimo la cabecera
       consola.imprime(cabecera);
@@ -24,7 +24,7 @@ public class ProcesadorListadosVentasExamen implements ProcesadorListadoVentas {
   @Override
   public void imprimeLinea(Consola consola, Venta venta) {
       // Creamos el nombre completo de la persona para imprimirlo con mayor comodidad
-      String nombreCompleto = venta.getCliente().getApellidos() + ", " + venta.getCliente().getNombre();
+      String nombreCompleto = venta.getCliente().getApellidos() + "," + venta.getCliente().getNombre();
 
       // Creamos un string format para imprimir la venta
       String linea = String.format(Locale.US,"%-9s %-31s %-16s %-20s %9d %10.2f %10s%n", 
