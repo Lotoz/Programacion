@@ -197,7 +197,7 @@ public class BaseDatosTiendaDb4o implements BaseDatosTienda {
     boolean confirmacion = solicitarConfirmacion(
         "¿Está seguro de que desea eliminar la motocicleta con referencia " + referencia + "? (s/n)");
     if (!confirmacion) {
-      System.out.printf("Eliminación cancelada.%n");
+      consola.imprimeLinea("Eliminación cancelada.");
     } else {
       // Si el usuario confirma, procede a eliminar
       try {
