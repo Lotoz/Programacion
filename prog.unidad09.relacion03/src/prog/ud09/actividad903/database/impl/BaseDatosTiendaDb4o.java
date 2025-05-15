@@ -242,7 +242,8 @@ public class BaseDatosTiendaDb4o implements BaseDatosTienda {
    */
   private boolean solicitarConfirmacion(String mensaje) {
     // Uso de la clase consola para pedir la cadena al usuario
-    String respuesta = consola.solicitaTexto(mensaje, null, null, null, null);
+    //He limitado que solo pueda meter un caracter, solo pueda ser s o n y en caso de introducirlo incorrecto muestre el mensaje de error
+    String respuesta = consola.solicitaTexto(mensaje, 1, 1, "^[sSnN]$", "El caracter introducido no es valido.");
     // Retorna true si la respuesta es 's' o 'S'
     return respuesta.equalsIgnoreCase("s");
   }
