@@ -254,7 +254,7 @@ public class BaseDatosTiendaDb4o implements BaseDatosTienda {
    * @param motocicleta
    */
   private void verificarMotocicletaDuplicados(Motocicleta motocicleta) {
-
+    //if(motocicleta.getReferencia() != null) {
     try {
       // Debemos realizar una consulta compleja, ya que por prototipo no se puede
       // Debido que debemos impedir que se agregue una moto sin datos
@@ -275,6 +275,8 @@ public class BaseDatosTiendaDb4o implements BaseDatosTienda {
     } catch (Db4oIOException e) {
       System.err.printf("Error al acceder a la base de datos.");
     }
+   // }
+    //return;
   }
 
   /**
