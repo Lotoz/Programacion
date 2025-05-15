@@ -60,23 +60,21 @@ public class BaseDatosTiendaDb4o implements BaseDatosTienda {
 
   @Override
   public int addVenta(Cliente cliente, Motocicleta motocicleta) {
-    Motocicleta motoExiste;
-    Cliente clienteExiste;
     try {
-      // Revisamos que los nif y motocicleta referencia existan
-      // Si existen deberian ser devueltos sin dificultad
-      motoExiste = getMotocicletaByReferencia(motocicleta.getReferencia());
-      clienteExiste = getClienteByNif(cliente.getNif());
+      //Corroboramos si no son nulos
+      if (cliente == null || motocicleta == null) {
+        throw new BaseDatosTiendaException("No se encontró el cliente solicitado.");
+      }
       // Si devuelve una venta null, salta excepcion
-      if (motoExiste.getReferencia().isBlank()) {
+      if (getMotocicletaByReferencia(motocicleta.getReferencia()) == null) {
         throw new BaseDatosTiendaException("No se encontró la motocicleta con la referencia especificada");
       }
-      if (clienteExiste.getNif().isBlank()) {
+      if (getClienteByNif(cliente.getNif()) == null) {
         throw new BaseDatosTiendaException("No se encontró el cliente solicitado.");
       }
       int nuevoCodigo = generarCodigo();
       // Creamos la nueva venta
-      Venta venta = new Venta(nuevoCodigo, fecha, clienteExiste, motoExiste);
+      Venta venta = new Venta(nuevoCodigo, fecha, cliente, motocicleta);
       // Añadimos una venta a la base de datos, esta venta devuelve un entero que
       // pertenece al de la nueva venta
       db.store(venta);
@@ -169,7 +167,7 @@ public class BaseDatosTiendaDb4o implements BaseDatosTienda {
       // encuentra, el programa debe fallar
       for (Cliente clienteBuscado : clientes) {
         if (!clienteBuscado.getNif().equals(cliente.getNif())) {
-          throw new IllegalArgumentException("No existe cliente.");
+          throw new BaseDatosTiendaException("No existe cliente.");
         }
         // Valida los datos del cliente dados
         validarCliente(clienteBuscado);
