@@ -16,6 +16,7 @@ import prog.ud09.actividad903.database.impl.BaseDatosTiendaDb4o;
 public class GestionTiendaApp {
   
   // Fichero de base de datos
+  //Modificacion para agregarlo en la carpeta db/
   private static final String FICHERO_BD = "tienda.db4o";
   // Titulo de la aplicación
   private static final String TITULO_APP = "Gestion Tienda Motocicletas";

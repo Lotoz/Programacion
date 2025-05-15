@@ -20,5 +20,5 @@ public interface ProcesadorListadoVentas {
    * @param venta Venta de la que se quiere generar la línea
    */
   void imprimeLinea(Consola consola, Venta venta);
-  
+ 
 }

@@ -9,46 +9,49 @@ import com.db4o.ObjectSet;
 import com.db4o.ext.Db4oIOException;
 import com.db4o.query.Predicate;
 
+import prog.common.consola.Consola;
 import prog.ud09.actividad903.database.BaseDatosTienda;
+import prog.ud09.actividad903.database.BaseDatosTiendaException;
 import prog.ud09.actividad903.database.ProcesadorVenta;
 import prog.unidad09.relacion03.datos.Cliente;
 import prog.unidad09.relacion03.datos.Motocicleta;
 import prog.unidad09.relacion03.datos.Venta;
 
 /**
- * COSAS POR HACER
- * ENCAPSULAR EL METODO BUSCAR REFERENCIA MOTO, SE REPITE MUCHAS VECES Y SE PODRIA REALIZAR UN METODO PARA 3.
- * VER COMO HACER.
- * REFINAR LOS METODOS.
- * REVISAR GENERAR CODIGO
- * Hacer pruebas para ver si cada dato es introducido
- * Generar un proyecto aparte para leer la base de datos entera desde terminal
- * Falta terminar StringFormat de ProcesadorListadosVentasExamen
+ * Clase para acceder a la base de datos y manipular sus datos
  */
 public class BaseDatosTiendaDb4o implements BaseDatosTienda {
 
-  
-  //Atributos de la clase
-  //Ruta del archivo de la base de datos
+  // Constante si es necesario concatenarlo con la carpeta o no
+  // private static final String CARPETA_BBDD = "db/";
+
+  // Atributos de la clase
+  // Ruta del archivo de la base de datos
   private String ficheroBd;
-  //Inicia la base de datos para usar en todos los metodos
-  private ObjectContainer db = Db4o.openFile(ficheroBd);
+  // Inicia la base de datos para usar en todos los metodos
+  private ObjectContainer db = null;
   // Fecha actual
   private String fecha = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
-  
+  // Consola usada para pedir al usuario la confirmacion de eliminar moto
+  private static Consola consola = Consola.getInstancia();
+
   public BaseDatosTiendaDb4o(String ficheroBd) {
-    ficheroBd = this.ficheroBd;
+    this.ficheroBd = ficheroBd;
+    // Abrimos la base de datos para que no sea necesaria abrirla en cada proceso y
+    // se pueda cerrar con su metodo especifico
+    // this.db = Db4o.openFile(ficheroBd);
+    abrir();
   }
 
   @Override
   public void addMotocicleta(Motocicleta motocicleta) {
-    //Buscamos si la motocicleta existe en la base de datos
+    // Buscamos si la motocicleta existe en la base de datos
     verificarMotocicletaDuplicados(motocicleta);
-    //Verifica que los campos de la motocicleta no esten vacios
+    // Verifica que los campos de la motocicleta no esten vacios
     verficarCamposMotocicleta(motocicleta);
-    //Si los dos metodos salen bien, se agrega la motocicleta a la base de datos
+    // Si los dos metodos salen bien, se agrega la motocicleta a la base de datos
     try {
-      //Agrega la motocicleta
+      // Agrega la motocicleta
       db.store(motocicleta);
     } catch (Db4oIOException e) {
       System.err.printf("Error al acceder a la base de datos.");
@@ -57,120 +60,130 @@ public class BaseDatosTiendaDb4o implements BaseDatosTienda {
 
   @Override
   public int addVenta(Cliente cliente, Motocicleta motocicleta) {
-    //Añadimos una venta a la base de datos, esta venta devuelve un entero que pertenece al de la nueva venta
-    int nuevoCodigo = generarCodigo();
     Motocicleta motoExiste;
     Cliente clienteExiste;
     try {
-      //Revisamos que los nif y motocicleta referencia existan
-      //Si existen deberian ser devueltos sin dificultad
-     motoExiste = getMotocicletaByReferencia(motocicleta.getReferencia());
-     clienteExiste = getClienteByNif(cliente.getNif());
-     //Por las dudas verificacion por si devolvio un cliente nulo ((NO DEBERIA VERIFICAR LUEGO))
-     if (!motoExiste.getReferencia().isBlank() && !clienteExiste.getNif().isBlank()) {
-       //Creamos la nueva venta
-       Venta venta = new Venta(nuevoCodigo, fecha, clienteExiste, motoExiste);
-       //Agregamos la venta a la base de datos
-       db.store(venta);
-     }
+      // Revisamos que los nif y motocicleta referencia existan
+      // Si existen deberian ser devueltos sin dificultad
+      motoExiste = getMotocicletaByReferencia(motocicleta.getReferencia());
+      clienteExiste = getClienteByNif(cliente.getNif());
+      // Si devuelve una venta null, salta excepcion
+      if (motoExiste.getReferencia().isBlank()) {
+        throw new BaseDatosTiendaException("No se encontró la motocicleta con la referencia especificada");
+      }
+      if (clienteExiste.getNif().isBlank()) {
+        throw new BaseDatosTiendaException("No se encontró el cliente solicitado.");
+      }
+      int nuevoCodigo = generarCodigo();
+      // Creamos la nueva venta
+      Venta venta = new Venta(nuevoCodigo, fecha, clienteExiste, motoExiste);
+      // Añadimos una venta a la base de datos, esta venta devuelve un entero que
+      // pertenece al de la nueva venta
+      db.store(venta);
+      return nuevoCodigo;
     } catch (Db4oIOException e) {
       System.err.printf("Error al acceder a la base de datos.");
     }
-    return nuevoCodigo;
+    return -1;
   }
-
 
   @Override
   public Cliente getClienteByNif(String nif) {
-  //Creamos el cliente a devolver
+    // Creamos el cliente a devolver
     Cliente clienteADevolver = null;
     try {
-      
-      //Realizo una consulta compleja porque no se permite casos de datos nulos o vacios
+      // Realizo una consulta compleja porque no se permite casos de datos nulos o
+      // vacios
       ObjectSet<Cliente> clientes = db.query(new Predicate<Cliente>() {
         @Override
         public boolean match(Cliente candidato) {
           return candidato.getNif().equals(nif);
         }
       });
-      //Recorremos el object set que no has devuelto una coincidencia
+      // Recorremos el object set que no has devuelto una coincidencia
       for (Cliente cliente : clientes) {
-        //Creamos el cliente con los datos obtenidos del cliente de la base de datos, para asi devolver al cliente
-        clienteADevolver = new Cliente(cliente.getNif(),cliente.getNombre(),cliente.getApellidos(),cliente.getDireccion(),cliente.getRecomendadoPor());
+        // Creamos el cliente con los datos obtenidos de la base de datos
+        clienteADevolver = new Cliente(cliente.getNif(), cliente.getNombre(), cliente.getApellidos(),
+            cliente.getDireccion(), cliente.getRecomendadoPor());
       }
     } catch (Db4oIOException e) {
       System.err.printf("Error al acceder a la base de datos.");
     }
-    //Devuelve el cliente obtenido
+    // Devuelve el cliente obtenido
     return clienteADevolver;
   }
 
   @Override
   public Motocicleta getMotocicletaByReferencia(String referencia) {
-  //Creamos la motocicleta a devolver
+
+    // Creamos la motocicleta a devolver
     Motocicleta motoADevolver = null;
     try {
-      //Realizo una consulta compleja porque no se permite casos de datos nulos o vacios
+      // Realizo una consulta compleja porque no se permite casos de datos nulos o
+      // vacios
       ObjectSet<Motocicleta> motos = db.query(new Predicate<Motocicleta>() {
         @Override
         public boolean match(Motocicleta candidato) {
           return candidato.getReferencia().equals(referencia);
         }
       });
-      //Recorremos el object set que no has devuelto una coincidencia
+      // Recorremos el object set que no has devuelto una coincidencia
       for (Motocicleta moto : motos) {
-        //Creamos el cliente con los datos obtenidos del cliente de la base de datos, para asi devolver al cliente
-        motoADevolver = new Motocicleta(moto.getReferencia(),moto.getCilindrada(),moto.getTipo(),moto.getPrecio(),moto.getFabricante());
+        // Creamos la motocicleta con los datos obtenidos de la base de datos
+        motoADevolver = new Motocicleta(moto.getReferencia(), moto.getCilindrada(), moto.getTipo(), moto.getPrecio(),
+            moto.getFabricante());
       }
     } catch (Db4oIOException e) {
       System.err.printf("Error al acceder a la base de datos.");
-    } 
+    }
     return motoADevolver;
   }
 
   @Override
   public void getAllVentas(ProcesadorVenta procesador) {
-    //Obtenemos todas las ventas de la base de datos
-    ObjectSet<Venta> ventas = db.query(Venta.class);
-    for (Venta venta : ventas) {
-      procesador.procesaVenta(venta);
+    try {
+      // Obtenemos todas las ventas de la base de datos
+      ObjectSet<Venta> ventas = db.query(Venta.class);
+      //Recorremos las ventas obtenidas y se la pasamos al procesador
+      for (Venta venta : ventas) {
+        procesador.procesaVenta(venta);
+      }
+    } catch (Db4oIOException e) {
+      System.err.printf("Error al acceder a la base de datos.");
     }
   }
 
   @Override
   public void updateCliente(Cliente cliente) {
-    //Debemos hacer que la base de datos realice una consulta del nif del cliente para encontrarlo, ya que este no se puede repetir
+    // Debemos hacer que la base de datos realice una consulta del nif del cliente
+    // para encontrarlo, ya que este no se puede repetir
     try {
-      //Debemos realizar una consulta compleja
+      // Debemos realizar una consulta compleja
       ObjectSet<Cliente> clientes = db.query(new Predicate<Cliente>() {
         @Override
         public boolean match(Cliente candidato) {
           return candidato.getNif().equals(cliente.getNif());
         }
       });
-      //Recorremos el object set que no has devuelto buscando coincidencias, si se encuentra, el programa debe fallar
+      // Recorremos el object set que no has devuelto buscando coincidencias, si se
+      // encuentra, el programa debe fallar
       for (Cliente clienteBuscado : clientes) {
-        if(!clienteBuscado.getNif().equals(cliente.getNif())) {
+        if (!clienteBuscado.getNif().equals(cliente.getNif())) {
           throw new IllegalArgumentException("No existe cliente.");
-        }else {
-          if (cliente.getApellidos().isBlank() && cliente.getNombre().isBlank() && cliente.getDireccion().isBlank()) {
-            //Si son iguales modificamos el cliente obtenido.
-            //Cambiamos su apellido
-            clienteBuscado.setApellidos(cliente.getApellidos());
-            //Cambiamo su dirrecion
-            clienteBuscado.setDireccion(cliente.getDireccion());
-            //Cambiamos su nombre
-            clienteBuscado.setNombre(cliente.getNombre());
-            
-            //Revisar si funciona
-            if(cliente.getRecomendadoPor() == null) {
-              db.store(clienteBuscado);
-            }else {
-              clienteBuscado.setRecomendadoPor(cliente.getRecomendadoPor());
-              db.store(clienteBuscado);
-            }
-          } 
         }
+        //Valida los datos del cliente dados
+        validarCliente(clienteBuscado);
+        // Si son iguales modificamos el cliente obtenido.
+        // Cambiamos su apellido
+        clienteBuscado.setApellidos(cliente.getApellidos());
+        // Cambiamo su dirrecion
+        clienteBuscado.setDireccion(cliente.getDireccion());
+        // Cambiamos su nombre
+        clienteBuscado.setNombre(cliente.getNombre());
+        // Cambiamos su recomendado
+        clienteBuscado.setRecomendadoPor(cliente.getRecomendadoPor());
+        //Si todo esta bien lo actualiza
+        db.store(clienteBuscado);
       }
     } catch (Db4oIOException e) {
       System.err.printf("Error al acceder a la base de datos.");
@@ -178,84 +191,105 @@ public class BaseDatosTiendaDb4o implements BaseDatosTienda {
   }
 
   @Override
-  public void deleteMotocicletaByReferencia(String referencia) {
-    //Buscamos la motocicleta, si se encuentra se elimina
-    try {
-      //Realizo una consulta compleja porque no se permite casos de datos nulos o vacios
-      ObjectSet<Motocicleta> motos = db.query(new Predicate<Motocicleta>() {
-        @Override
-        public boolean match(Motocicleta candidato) {
-          return candidato.getReferencia().equals(referencia);
-        }
-      });
-      //Si la encuentra, debemos tambien eleminar la venta relacionada con este motocicleta
-      for(Motocicleta moto : motos) {
-        //Si encuentra una moto, debemos eliminar su moto y venta
+  public void deleteMotocicletaByReferencia(String referencia) throws BaseDatosTiendaException {
+    // Verifica si la motocicleta existe
+    Motocicleta moto = getMotocicletaByReferencia(referencia);
+    if (moto == null) {
+      throw new BaseDatosTiendaException("No se encontró la motocicleta con la referencia especificada");
+    }
+
+    // Metodo de confirmacion para el usuario
+    boolean confirmacion = solicitarConfirmacion(
+        "¿Está seguro de que desea eliminar la motocicleta con referencia " + referencia + "? (s/n)");
+    if (!confirmacion) {
+      System.out.printf("Eliminación cancelada.%n");
+    } else {
+      // Si el usuario confirma, procede a eliminar
+      try {
         eliminarVenta(moto);
-        //Eliminamos la moto
         db.delete(moto);
+      } catch (Db4oIOException e) {
+        System.err.printf("Error al acceder a la base de datos.");
       }
-    } catch (Db4oIOException e) {
-      System.err.printf("Error al acceder a la base de datos.");
-    } 
+    }
   }
 
   @Override
   public void cerrar() {
     try {
       db.close();
-    }catch(Db4oIOException e) {
+    } catch (Db4oIOException e) {
       System.err.printf("Error al cerrar la base de datos.");
-    } 
+    }
   }
-  
-  //Metodos privados
+
+  // Metodos privados
 
   /**
-   * Verifica si se repite en la base de datos la referencia de una motocicleta, si se repite, falla
-   * @param motocicleta
+   * Abrir la base de datos
+   * 
+   * @throws Si no se abre, falla. o crea una nueva.
    */
-  private void verificarMotocicletaDuplicados(Motocicleta motocicleta) { 
+  private void abrir() {
     try {
-      //Debemos realizar una consulta compleja, ya que por prototipo no se puede
-      //Debido que debemos impedir que se agregue una moto sin datos
-      ObjectSet<Motocicleta> motocicletas = db.query(new Predicate<Motocicleta>() {
-        @Override
-        public boolean match(Motocicleta candidato) {
-          return candidato.getReferencia().equals(motocicleta.getReferencia());
-        }
-      });
-      //Recorremos el object set que no has devuelto buscando coincidencias, si se encuentra, el programa debe fallar
-      for (Motocicleta moto : motocicletas) {
-        if(moto.getReferencia().equals(motocicleta.getReferencia())) {
-          throw new IllegalArgumentException("Motocicletas duplicadas");
-        }
-      }
-      //Si no falla, no existe duplicado
+      this.db = Db4o.openFile(ficheroBd);
     } catch (Db4oIOException e) {
       System.err.printf("Error al acceder a la base de datos.");
+      cerrar();
     }
   }
 
   /**
-   * Verifica que los de una motocicleta no esten vacios a la hora de agregarla a la base de datos.
-   * Si estan vacios falla
+   * Solicita la confirmacion al usuario con consola
+   * 
+   * @param mensaje
+   * @return devuelve true si el usuario confirma
+   */
+  private boolean solicitarConfirmacion(String mensaje) {
+    // Uso de la clase consola para pedir la cadena al usuario
+    String respuesta = consola.solicitaTexto(mensaje, null, null, null, null);
+    // Retorna true si la respuesta es 's' o 'S'
+    return respuesta.equalsIgnoreCase("s");
+  }
+
+  /**
+   * Verifica si se repite en la base de datos la referencia de una motocicleta,
+   * si se repite, falla
+   * 
+   * @param motocicleta
+   */
+  private void verificarMotocicletaDuplicados(Motocicleta motocicleta) {
+    // Creamos una nueva motocicleta para guardar los datos de getMotocicleta byID
+    Motocicleta motoPrueba = getMotocicletaByReferencia(motocicleta.getReferencia());
+    // Si coincide falla
+    if (motoPrueba.getReferencia().equals(motocicleta.getReferencia())) {
+      throw new BaseDatosTiendaException("Motocicletas duplicadas");
+    }
+  }
+
+  /**
+   * Verifica que los de una motocicleta no esten vacios a la hora de agregarla a
+   * la base de datos. Si estan vacios falla
+   * 
    * @param motocicleta
    */
   private void verficarCamposMotocicleta(Motocicleta motocicleta) {
-    //Verificamos campo por campo
-    if(motocicleta.getCilindrada() <= 0 && motocicleta.getFabricante().isBlank() && motocicleta.getTipo().isBlank() && motocicleta.getPrecio() <= 0) {
-      throw new IllegalArgumentException("Los campos introducidos en la motocicleta son incorrectos.");
+    // Verificamos campo por campo
+    if (motocicleta.getCilindrada() < 0 && motocicleta.getFabricante().isBlank() && motocicleta.getTipo().isBlank()
+        && motocicleta.getPrecio() < 0) {
+      throw new BaseDatosTiendaException("Los campos introducidos en la motocicleta son incorrectos.");
     }
   }
-  
+
   /**
    * Elimina una o muchas ventas que tenga la moto
+   * 
    * @param moto
    */
   private void eliminarVenta(Motocicleta moto) {
-    //Buscamos en ventas la moto que coinciada con esa
-  //Realizo una consulta compleja porque no se permite casos de datos nulos o vacios
+    // Buscamos en ventas la moto que coinciada con esa
+    // Realizo una consulta compleja porque no se permite casos de datos nulos o
+    // vacios
     ObjectSet<Venta> ventas = db.query(new Predicate<Venta>() {
       @Override
       public boolean match(Venta candidato) {
@@ -263,25 +297,40 @@ public class BaseDatosTiendaDb4o implements BaseDatosTienda {
       }
     });
     for (Venta venta : ventas) {
-      //Eliminamos todas las ventas encontradas
+      // Eliminamos todas las ventas encontradas
       db.delete(venta);
     }
   }
 
-  
-  //Revisar si estaba bien
   /**
    * Genera un codigo a partir de las ventas existentes en la base de datos
+   * 
    * @return
    */
   private int generarCodigo() {
-    //Hacemos una consulta a la base de datos y obtenemos todas las ventas
+    // Hacemos una consulta a la base de datos y obtenemos todas las ventas
     ObjectSet<Venta> ventas = db.query(Venta.class);
-    int codigo = 0;
-    //Por cada venta que recorre devuelve 1
+    // Inicia en -1 por si es la primera venta que se le mete a la base de datos, ya
+    // que le sumaremos 1
+    int codigo = -1;
+    // Por cada venta que recorre le va sumando 1
     for (Venta venta : ventas) {
-      codigo ++;
+      // Ve cual es el mas grande, cuando recorra todo devolvera el mas grande
+      if (venta.getCodigo() > codigo) {
+        codigo = venta.getCodigo();
+      }
     }
-    return codigo;
+    // Le sumamos 1 para amplificarlo asi es la venta nueva mas reciente
+    return codigo + 1;
+  }
+  
+  /**
+   * Comprueba si los datos de un cliente son validos
+   * @param cliente para corroborar que sus datos son validos
+   */
+  private void validarCliente(Cliente cliente) {
+    if (cliente.getNombre().isBlank() && cliente.getApellidos().isBlank() && cliente.getDireccion().isBlank()) {
+      throw new IllegalArgumentException("Los datos del cliente no son validos.");
+    }
   }
 }
