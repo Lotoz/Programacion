@@ -21,26 +21,23 @@ import prog.unidad09.relacion03.datos.Venta;
  */
 public class BaseDatosTiendaDb4o implements BaseDatosTienda {
 
-  // Constante para concatenar con la ruta donde se guardan las bases de datos
-  private static final String CARPETA_BBDD = "db/";
-
   // Atributos de la clase
   // Ruta del archivo de la base de datos
   private String ficheroBd;
 
-  // Inicia la base de datos para usar en todos los metodos
+  // Objeto de la base de datos
   private ObjectContainer db = null;
-  
+
   // Fecha actual para las ventas
   private String fecha = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
 
   /**
    * Constructor de la clase
+   * 
    * @param ficheroBd el nombre del fichero
    */
   public BaseDatosTiendaDb4o(String ficheroBd) {
-    // Concatenamos la cadena de la direccion
-    this.ficheroBd = CARPETA_BBDD + ficheroBd;
+    this.ficheroBd = ficheroBd;
     // Abrimos la base de datos para que no sea necesaria abrirla en cada proceso y
     // se pueda cerrar con su metodo especifico
     abrir();
@@ -48,16 +45,19 @@ public class BaseDatosTiendaDb4o implements BaseDatosTienda {
 
   @Override
   public void addMotocicleta(Motocicleta motocicleta) {
-    // Buscamos si la motocicleta existe en la base de datos
-    verificarMotocicletaDuplicados(motocicleta);
     // Verifica que los campos de la motocicleta no esten vacios
     verficarCamposMotocicleta(motocicleta);
     // Si los dos metodos salen bien, se agrega la motocicleta a la base de datos
     try {
+      // Verifico si no esta duplicada
+      // Si esta duplicado, debe devolver una referencia, si no, devuelve null
+      if (getMotocicletaByReferencia(motocicleta.getReferencia()) != null) {
+        throw new BaseDatosTiendaException("Motocicletas duplicadas");
+      }
       // Agrega la motocicleta
       db.store(motocicleta);
     } catch (Db4oIOException e) {
-      System.err.printf("Error al acceder a la base de datos.");
+      System.err.printf("Error al acceder a la base de datos.%n");
     }
   }
 
@@ -72,7 +72,7 @@ public class BaseDatosTiendaDb4o implements BaseDatosTienda {
       if (cliente == null) {
         throw new BaseDatosTiendaException("No se encontró el cliente solicitado.");
       }
-      //Generacion de codigo aleatorio
+      // Generacion de codigo aleatorio
       int nuevoCodigo = generarCodigo();
       // Creamos la nueva venta
       Venta venta = new Venta(nuevoCodigo, fecha, cliente, motocicleta);
@@ -81,8 +81,9 @@ public class BaseDatosTiendaDb4o implements BaseDatosTienda {
       db.store(venta);
       return nuevoCodigo;
     } catch (Db4oIOException e) {
-      System.err.printf("Error al acceder a la base de datos.");
+      System.err.printf("Error al acceder a la base de datos.%n");
     }
+    // Si llega aqui es que algo ha salido mal
     return -1;
   }
 
@@ -132,9 +133,9 @@ public class BaseDatosTiendaDb4o implements BaseDatosTienda {
             moto.getFabricante());
       }
     } catch (Db4oIOException e) {
-      System.err.printf("Error al acceder a la base de datos.");
+      System.err.printf("Error al acceder a la base de datos.%n");
     }
-    //Si no la encuentra, devolvera una moto nula
+    // Si no la encuentra, devolvera una moto nula
     return motoADevolver;
   }
 
@@ -148,7 +149,7 @@ public class BaseDatosTiendaDb4o implements BaseDatosTienda {
         procesador.procesaVenta(venta);
       }
     } catch (Db4oIOException e) {
-      System.err.printf("Error al acceder a la base de datos.");
+      System.err.printf("Error al acceder a la base de datos.%n");
     }
   }
 
@@ -185,7 +186,7 @@ public class BaseDatosTiendaDb4o implements BaseDatosTienda {
         db.store(clienteBuscado);
       }
     } catch (Db4oIOException e) {
-      System.err.printf("Error al acceder a la base de datos.");
+      System.err.printf("Error al acceder a la base de datos.%n");
     }
   }
 
@@ -203,7 +204,7 @@ public class BaseDatosTiendaDb4o implements BaseDatosTienda {
       // Borra la moto
       db.delete(moto);
     } catch (Db4oIOException e) {
-      System.err.printf("Error al acceder a la base de datos.");
+      System.err.printf("Error al acceder a la base de datos.%n");
     }
   }
 
@@ -213,7 +214,7 @@ public class BaseDatosTiendaDb4o implements BaseDatosTienda {
       // Ciera la base de datos cuando es llamado
       db.close();
     } catch (Db4oIOException e) {
-      System.err.printf("Error al cerrar la base de datos.");
+      System.err.printf("Error al cerrar la base de datos.%n");
     }
   }
 
@@ -226,37 +227,8 @@ public class BaseDatosTiendaDb4o implements BaseDatosTienda {
    */
   private void abrir() {
     try {
-      //Abrimos la base de datos
+      // Abrimos la base de datos
       this.db = Db4o.openFile(ficheroBd);
-    } catch (Db4oIOException e) {
-      System.err.printf("Error al acceder a la base de datos.");
-    }
-  }
-
-  /**
-   * Verifica si se repite en la base de datos la referencia de una motocicleta,
-   * si se repite, falla
-   * 
-   * @param motocicleta para verificar duplicados
-   */
-  private void verificarMotocicletaDuplicados(Motocicleta motocicleta) {
-    try {
-      // Debemos realizar una consulta compleja, ya que por prototipo no se puede
-      // Debido que debemos impedir que se agregue una moto sin datos
-      ObjectSet<Motocicleta> motocicletas = db.query(new Predicate<Motocicleta>() {
-        @Override
-        public boolean match(Motocicleta candidato) {
-          return candidato.getReferencia().equals(motocicleta.getReferencia());
-        }
-      });
-      // Recorremos el object set que no has devuelto buscando coincidencias, si se
-      // encuentra, el programa debe fallar
-      for (Motocicleta moto : motocicletas) {
-        if (moto.getReferencia().equals(motocicleta.getReferencia())) {
-          throw new IllegalArgumentException("Motocicletas duplicadas");
-        }
-      }
-      // Si no falla, no existe duplicado
     } catch (Db4oIOException e) {
       System.err.printf("Error al acceder a la base de datos.");
     }
@@ -269,17 +241,17 @@ public class BaseDatosTiendaDb4o implements BaseDatosTienda {
    * @param motocicleta para verificar sus campos
    */
   private void verficarCamposMotocicleta(Motocicleta motocicleta) {
-    // Verificamos campo por campo
-    if (motocicleta.getCilindrada() < 0 && motocicleta.getFabricante().isBlank() && motocicleta.getTipo().isBlank()
-        && motocicleta.getPrecio() < 0) {
+    // Verificamos que los campos de la motocicleta sean validos
+    if (motocicleta.getReferencia().isBlank() && motocicleta.getCilindrada() < 0
+        && motocicleta.getFabricante().isBlank() && motocicleta.getTipo().isBlank() && motocicleta.getPrecio() <= 0) {
       throw new BaseDatosTiendaException("Los campos introducidos en la motocicleta son incorrectos.");
     }
   }
 
   /**
-   * Elimina una o muchas ventas que tenga la moto
+   * Elimina una o muchas ventas donde participa la moto
    * 
-   * @param moto que se le pasa para buscar las coincidencias en las ventas
+   * @param moto que se le pasa para buscar su participacion en las ventas
    */
   private void eliminarVenta(Motocicleta moto) {
     // Buscamos en ventas la moto que coinciada con esa
@@ -298,7 +270,8 @@ public class BaseDatosTiendaDb4o implements BaseDatosTienda {
   }
 
   /**
-   * Genera un codigo a partir de las ventas existentes en la base de datos
+   * Genera un codigo a partir de los codigos de las ventas ya existentes en la
+   * base de datos
    * 
    * @return un codigo creado a partir del ultimo generado de la base de datos
    */
@@ -306,7 +279,7 @@ public class BaseDatosTiendaDb4o implements BaseDatosTienda {
     // Hacemos una consulta a la base de datos y obtenemos todas las ventas
     ObjectSet<Venta> ventas = db.query(Venta.class);
     // Inicia en -1 por si es la primera venta que se le mete a la base de datos, ya
-    // que le sumaremos 1
+    // que le sumaremos 1 y quedaria en 0
     int codigo = -1;
     // Por cada venta que recorre le va sumando 1
     for (Venta venta : ventas) {

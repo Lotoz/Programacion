@@ -12,30 +12,32 @@ import prog.unidad09.relacion03.datos.Venta;
  */
 public class ProcesadorListadosVentasExamen implements ProcesadorListadoVentas {
 
+  /**
+   * Constructor de la clase
+   */
+  public ProcesadorListadosVentasExamen() {
+  
+  }
+
   @Override
   public void imprimeCabecera(Consola consola) {
-      // Creamos la cabecera con StringFormat
-      String cabecera = String.format("%-9s %-31s %-16s %-20s %10s %9s %10s%n", "NIF", "Apellidos,Nombre", "Referencia",
-          "Fabricante", "Cilind.", "Precio", "Fecha Venta");
-      //Con la clase consola imprimo la cabecera
-      consola.imprime(cabecera);
+    // Creamos la cabecera con StringFormat
+    String cabecera = String.format("%-9s %-31s %-16s %-20s %10s %8s %12s %n", "NIF", "Apellidos,Nombre", "Referencia",
+        "Fabricante", "Cilind.", "Precio", "Fecha Venta");
+    // Con la clase consola imprimo la cabecera
+    consola.imprime(cabecera);
   }
 
   @Override
   public void imprimeLinea(Consola consola, Venta venta) {
-      // Creamos el nombre completo de la persona para imprimirlo con mayor comodidad
-      String nombreCompleto = venta.getCliente().getApellidos() + "," + venta.getCliente().getNombre();
+    // Creamos el nombre completo de la persona para imprimirlo con mayor comodidad
+    String nombreCompleto = venta.getCliente().getApellidos() + "," + venta.getCliente().getNombre();
 
-      // Creamos un string format para imprimir la venta
-      String linea = String.format(Locale.US,"%-9s %-31s %-16s %-20s %9d %10.2f %10s%n", 
-          venta.getCliente().getNif(),
-          nombreCompleto, 
-          venta.getMotocicleta().getReferencia(), 
-          venta.getMotocicleta().getFabricante(),
-          venta.getMotocicleta().getCilindrada(), 
-          venta.getMotocicleta().getPrecio(), 
-          venta.getFecha());
-      // Imprimimos la linea
-      consola.imprime(linea);
+    // Creamos un string format para imprimir los datos de la venta
+    String linea = String.format(Locale.US, "%-9s %-31s %-16s %-20s %9d %10.2f %10s%n", venta.getCliente().getNif(),
+        nombreCompleto, venta.getMotocicleta().getReferencia(), venta.getMotocicleta().getFabricante(),
+        venta.getMotocicleta().getCilindrada(), venta.getMotocicleta().getPrecio(), venta.getFecha());
+    // Imprimimos la linea
+    consola.imprime(linea);
   }
 }
