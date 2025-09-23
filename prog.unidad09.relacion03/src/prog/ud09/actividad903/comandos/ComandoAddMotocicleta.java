@@ -29,7 +29,7 @@ public class ComandoAddMotocicleta extends Comando<BaseDatosTienda> {
     
     // Solicitamos los datos
     String referencia = consola.solicitaTexto("Introduzca la referencia de la motocicleta (no puede ser igual a la de una motocicleta ya existente): ", 1, null, null, "ERROR. La referencia no puede estar vacía");
-    int cilindrada = consola.solicitaEntero("Introduzca la cilindrada de la motocicleta, en CC (debe ser mayor o igual a cero): ", 1, null);
+    int cilindrada = consola.solicitaEntero("Introduzca la cilindrada de la motocicleta, en CC (debe ser mayor a cero): ", 1, null);
     String tipo = consola.solicitaTexto("Introduzca el tipo de la motocicleta (no puede dejarse vacío o contener sólo blancos): ", 1, null, null, "ERROR. El tipo de la motocicleta no pude dejarse vacío o contener sólo blancos");
     double precio = consola.solicitaDoble("Introduzca el precio de la motocicleta (usar . para separar parte entera y decimal. No negativo): ", 0.0, null);
     String fabricante = consola.solicitaTexto("Introduzca el fabricante de la motocicleta (no puede dejarse vacío o contener sólo blancos): ", 1, null, null, "ERROR. El tipo de la motocicleta no pude dejarse vacío o contener sólo blancos");

@@ -62,7 +62,7 @@ public class ComandoUpdateCliente extends Comando<BaseDatosTienda> {
       cliente.setDireccion(direccion);
       cliente.setRecomendadoPor(clienteRecomendado);
       modelo.updateCliente(cliente);
-      consola.imprimeLinea("El cliente se insertó con éxito");
+      consola.imprimeLinea("El cliente se actualizo con éxito.");
     } else {
       // No se encontró cliente con el NIF proporcionado
       consola.imprimeLinea(String.format("No existe cliente con el NIF proporcionado (%s)", nif));

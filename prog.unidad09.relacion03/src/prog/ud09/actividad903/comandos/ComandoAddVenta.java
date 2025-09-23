@@ -40,7 +40,7 @@ public class ComandoAddVenta extends Comando<BaseDatosTienda> {
     try {
       int codigo = modelo.addVenta(cliente, motocicleta);
       // Mensaje de insercion correcta
-      consola.imprimeLinea(String.format("La motocicleta se insertó con éxito. El código de la nueva venta es %d", codigo));
+      consola.imprimeLinea(String.format("La venta se insertó con éxito. El código de la nueva venta es %d", codigo));
     } catch (BaseDatosTiendaException e) {
       consola.imprimeLinea("No se puede insertar la venta");
     }
